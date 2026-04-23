@@ -105,29 +105,229 @@ body {
 }
 
 .entry-page {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 20px;
+  min-height: calc(100vh - 64px);
+  max-height: calc(100vh - 64px);
+  background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
+  padding: 24px 20px 32px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
-.entry-card {
-  width: min(1080px, 92vw);
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.entry-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(200, 170, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 30% 80%, rgba(255, 200, 150, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.entry-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* Header Section */
+.entry-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.entry-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: #8b7355;
+  margin-bottom: 18px;
 }
 
-.entry-btn {
-  border: 1px solid #cfd5de;
-  background: #ffffff;
-  color: #2f3a46;
-  border-radius: 12px;
-  padding: 18px 20px;
+.subtitle-char {
+  color: #d4af37;
+  font-size: 12px;
+}
+
+.entry-title {
+  margin: 0 0 20px;
+  color: #2c2c2c;
+  line-height: 1.2;
+}
+
+.title-line {
+  display: block;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 300;
+  font-family: 'Georgia', serif;
+}
+
+.title-line em {
+  font-style: italic;
+  color: #8b7355;
+}
+
+.entry-description {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+  max-width: 450px;
+  margin: 0 auto;
+  font-weight: 300;
+}
+
+/* Central Tarot Section */
+.entry-tarot-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  margin-bottom: 40px;
+}
+
+.moon-phases {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  opacity: 0.4;
+}
+
+.moon-phase {
   font-size: 20px;
-  font-weight: 700;
-  text-transform: lowercase;
+  filter: grayscale(1);
+}
+
+.central-tarot-card {
+  width: 160px;
+  height: 260px;
+  perspective: 1000px;
+}
+
+.tarot-card-inner {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f5f3f0 0%, #e8e3dd 100%);
+  border-radius: 16px;
+  border: 3px solid #d4af37;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15),
+              inset 0 2px 10px rgba(255,255,255,0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-border {
+  width: 90%;
+  height: 90%;
+  border: 2px solid #8b7355;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.card-symbol {
+  font-size: 36px;
+  color: #8b7355;
+  z-index: 2;
+}
+
+.card-rays {
+  position: absolute;
+  inset: 10px;
+  background: radial-gradient(circle, transparent 30%, 
+              rgba(139, 115, 85, 0.1) 31%, 
+              rgba(139, 115, 85, 0.1) 32%, 
+              transparent 33%),
+              conic-gradient(from 0deg, 
+              transparent 0deg, rgba(139, 115, 85, 0.2) 5deg, 
+              transparent 10deg, transparent 350deg,
+              rgba(139, 115, 85, 0.2) 355deg, transparent 360deg);
+  border-radius: 8px;
+}
+
+/* Action Cards */
+.entry-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.action-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
   cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.action-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, 
+              rgba(255,255,255,0.2) 0%, 
+              rgba(255,255,255,0.05) 100%);
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(139, 115, 85, 0.3);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.action-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+
+.action-title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #2c2c2c;
+  font-family: 'Georgia', serif;
+}
+
+.action-description {
+  margin: 0 0 16px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.action-arrow {
+  font-size: 20px;
+  color: #8b7355;
+  transition: transform 0.3s ease;
+}
+
+.action-card:hover .action-arrow {
+  transform: translateX(5px);
 }
 
 .search-app {
@@ -513,9 +713,9 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  border-bottom: 1px solid #d9dde3;
-  background: rgba(244, 245, 247, 0.9);
-  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
 }
 
 .topbar-inner {
@@ -525,7 +725,137 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 14px;
+  gap: 20px;
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 0 0 auto;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #d9dde3;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 50;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+}
+
+.sidebar.is-open {
+  transform: translateX(0);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.is-open {
+  opacity: 1;
+}
+
+.sidebar-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebar-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2f3a46;
+}
+
+.sidebar-close {
+  border: none;
+  background: none;
+  font-size: 24px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.sidebar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 20px 0;
+}
+
+.sidebar-link {
+  display: block;
+  padding: 16px 20px;
+  color: #2f3a46;
+  text-decoration: none;
+  font-size: 16px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background-color: #f8f9fa;
+}
+
+/* Hamburger Menu */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  border: none;
+  background: none;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.hamburger-line {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #2f3a46;
+  transition: all 0.3s ease;
+}
+
+/* Responsive Display Classes */
+.mobile-only {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
 }
 
 .top-progress-wrap {
@@ -553,22 +883,33 @@ body {
   transition: width 0.2s ease;
 }
 
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .brand {
   border: 0;
   background: transparent;
   padding: 0;
-  font-size: 14px;
-  font-weight: 700;
-  color: #2f3a46;
-  letter-spacing: 0.08em;
+  font-size: 18px;
+  font-weight: 400;
+  color: #2c2c2c;
+  letter-spacing: 0.5px;
   white-space: nowrap;
   cursor: pointer;
+  font-family: 'Georgia', serif;
 }
 
-.tab-nav {
+.topbar-nav.desktop-only {
   display: flex;
-  align-items: center;
-  gap: 14px;
 }
 
 .lang-dropdown {
@@ -576,82 +917,113 @@ body {
 }
 
 .lang-toggle {
-  border: 2px solid #49a989;
-  background: #f4f5f7;
-  color: #3e9a79;
-  border-radius: 999px;
-  padding: clamp(6px, 1.2vw, 10px) clamp(12px, 2vw, 18px);
-  font-size: clamp(12px, 1.4vw, 14px);
-  font-weight: 700;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(248, 248, 248, 0.8);
+  color: #666;
+  border-radius: 20px;
+  padding: clamp(8px, 1.2vw, 10px) clamp(14px, 2vw, 16px);
+  font-size: clamp(13px, 1.4vw, 14px);
+  font-weight: 400;
   display: inline-flex;
   align-items: center;
-  gap: clamp(6px, 1vw, 10px);
+  gap: clamp(6px, 1vw, 8px);
   cursor: pointer;
   width: fit-content;
   justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .lang-caret {
-  font-size: 11px;
-  opacity: 0.8;
+  font-size: 10px;
+  opacity: 0.6;
+  transition: transform 0.2s ease;
+}
+
+.lang-toggle:hover {
+  background: rgba(240, 240, 240, 0.9);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.lang-toggle[aria-expanded="true"] .lang-caret {
+  transform: rotate(180deg);
 }
 
 .lang-menu {
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 8px);
   left: 0;
   width: max-content;
-  min-width: 170px;
-  max-width: min(78vw, 240px);
-  border: 1px solid #ccd3dc;
-  border-radius: 22px;
-  background: #f4f5f7;
-  box-shadow: 0 6px 16px rgba(31, 41, 55, 0.08);
-  padding: 14px;
+  min-width: 160px;
+  max-width: min(78vw, 220px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 12px;
   display: grid;
-  gap: 10px;
-  z-index: 30;
+  gap: 4px;
+  z-index: 60;
 }
 
 .lang-option {
   border: 0;
   background: transparent;
-  color: #4e5968;
-  border-radius: 14px;
-  padding: clamp(8px, 1.2vw, 14px) clamp(10px, 1.4vw, 12px);
-  font-size: clamp(16px, 2.2vw, 22px);
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 700;
+  color: #666;
+  border-radius: 12px;
+  padding: clamp(8px, 1.2vw, 12px) clamp(12px, 1.4vw, 16px);
+  font-size: clamp(14px, 2.2vw, 16px);
+  font-family: inherit;
+  font-weight: 400;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-option:hover {
+  background: rgba(248, 248, 248, 0.8);
+  color: #333;
 }
 
 .lang-option.active {
-  background: #dfe8e7;
-  color: #3e9a79;
+  background: rgba(139, 125, 184, 0.1);
+  color: #8b7db8;
+  font-weight: 500;
 }
 
 .nav-link {
-  color: #566172;
+  color: #666;
   text-decoration: none;
-  font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 999px;
+  font-weight: 400;
+  padding: 10px 16px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
 }
 
 .nav-link:hover {
-  background: #e8ebf0;
+  color: #333;
+  background: rgba(248, 248, 248, 0.8);
 }
 
 .start-now-btn {
   border: 0;
-  background: #8f73ab;
+  background: #8b7db8;
   color: #ffffff;
-  border-radius: 999px;
-  padding: 10px 20px;
-  font-weight: 700;
+  border-radius: 20px;
+  padding: 12px 24px;
+  font-weight: 500;
   font-size: 14px;
   cursor: pointer;
   white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.start-now-btn:hover {
+  background: #7a6da6;
+  transform: translateY(-1px);
+}
+
+.start-now-btn.desktop-only {
+  display: inline-block;
 }
 
 .page {
@@ -867,6 +1239,9 @@ body {
     max-width: min(82vw, 210px);
     border-radius: 18px;
     padding: 10px;
+    right: 0;
+    left: auto;
+    z-index: 60;
   }
 
   .lang-option {
@@ -927,9 +1302,172 @@ body {
   }
 }
 
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block !important;
+  }
+  
+  .mobile-only.hamburger-btn {
+    display: flex !important;
+  }
+  
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .topbar-inner {
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+  
+  .topbar-brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+  
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .brand {
+    font-size: 16px;
+  }
+  
+  /* Entry page mobile styles */
+  .entry-page {
+    padding: 20px 15px 40px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  .entry-header {
+    margin-bottom: 30px;
+  }
+  
+  /* 移动端隐藏塔罗卡片 */
+  .entry-tarot-section {
+    display: none;
+  }
+  
+  .entry-actions {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  
+  .action-card {
+    padding: 12px 40px 12px 16px;
+    min-height: 60px;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    position: relative;
+  }
+  
+  .action-icon {
+    font-size: 20px;
+    margin-bottom: 0;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .action-content {
+    text-align: center;
+  }
+  
+  .action-title {
+    font-size: 14px;
+    margin: 0 0 2px;
+  }
+  
+  .action-description {
+    font-size: 11px;
+    line-height: 1.2;
+    margin: 0;
+  }
+  
+  .action-arrow {
+    display: none;
+  }
+  
+  .action-card:active {
+    transform: scale(0.98);
+    background: rgba(255, 255, 255, 0.9);
+  }
+  
+  .title-line {
+    font-size: clamp(28px, 8vw, 36px) !important;
+  }
+  
+  .entry-description {
+    font-size: 16px;
+  }
+}
+
 @media (min-width: 860px) {
   .steps {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 桌面版首页优化 */
+@media (min-width: 1024px) {
+  .entry-page {
+    padding: 16px 20px 20px;
+    justify-content: center;
+  }
+  
+  .entry-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+    max-height: calc(100vh - 96px);
+  }
+  
+  .entry-header {
+    margin-bottom: 28px;
+  }
+  
+  .entry-tarot-section {
+    margin-bottom: 32px;
+  }
+  
+  .entry-actions {
+    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 860px;
+  }
+  
+  .action-card {
+    padding: 20px 16px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .central-tarot-card {
+    width: 140px;
+    height: 240px;
+  }
+  
+  .title-line {
+    font-size: clamp(32px, 4vw, 40px);
   }
 }
 

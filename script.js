@@ -23,7 +23,27 @@ const navAboutEl = document.getElementById("navAbout");
 const entryTarotBtn = document.querySelector('.entry-btn[data-action="tarot"]');
 const entrySearchBtn = document.querySelector('.entry-btn[data-action="search"]');
 const entryRandomBtn = document.querySelector('.entry-btn[data-action="random"]');
+
+// Sidebar elements
+const sidebarEl = document.getElementById('sidebar');
+const sidebarOverlayEl = document.getElementById('sidebarOverlay');
+const hamburgerBtnEl = document.getElementById('hamburgerBtn');
+const closeSidebarBtnEl = document.getElementById('closeSidebar');
+const sidebarCollectionsEl = document.getElementById('sidebarCollections');
+const sidebarAboutEl = document.getElementById('sidebarAbout');
+const sidebarMenuTitleEl = document.getElementById('sidebarMenuTitle');
+
+// Other elements
 const ingredientChecklistEl = document.getElementById("ingredientChecklist");
+// Entry page elements
+const entrySubtitleEl = document.getElementById("entrySubtitle");
+const entryDescriptionEl = document.getElementById("entryDescription");
+const actionSearchTitleEl = document.getElementById("actionSearchTitle");
+const actionSearchDescEl = document.getElementById("actionSearchDesc");
+const actionTarotTitleEl = document.getElementById("actionTarotTitle");
+const actionTarotDescEl = document.getElementById("actionTarotDesc");
+const actionRandomTitleEl = document.getElementById("actionRandomTitle");
+const actionRandomDescEl = document.getElementById("actionRandomDesc");
 const baseSpiritChecklistEl = document.getElementById("baseSpiritChecklist");
 const baseSpiritStepEl = document.getElementById("baseSpiritStep");
 const baseSpiritSearchInputEl = document.getElementById("baseSpiritSearchInput");
@@ -238,6 +258,21 @@ const i18n = {
     collectionsTitle: "Tarot Collections",
     about: "About",
     startNow: "Start Now",
+    menu: "Menu",
+    sidebarCollections: "Collections",
+    sidebarAbout: "About", 
+    aboutMessage: "About page - Coming soon!",
+    // Entry page
+    entrySubtitle: "TAROT COCKTAIL EXPERIENCE",
+    entryTitle1: "Draw a card.",
+    entryTitle2: "Mix a drink. Meet yourself.",
+    entryDescription: "Let tarot guide your next cocktail.<br>Fate, flavor, and a little magic.",
+    actionSearchTitle: "By Ingredients",
+    actionSearchDesc: "Tell us what you have.<br>We'll mix the perfect drink.",
+    actionTarotTitle: "Tarot Reading", 
+    actionTarotDesc: "Answer 10 questions and<br>reveal your card & cocktail.",
+    actionRandomTitle: "Random Draw",
+    actionRandomDesc: "Let fate choose for you.<br>Pull a surprise cocktail.",
     tarot: "tarot",
     search: "search",
     random: "random",
@@ -245,7 +280,6 @@ const i18n = {
     alcoholicChoiceTitle: "Do you want alcohol?",
     alcoholicChoiceYes: "Yes",
     alcoholicChoiceNo: "No",
-    alcoholicChoiceAny: "Anything",
     alcoholicNextStep: "Next Step",
     ingredientLabel: "Ingredients",
     ingredientOpen: "Choose Ingredients",
@@ -310,6 +344,21 @@ const i18n = {
     collectionsTitle: "塔罗合集",
     about: "关于",
     startNow: "开始测试",
+    menu: "菜单",
+    sidebarCollections: "合集", 
+    sidebarAbout: "关于",
+    aboutMessage: "关于页面 - 敬请期待！",
+    // Entry page
+    entrySubtitle: "塔罗鸡尾酒体验",
+    entryTitle1: "抽一张牌。",
+    entryTitle2: "调一杯酒。遇见自己。",
+    entryDescription: "让塔罗指引你的下一杯鸡尾酒。<br>命运、风味，还有一点魔法。",
+    actionSearchTitle: "按材料搜索",
+    actionSearchDesc: "告诉我们你有什么。<br>我们来调制完美饮品。",
+    actionTarotTitle: "塔罗占卜",
+    actionTarotDesc: "回答10个问题<br>揭示你的牌和鸡尾酒。",
+    actionRandomTitle: "随机抽取",
+    actionRandomDesc: "让命运为你选择。<br>抽取惊喜鸡尾酒。",
     tarot: "塔罗",
     search: "搜索",
     random: "随机",
@@ -317,7 +366,6 @@ const i18n = {
     alcoholicChoiceTitle: "您希望饮品含酒精吗？",
     alcoholicChoiceYes: "要酒精",
     alcoholicChoiceNo: "不要酒精",
-    alcoholicChoiceAny: "都可以",
     alcoholicNextStep: "下一步",
     ingredientLabel: "材料",
     ingredientOpen: "选择材料",
@@ -410,6 +458,28 @@ function hideNoticeModal() {
   if (!noticeModalEl) return;
   noticeModalEl.classList.remove("is-open");
   noticeModalEl.hidden = true;
+}
+
+// ── Sidebar Control Functions ──
+function openSidebar() {
+  if (!sidebarEl || !sidebarOverlayEl) return;
+  sidebarEl.classList.add('is-open');
+  sidebarOverlayEl.classList.add('is-open');
+  sidebarEl.hidden = false;
+  sidebarOverlayEl.hidden = false;
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+function closeSidebar() {
+  if (!sidebarEl || !sidebarOverlayEl) return;
+  sidebarEl.classList.remove('is-open');
+  sidebarOverlayEl.classList.remove('is-open');
+  // Small delay to allow animation before hiding
+  setTimeout(() => {
+    sidebarEl.hidden = true;
+    sidebarOverlayEl.hidden = true;
+    document.body.style.overflow = '';
+  }, 300);
 }
 
 function safeSetLocalStorage(key, value) {
@@ -647,6 +717,8 @@ async function fetchCocktailForTarotCard(cardName) {
 }
 
 function createCollectionTarotCard(cardName) {
+  console.log('Creating card for:', cardName);
+  
   const cardEl = document.createElement("div");
   cardEl.className = "collection-flip";
   cardEl.setAttribute("role", "button");
@@ -672,7 +744,11 @@ function createCollectionTarotCard(cardName) {
     </div>
   `;
 
-  const toggleFlip = () => cardEl.classList.toggle("is-flipped");
+  const toggleFlip = () => {
+    cardEl.classList.toggle("is-flipped");
+    console.log('Card flipped:', cardName);
+  };
+  
   cardEl.addEventListener("click", toggleFlip);
   cardEl.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {
@@ -685,20 +761,28 @@ function createCollectionTarotCard(cardName) {
 }
 
 async function hydrateCollectionCard(cardEl, cardName) {
+  console.log('Hydrating card:', cardName);
+  
   const drinkImageEl = cardEl.querySelector(".collection-cocktail-image");
   const drinkNameEl = cardEl.querySelector(".collection-cocktail-name");
   const ingredientListEl = cardEl.querySelector(".collection-ingredients");
   const stepsEl = cardEl.querySelector(".steps");
-  if (!drinkImageEl || !drinkNameEl || !ingredientListEl || !stepsEl) return;
+  if (!drinkImageEl || !drinkNameEl || !ingredientListEl || !stepsEl) {
+    console.error('Missing elements in card:', cardName);
+    return;
+  }
 
   try {
     const drink = await fetchCocktailForTarotCard(cardName);
     if (!drink) {
+      console.log('No drink found for:', cardName);
       drinkNameEl.textContent = "No cocktail found";
       stepsEl.textContent = "No instructions available.";
       return;
     }
 
+    console.log('Loaded drink for', cardName, ':', drink.strDrink);
+    
     drinkImageEl.src = drink.strDrinkThumb || "";
     drinkImageEl.alt = drink.strDrink || "Cocktail";
     drinkNameEl.textContent = drink.strDrink || getText("mixUntitled");
@@ -712,25 +796,38 @@ async function hydrateCollectionCard(cardEl, cardName) {
 
     stepsEl.textContent = getDrinkInstructions(drink);
   } catch (error) {
+    console.error('Error loading cocktail for', cardName, ':', error);
     drinkNameEl.textContent = "Failed to load cocktail";
     stepsEl.textContent = "Please check your connection.";
   }
 }
 
 async function openCollectionsView() {
-  if (!collectionCardGridEl) return;
+  console.log('openCollectionsView called');
+  
+  // 确保元素存在
+  const gridEl = document.getElementById('collectionCardGrid');
+  if (!gridEl) {
+    console.error('collectionCardGrid element not found');
+    return;
+  }
 
   setAppView("collections");
   window.scrollTo(0, 0);
-  collectionCardGridEl.innerHTML = "";
+  gridEl.innerHTML = "";
+  
+  console.log('TAROT_COLLECTION_CARDS:', TAROT_COLLECTION_CARDS);
 
   const cards = TAROT_COLLECTION_CARDS.map((cardName) => {
     const cardEl = createCollectionTarotCard(cardName);
-    collectionCardGridEl.append(cardEl);
+    gridEl.append(cardEl);
     return { cardEl, cardName };
   });
+  
+  console.log('Created', cards.length, 'cards');
 
   await Promise.all(cards.map(({ cardEl, cardName }) => hydrateCollectionCard(cardEl, cardName)));
+  console.log('Collections view loaded successfully');
 }
 
 async function openSearchView() {
@@ -2034,6 +2131,22 @@ function applyLanguage(langCode) {
   if (navAboutEl) navAboutEl.textContent = getText("about");
   if (collectionsTitleEl) collectionsTitleEl.textContent = getText("collectionsTitle");
   if (startNowTabEl) startNowTabEl.textContent = getText("startNow");
+  
+  // Update sidebar elements
+  if (sidebarMenuTitleEl) sidebarMenuTitleEl.textContent = getText("menu");
+  if (sidebarCollectionsEl) sidebarCollectionsEl.textContent = getText("sidebarCollections");
+  if (sidebarAboutEl) sidebarAboutEl.textContent = getText("sidebarAbout");
+  
+// Update entry page elements
+  if (entrySubtitleEl) entrySubtitleEl.textContent = getText("entrySubtitle");
+  if (entryDescriptionEl) entryDescriptionEl.innerHTML = getText("entryDescription");
+  if (actionSearchTitleEl) actionSearchTitleEl.textContent = getText("actionSearchTitle");
+  if (actionSearchDescEl) actionSearchDescEl.innerHTML = getText("actionSearchDesc");
+  if (actionTarotTitleEl) actionTarotTitleEl.textContent = getText("actionTarotTitle");
+  if (actionTarotDescEl) actionTarotDescEl.innerHTML = getText("actionTarotDesc");
+  if (actionRandomTitleEl) actionRandomTitleEl.textContent = getText("actionRandomTitle");
+  if (actionRandomDescEl) actionRandomDescEl.innerHTML = getText("actionRandomDesc");
+  
   if (entryTarotBtn) entryTarotBtn.textContent = getText("tarot");
   if (entrySearchBtn) entrySearchBtn.textContent = getText("search");
   if (entryRandomBtn) entryRandomBtn.textContent = getText("random");
@@ -2044,11 +2157,9 @@ function applyLanguage(langCode) {
   const alcoholicChoiceTitleEl = document.getElementById("alcoholicChoiceTitle");
   const alcoholicChoiceYesEl = document.getElementById("alcoholicChoiceYes");
   const alcoholicChoiceNoEl = document.getElementById("alcoholicChoiceNo");
-  const alcoholicChoiceAnyEl = document.getElementById("alcoholicChoiceAny");
   if (alcoholicChoiceTitleEl) alcoholicChoiceTitleEl.textContent = getText("alcoholicChoiceTitle");
   if (alcoholicChoiceYesEl) alcoholicChoiceYesEl.textContent = getText("alcoholicChoiceYes");
   if (alcoholicChoiceNoEl) alcoholicChoiceNoEl.textContent = getText("alcoholicChoiceNo");
-  if (alcoholicChoiceAnyEl) alcoholicChoiceAnyEl.textContent = getText("alcoholicChoiceAny");
   if (mixButtonEl) mixButtonEl.textContent = getText("alcoholicNextStep");
   
   if (baseSpiritPageTitleEl) baseSpiritPageTitleEl.textContent = getText("baseSpiritPageTitle");
@@ -2115,6 +2226,29 @@ function applyLanguage(langCode) {
   renderCurrentQuestion();
   updateProgress();
 }
+
+// Entry page action cards click handlers
+document.addEventListener("click", (event) => {
+  const target = event.target;
+  const actionCard = target.closest('.action-card');
+  if (!actionCard) return;
+  
+  const action = actionCard.dataset.action;
+  
+  if (action === "tarot") {
+    safeSetLocalStorage("arkti-entry-mode", "tarot");
+    setAppView("quiz");
+    renderCurrentQuestion();
+    updateProgress();
+    window.scrollTo(0, 0);
+  } else if (action === "search") {
+    safeSetLocalStorage("arkti-entry-mode", "search");
+    openSearchView();
+  } else if (action === "random") {
+    safeSetLocalStorage("arkti-entry-mode", "random");
+    openRandomDrink();
+  }
+});
 
 if (tarotEntryBtn) {
   tarotEntryBtn.addEventListener("click", () => {
@@ -2432,11 +2566,51 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && noticeModalEl && !noticeModalEl.hidden) {
     hideNoticeModal();
   }
+  if (event.key === "Escape" && sidebarEl && !sidebarEl.hidden) {
+    closeSidebar();
+  }
 });
+
+// ── Sidebar Event Listeners ──
+if (hamburgerBtnEl) {
+  hamburgerBtnEl.addEventListener("click", () => {
+    openSidebar();
+  });
+}
+
+if (closeSidebarBtnEl) {
+  closeSidebarBtnEl.addEventListener("click", () => {
+    closeSidebar();
+  });
+}
+
+if (sidebarOverlayEl) {
+  sidebarOverlayEl.addEventListener("click", () => {
+    closeSidebar();
+  });
+}
+
+// Update sidebar navigation links
+if (sidebarCollectionsEl) {
+  sidebarCollectionsEl.addEventListener("click", (event) => {
+    event.preventDefault();
+    closeSidebar();
+    safeSetLocalStorage("arkti-collections-source", "entry");
+    setAppView("collections");
+    window.scrollTo(0, 0);
+  });
+}
+
+if (sidebarAboutEl) {
+  sidebarAboutEl.addEventListener("click", (event) => {
+    event.preventDefault();
+    closeSidebar();
+    // Handle About page navigation
+    window.alert(getText ? getText("aboutMessage") || "About page - Coming soon!" : "About page - Coming soon!");
+  });
+}
 
 const savedLanguage = safeGetLocalStorage("arkti-language");
 hideNoticeModal();
 applyLanguage(savedLanguage === "zh" ? "zh" : "en");
 
-renderCurrentQuestion();
-updateProgress();

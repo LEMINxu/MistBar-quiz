@@ -7,10 +7,40 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar" hidden>
+      <div class="sidebar-content">
+        <div class="sidebar-header">
+          <h3 id="sidebarMenuTitle" class="sidebar-title">Menu</h3>
+          <button id="closeSidebar" class="sidebar-close" type="button">×</button>
+        </div>
+        <ul class="sidebar-menu">
+          <li><a id="sidebarCollections" class="sidebar-link" href="#">Collections</a></li>
+          <li><a id="sidebarAbout" class="sidebar-link" href="#">About</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay" hidden></div>
+
     <header class="topbar">
       <div class="topbar-inner">
-        <button id="brandHomeBtn" class="brand" type="button">MistBar</button>
-        <nav class="tab-nav" aria-label="Top Tabs">
+        <!-- Mobile: Hamburger Menu -->
+        <button id="hamburgerBtn" class="hamburger-btn mobile-only" type="button" aria-label="Open menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        
+        <!-- Left: Brand -->
+        <div class="topbar-brand">
+          <button id="brandHomeBtn" class="brand" type="button">MistBar</button>
+        </div>
+        
+        <!-- Right: Language + Navigation + Actions -->
+        <div class="topbar-actions">
+          <!-- Language Selector -->
           <div class="lang-dropdown">
             <button id="languageToggle" class="lang-toggle" type="button" aria-haspopup="menu" aria-expanded="false">
               <span id="currentLanguage">English</span>
@@ -21,18 +51,89 @@
               <button class="lang-option active" data-code="en" type="button" role="menuitem">English</button>
             </div>
           </div>
-          <a id="navCollections" class="nav-link" href="#">Collections</a>
-          <a id="navAbout" class="nav-link" href="#">About</a>
-        </nav>
-        <button id="startNowTab" class="start-now-btn" type="button">Start Now</button>
+          
+          <!-- Navigation -->
+          <nav class="topbar-nav desktop-only" aria-label="Top Tabs">
+            <a id="navCollections" class="nav-link" href="#">Collections</a>
+            <a id="navAbout" class="nav-link" href="#">About</a>
+          </nav>
+          
+          <!-- Desktop Start Now Button -->
+          <button id="startNowTab" class="start-now-btn desktop-only" type="button">Start Now</button>
+        </div>
       </div>
     </header>
 
     <section id="entryPage" class="entry-page">
-      <div class="entry-card">
-        <button class="entry-btn" data-action="search" type="button">search</button>
-        <button class="entry-btn" data-action="tarot" type="button">tarot</button>
-        <button class="entry-btn" data-action="random" type="button">random</button>
+      <div class="entry-container">
+        <!-- Header Section -->
+        <header class="entry-header">
+          <div class="entry-subtitle">
+            <span class="subtitle-char">✦</span>
+            <span id="entrySubtitle">TAROT COCKTAIL EXPERIENCE</span> 
+            <span class="subtitle-char">✦</span>
+          </div>
+          <h1 class="entry-title">
+            <span class="title-line">Draw a card.</span>
+            <span class="title-line">Mix a drink. Meet <em>yourself</em>.</span>
+          </h1>
+          <p id="entryDescription" class="entry-description">
+            Let tarot guide your next cocktail.<br>
+            Fate, flavor, and a little magic.
+          </p>
+        </header>
+
+        <!-- Central Tarot Card -->
+        <div class="entry-tarot-section">
+          <div class="moon-phases">
+            <span class="moon-phase">🌑</span>
+            <span class="moon-phase">🌒</span>
+            <span class="moon-phase">🌓</span>
+          </div>
+          <div class="central-tarot-card">
+            <div class="tarot-card-inner">
+              <div class="card-border">
+                <div class="card-symbol">🌙</div>
+                <div class="card-rays"></div>
+              </div>
+            </div>
+          </div>
+          <div class="moon-phases">
+            <span class="moon-phase">🌔</span>
+            <span class="moon-phase">🌕</span>
+            <span class="moon-phase">🌖</span>
+          </div>
+        </div>
+
+        <!-- Action Cards -->
+        <div class="entry-actions">
+          <div class="action-card" data-action="search">
+            <div class="action-icon">🧪</div>
+            <div class="action-content">
+              <h3 id="actionSearchTitle" class="action-title">By Ingredients</h3>
+              <p id="actionSearchDesc" class="action-description">Tell us what you have.<br>We'll mix the perfect drink.</p>
+            </div>
+            <div class="action-arrow">→</div>
+          </div>
+          
+          <div class="action-card" data-action="tarot">
+            <div class="action-icon">🔮</div>
+            <div class="action-content">
+              <h3 id="actionTarotTitle" class="action-title">Tarot Reading</h3>
+              <p id="actionTarotDesc" class="action-description">Answer 10 questions and<br>reveal your card & cocktail.</p>
+            </div>
+            <div class="action-arrow">→</div>
+          </div>
+          
+          <div class="action-card" data-action="random">
+            <div class="action-icon">🎲</div>
+            <div class="action-content">
+              <h3 id="actionRandomTitle" class="action-title">Random Draw</h3>
+              <p id="actionRandomDesc" class="action-description">Let fate choose for you.<br>Pull a surprise cocktail.</p>
+            </div>
+            <div class="action-arrow">→</div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -45,7 +146,6 @@
           <div class="alcoholic-choice-btns">
             <button id="alcoholicChoiceYes" class="alcoholic-choice-btn" data-value="Alcoholic"></button>
             <button id="alcoholicChoiceNo" class="alcoholic-choice-btn" data-value="Non_Alcoholic"></button>
-            <button id="alcoholicChoiceAny" class="alcoholic-choice-btn" data-value=""></button>
           </div>
         </div>
         <button id="mixButton" class="mix-btn" type="button"></button>
@@ -178,5 +278,6 @@
     </div>
 
     <script src="script.js"></script>
-  </body>
+      <script src="mobile-collections-fix.js"></script>
+</body>
 </html>
