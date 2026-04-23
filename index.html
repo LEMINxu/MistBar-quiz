@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Personality Test - ARKTI</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <button id="brandHomeBtn" class="brand" type="button">MistBar</button>
+        <nav class="tab-nav" aria-label="Top Tabs">
+          <div class="lang-dropdown">
+            <button id="languageToggle" class="lang-toggle" type="button" aria-haspopup="menu" aria-expanded="false">
+              <span id="currentLanguage">English</span>
+              <span class="lang-caret" aria-hidden="true">▼</span>
+            </button>
+            <div id="languageMenu" class="lang-menu" role="menu" hidden>
+              <button class="lang-option" data-code="zh" type="button" role="menuitem">简体中文</button>
+              <button class="lang-option active" data-code="en" type="button" role="menuitem">English</button>
+            </div>
+          </div>
+          <a id="navCollections" class="nav-link" href="#">Collections</a>
+          <a id="navAbout" class="nav-link" href="#">About</a>
+        </nav>
+        <button id="startNowTab" class="start-now-btn" type="button">Start Now</button>
+      </div>
+    </header>
+
+    <section id="entryPage" class="entry-page">
+      <div class="entry-card">
+        <button class="entry-btn" data-action="search" type="button">search</button>
+        <button class="entry-btn" data-action="tarot" type="button">tarot</button>
+        <button class="entry-btn" data-action="random" type="button">random</button>
+      </div>
+    </section>
+
+    <section id="searchApp" class="search-app" hidden>
+      <main class="search-panel">
+        <button id="searchBackBtn" class="icon-back-btn" type="button" aria-label="Back">←</button>
+        <h2 id="searchTitle" class="search-title"></h2>
+        <div class="alcoholic-choice-group">
+          <div id="alcoholicChoiceTitle" class="alcoholic-choice-title"></div>
+          <div class="alcoholic-choice-btns">
+            <button id="alcoholicChoiceYes" class="alcoholic-choice-btn" data-value="Alcoholic"></button>
+            <button id="alcoholicChoiceNo" class="alcoholic-choice-btn" data-value="Non_Alcoholic"></button>
+            <button id="alcoholicChoiceAny" class="alcoholic-choice-btn" data-value=""></button>
+          </div>
+        </div>
+        <button id="mixButton" class="mix-btn" type="button"></button>
+        <p id="apiStatus" class="api-status" aria-live="polite"></p>
+      </main>
+    </section>
+
+    <section id="mixResultApp" class="mix-result-app" hidden>
+      <main class="mix-result-panel">
+        <button id="mixBackButton" class="icon-back-btn" type="button" aria-label="Back">←</button>
+        <h2 id="mixResultTitle" class="search-title">Your Cocktail</h2>
+
+        <div id="cocktailFlipCard" class="cocktail-flip" role="button" tabindex="0" aria-label="Flip cocktail card">
+          <div class="cocktail-flip-inner">
+            <article class="cocktail-face cocktail-front">
+              <img id="cocktailImage" class="cocktail-image" alt="Cocktail" />
+              <h3 id="cocktailName" class="cocktail-name"></h3>
+            </article>
+
+            <article class="cocktail-face cocktail-back">
+              <h3 id="cocktailBackTitle" class="cocktail-back-title">Ingredients & Steps</h3>
+              <ul id="cocktailIngredients" class="cocktail-ingredients"></ul>
+              <p id="cocktailInstructions" class="cocktail-instructions"></p>
+            </article>
+          </div>
+        </div>
+
+        <p id="cocktailSwipeHint" class="swipe-hint"></p>
+
+      </main>
+    </section>
+
+    <section id="ingredientsBaseApp" class="search-app" hidden>
+      <main class="search-panel ingredients-panel">
+        <button id="baseBackBtn" class="icon-back-btn" type="button" aria-label="Back">←</button>
+        <h2 id="baseSpiritPageTitle" class="search-title">STEP1: Choose Base Spirit</h2>
+        <input id="baseSpiritSearchInput" class="base-spirit-search-input" type="search" placeholder="Search base spirit" aria-label="Search base spirit" autocomplete="off" />
+        <div id="baseSpiritChecklist" class="ingredient-checklist" aria-label="base spirit checkbox list"></div>
+        <p id="baseSelectedCount" class="selected-count">已选 0 项</p>
+        <p id="baseIngredientsStatus" class="api-status" aria-live="polite"></p>
+        <button id="baseNextBtn" class="mix-btn" type="button">下一步</button>
+      </main>
+    </section>
+
+    <section id="ingredientsApp" class="search-app" hidden>
+      <main class="search-panel ingredients-panel">
+        <button id="ingredientsBackBtn" class="icon-back-btn" type="button" aria-label="Back">←</button>
+        <h2 id="ingredientsPageTitle" class="search-title">选择其他材料</h2>
+        <input id="ingredientSearchInput" class="base-spirit-search-input" type="search" placeholder="Search ingredients" aria-label="Search ingredients" autocomplete="off" />
+        <div id="ingredientChecklist" class="ingredient-checklist" aria-label="ingredients checkbox list"></div>
+        <p id="selectedCountPage" class="selected-count">已选 0 项</p>
+        <p id="ingredientsStatus" class="api-status" aria-live="polite"></p>
+        <button id="ingredientsDoneBtn" class="mix-btn" type="button">🍸 调一杯 ✨</button>
+      </main>
+    </section>
+
+    <!-- Tarot Loading Overlay -->
+    <div id="tarotLoadingOverlay" class="tarot-loading-overlay" hidden>
+      <div class="tarot-loading-content">
+        <div class="tarot-loading-spinner"></div>
+        <p class="tarot-loading-text">Reading the cards…</p>
+      </div>
+    </div>
+
+    <!-- Tarot Result Page -->
+    <section id="tarotResultApp" class="tarot-result-app" hidden>
+      <main class="tarot-result-panel">
+        <button id="tarotBackBtn" class="icon-back-btn" type="button" aria-label="Back">←</button>
+        <p id="tarotCardName" class="tarot-card-name"></p>
+        <div id="tarotFlipCard" class="tarot-flip" role="button" tabindex="0" aria-label="Flip card to see cocktail">
+          <div class="tarot-flip-inner">
+            <!-- Front: Tarot Image -->
+            <div class="tarot-face tarot-front">
+              <img id="tarotCardImage" class="tarot-card-image" alt="Tarot Card" />
+              <p class="tarot-flip-hint">Tap to reveal your cocktail ✨</p>
+            </div>
+            <!-- Back: Cocktail Info -->
+            <div class="tarot-face tarot-back">
+              <div class="tarot-back-scroll">
+                <img id="tarotCocktailImage" class="tarot-cocktail-img" alt="Cocktail" />
+                <h3 id="tarotCocktailName" class="tarot-cocktail-name"></h3>
+                <h4 class="tarot-section-label">Ingredients</h4>
+                <ul id="tarotCocktailIngredients" class="tarot-ingredient-list"></ul>
+                <h4 class="tarot-section-label">Steps</h4>
+                <p id="tarotCocktailSteps" class="tarot-cocktail-steps"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <section id="collectionsApp" class="collections-app" hidden>
+      <main class="collections-panel">
+        <button id="collectionsBackBtn" class="icon-back-btn" type="button" aria-label="Back">←</button>
+        <h2 id="collectionsTitle" class="collections-title">Tarot Collections</h2>
+        <div id="collectionCardGrid" class="collection-card-grid"></div>
+      </main>
+    </section>
+
+    <div id="quizApp" hidden>
+      <div class="top-progress-wrap" aria-hidden="true">
+        <div class="top-progress-track">
+          <div id="topProgressBar" class="top-progress-bar"></div>
+        </div>
+      </div>
+
+      <main class="page">
+        <section id="quizSection" class="quiz-wrap card">
+          <p id="progressText" class="progress">Answered 0 / 30</p>
+          <section id="quizCard" class="quiz-card">
+            <p id="cardIndex" class="card-index">Question 1 / 30</p>
+            <h2 id="questionText" class="card-question"></h2>
+            <div id="optionList" class="option-list"></div>
+            <div class="card-footer">
+              <button id="backButton" class="back-btn" type="button">返回上一题</button>
+            </div>
+          </section>
+
+          <div id="resultBox" class="result-box" hidden></div>
+          <!-- hidden, result is now shown on tarotResultApp -->
+        </section>
+      </main>
+
+    <div id="noticeModal" class="notice-modal" hidden>
+      <div class="notice-dialog" role="alertdialog" aria-modal="true" aria-labelledby="noticeMessage">
+        <p id="noticeMessage" class="notice-message"></p>
+        <button id="noticeConfirmBtn" class="notice-confirm-btn" type="button">OK</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
