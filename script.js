@@ -2,9 +2,15 @@ const cardIndexEl = document.getElementById("cardIndex");
 const questionTextEl = document.getElementById("questionText");
 const optionListEl = document.getElementById("optionList");
 const progressTextEl = document.getElementById("progressText");
-const topProgressBarEl = document.getElementById("topProgressBar");
+const starProgressContainerEl = document.getElementById("starProgressContainer");
 const resultBoxEl = document.getElementById("resultBox");
 const backButtonEl = document.getElementById("backButton");
+
+// Quiz header elements
+const quizSubtitleEl = document.getElementById("quizSubtitle");
+const quizTitle1El = document.getElementById("quizTitle1");
+const quizTitle2El = document.getElementById("quizTitle2");
+const quizDescriptionEl = document.getElementById("quizDescription");
 const entryPageEl = document.getElementById("entryPage");
 const searchAppEl = document.getElementById("searchApp");
 const mixResultAppEl = document.getElementById("mixResultApp");
@@ -37,6 +43,7 @@ const sidebarMenuTitleEl = document.getElementById('sidebarMenuTitle');
 const ingredientChecklistEl = document.getElementById("ingredientChecklist");
 // Entry page elements
 const entrySubtitleEl = document.getElementById("entrySubtitle");
+const entryTitleLineEls = document.querySelectorAll(".entry-title .title-line");
 const entryDescriptionEl = document.getElementById("entryDescription");
 const actionSearchTitleEl = document.getElementById("actionSearchTitle");
 const actionSearchDescEl = document.getElementById("actionSearchDesc");
@@ -88,6 +95,7 @@ const noticeConfirmBtnEl = document.getElementById("noticeConfirmBtn");
 const tarotLoadingOverlayEl = document.getElementById("tarotLoadingOverlay");
 const tarotResultAppEl = document.getElementById("tarotResultApp");
 const tarotBackBtnEl = document.getElementById("tarotBackBtn");
+const quizBackBtnEl = document.getElementById("quizBackBtn");
 const tarotFlipCardEl = document.getElementById("tarotFlipCard");
 const tarotCardNameEl = document.getElementById("tarotCardName");
 const tarotCardImageEl = document.getElementById("tarotCardImage");
@@ -99,6 +107,8 @@ const collectionsAppEl = document.getElementById("collectionsApp");
 const collectionsBackBtnEl = document.getElementById("collectionsBackBtn");
 const collectionCardGridEl = document.getElementById("collectionCardGrid");
 const collectionsTitleEl = document.getElementById("collectionsTitle");
+const aboutAppEl = document.getElementById("aboutApp");
+const aboutBackBtnEl = document.getElementById("aboutBackBtn");
 
 const COCKTAIL_DB_V2_BASE_URL = "https://www.thecocktaildb.com/api/json/v2/961249867";
 const COCKTAIL_DB_INGREDIENT_IMAGE_BASE_URL = "https://www.thecocktaildb.com/images/ingredients";
@@ -262,11 +272,31 @@ const i18n = {
     sidebarCollections: "Collections",
     sidebarAbout: "About", 
     aboutMessage: "About page - Coming soon!",
+    // About page
+    aboutSectionLabel: "Project Introduction",
+    aboutMainTitle: "MistBar",
+    aboutIntro1: "This is a scenario-based personality test tool, inspired by Tarot divination and cocktail mixing, aiming to provide users with a relaxed and fun self-exploration experience.",
+    aboutIntro2: "The current version is 0.1.0, still in the early stages. It may not be updated in the future, but if someone helps me write code, I will be very happy ~ง•‿•ว*.",
+    aboutIntro3: "Online experience:",
+    aboutIntro4: "GitHub repository:",
+    aboutBtnGithub: "Star on GitHub ⭐",
+    aboutDesc1: "I don't really know what to write here. But leaving it blank doesn't seem good either.",
+    aboutDesc2: "So I'm going to write something random, since no one will read it carefully anyway.",
+    aboutDesc3: "If you do read it carefully, hehe, then I've wasted 30 seconds of your life that probably wasn't that important anyway.",
+    aboutDesc4: "What is this project? Well, yes, it's not what you think. It's my final assignment.",
+    aboutDesc5: "Why isn't it finished yet? But I really have nothing more to say, so I can only write more nonsense.",
+    aboutDesc6: "OK, finally, this picture is me. Yes, this project was actually written by a little cat, so you can't pressure a little cat if it's bad! ᯠ_ ̫ _ᯄ ง",
+    aboutDesc7: "Acknowledgments: The frontend page was adapted from ACGTI, original author @tianxingleo, website acgti.tianxingleo.top.",
     // Entry page
     entrySubtitle: "TAROT COCKTAIL EXPERIENCE",
     entryTitle1: "Draw a card.",
-    entryTitle2: "Mix a drink. Meet yourself.",
+    entryTitle2: "Mix a drink. Meet <em>yourself</em>.",
     entryDescription: "Let tarot guide your next cocktail.<br>Fate, flavor, and a little magic.",
+    // Quiz page
+    quizSubtitle: "TAROT READING",
+    quizTitle1: "Reveal your card.",
+    quizTitle2: "Find <em>your</em> drink.",
+    quizDescription: "Answer intuitively. Your first instinct knows.",
     actionSearchTitle: "By Ingredients",
     actionSearchDesc: "Tell us what you have.<br>We'll mix the perfect drink.",
     actionTarotTitle: "Tarot Reading", 
@@ -348,11 +378,31 @@ const i18n = {
     sidebarCollections: "合集", 
     sidebarAbout: "关于",
     aboutMessage: "关于页面 - 敬请期待！",
+    // About page
+    aboutSectionLabel: "项目主体介绍",
+    aboutMainTitle: "MistBar",
+    aboutIntro1: "这是一个情景式人格测试工具，灵感来源于塔罗占卜和鸡尾酒调制，旨在为用户提供一种轻松有趣的自我探索体验。",
+    aboutIntro2: "当前版本为0.1.0版本，仍处于早期阶段，之后也不一定会更新，但是如果有人帮我写代码我会很开心~ง•‿•ว*。",
+    aboutIntro3: "在线体验：",
+    aboutIntro4: "GitHub 仓库地址：",
+    aboutBtnGithub: "去 GitHub 点赞 Star",
+    aboutDesc1: "这段要写什么东西啊，我其实不知道。但是空着好像也不太好。",
+    aboutDesc2: "我随便写点什么，反正应该也没人会仔细看。",
+    aboutDesc3: "如果你仔细看的话，诶嘿，那你被我浪费了人生中好像也没有那么重要的30秒。",
+    aboutDesc4: "这个项目是什么呢？诶，对的，就不是你想的那样。他是我的期末作业。",
+    aboutDesc5: "怎么还没写完，但我真的已经没有话讲了，那只能让我再写点废话。",
+    aboutDesc6: "ok，最后，这张图片是我。对的，这个项目其实是一直小猫写的，所以写的烂你也不能压力一只小猫！ᯠ_ ̫ _ᯄ ง",
+    aboutDesc7: "致谢：项目前端页面二创自 ACGTI，原作者 @天马行空，网站链接 acgti.tianxingleo.top。",
     // Entry page
     entrySubtitle: "塔罗鸡尾酒体验",
     entryTitle1: "抽一张牌。",
     entryTitle2: "调一杯酒。遇见自己。",
     entryDescription: "让塔罗指引你的下一杯鸡尾酒。<br>命运、风味，还有一点魔法。",
+    // Quiz page
+    quizSubtitle: "塔罗占卜",
+    quizTitle1: "揭示你的牌。",
+    quizTitle2: "找到<em>你的</em>饮品。",
+    quizDescription: "凭直觉回答。你的第一反应最清楚。",
     actionSearchTitle: "按材料搜索",
     actionSearchDesc: "告诉我们你有什么。<br>我们来调制完美饮品。",
     actionTarotTitle: "塔罗占卜",
@@ -541,6 +591,17 @@ async function fetchFirstSuccessfulJson(urls, timeoutMs = REQUEST_TIMEOUT_MS) {
   throw lastError || new Error("All requests failed");
 }
 
+function initStarProgressBar() {
+  if (!starProgressContainerEl) return;
+  starProgressContainerEl.innerHTML = "";
+  for (let i = 0; i < questions.length; i++) {
+    const star = document.createElement("span");
+    star.className = "progress-star";
+    star.textContent = "✦";
+    starProgressContainerEl.appendChild(star);
+  }
+}
+
 function renderCurrentQuestion() {
   const question = questions[currentQuestionIndex];
   if (currentLanguage === "zh") {
@@ -565,12 +626,13 @@ function renderCurrentQuestion() {
 
     button.addEventListener("click", () => {
       answers[currentQuestionIndex] = index;
-      updateProgress();
 
       if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex += 1;
         renderCurrentQuestion();
+        updateProgress();
       } else {
+        updateProgress();
         showResultIfComplete();
       }
     });
@@ -585,10 +647,29 @@ function renderCurrentQuestion() {
 
 function updateProgress() {
   const answered = answers.filter((value) => value !== null).length;
-  progressTextEl.textContent = `${getText("answered")} ${answered} / ${questions.length}`;
-  if (topProgressBarEl) {
-    topProgressBarEl.style.width = `${(answered / questions.length) * 100}%`;
+  const currentProgress = currentQuestionIndex + 1;
+  progressTextEl.textContent = `${getText("answered")} ${currentProgress} / ${questions.length}`;
+  
+  // Update star progress bar
+  if (starProgressContainerEl) {
+    const stars = starProgressContainerEl.querySelectorAll(".progress-star");
+    stars.forEach((star, index) => {
+      star.classList.remove("filled", "current");
+      if (index < currentQuestionIndex && answers[index] !== null) {
+        // Answered previous questions
+        star.classList.add("filled");
+        star.textContent = "✦";
+      } else if (index === currentQuestionIndex) {
+        // Current question
+        star.classList.add("current");
+        star.textContent = "🌙";
+      } else {
+        // Future questions
+        star.textContent = "✦";
+      }
+    });
   }
+  
   showResultIfComplete();
 }
 
@@ -701,6 +782,7 @@ function setAppView(view) {
   quizAppEl.hidden = view !== "quiz";
   if (tarotResultAppEl) tarotResultAppEl.hidden = view !== "tarot-result";
   if (collectionsAppEl) collectionsAppEl.hidden = view !== "collections";
+  if (aboutAppEl) aboutAppEl.hidden = view !== "about";
 }
 
 async function fetchCocktailForTarotCard(cardName) {
@@ -2132,14 +2214,71 @@ function applyLanguage(langCode) {
   if (collectionsTitleEl) collectionsTitleEl.textContent = getText("collectionsTitle");
   if (startNowTabEl) startNowTabEl.textContent = getText("startNow");
   
+  
   // Update sidebar elements
   if (sidebarMenuTitleEl) sidebarMenuTitleEl.textContent = getText("menu");
   if (sidebarCollectionsEl) sidebarCollectionsEl.textContent = getText("sidebarCollections");
   if (sidebarAboutEl) sidebarAboutEl.textContent = getText("sidebarAbout");
   
+  // Update About page elements
+  const aboutSectionLabelEl = document.getElementById("aboutSectionLabel");
+  const aboutMainTitleEl = document.getElementById("aboutMainTitle");
+  const aboutIntro1El = document.getElementById("aboutIntro1");
+  const aboutIntro2El = document.getElementById("aboutIntro2");
+  const aboutIntro3El = document.getElementById("aboutIntro3");
+  const aboutIntro4El = document.getElementById("aboutIntro4");
+  const aboutBtnGithubEl = document.getElementById("aboutBtnGithub");
+  const aboutDesc1El = document.getElementById("aboutDesc1");
+  const aboutDesc2El = document.getElementById("aboutDesc2");
+  const aboutDesc3El = document.getElementById("aboutDesc3");
+  const aboutDesc4El = document.getElementById("aboutDesc4");
+  const aboutDesc5El = document.getElementById("aboutDesc5");
+  const aboutDesc6El = document.getElementById("aboutDesc6");
+  const aboutDesc7El = document.getElementById("aboutDesc7");
+  
+  if (aboutSectionLabelEl) aboutSectionLabelEl.textContent = getText("aboutSectionLabel");
+  if (aboutMainTitleEl) aboutMainTitleEl.textContent = getText("aboutMainTitle");
+  if (aboutIntro1El) aboutIntro1El.textContent = getText("aboutIntro1");
+  if (aboutIntro2El) aboutIntro2El.textContent = getText("aboutIntro2");
+  
+  // For links, we need to preserve the HTML structure and replace the prefix text
+  if (aboutIntro3El) {
+    const linkUrl = "https://leminxu.github.io/MistBar-quiz/";
+    const linkLabel = getText("aboutIntro3");
+    aboutIntro3El.innerHTML = linkLabel + `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="about-link">${linkUrl}</a>`;
+  }
+  if (aboutIntro4El) {
+    const linkUrl = "https://leminxu.github.io/MistBar-quiz/";
+    const linkLabel = getText("aboutIntro4");
+    aboutIntro4El.innerHTML = linkLabel + `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="about-link">${linkUrl}</a>`;
+  }
+  
+  if (aboutBtnGithubEl) aboutBtnGithubEl.textContent = getText("aboutBtnGithub");
+  if (aboutDesc1El) aboutDesc1El.textContent = getText("aboutDesc1");
+  if (aboutDesc2El) aboutDesc2El.textContent = getText("aboutDesc2");
+  if (aboutDesc3El) aboutDesc3El.textContent = getText("aboutDesc3");
+  if (aboutDesc4El) aboutDesc4El.textContent = getText("aboutDesc4");
+  if (aboutDesc5El) aboutDesc5El.textContent = getText("aboutDesc5");
+  if (aboutDesc6El) aboutDesc6El.textContent = getText("aboutDesc6");
+  
+  if (aboutDesc7El) {
+    const text = getText("aboutDesc7");
+    const linkUrl = "https://github.com/YBWLawao/ARKTI";
+    aboutDesc7El.innerHTML = text.replace(/ACGTI/g, `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="about-link"><strong>ACGTI</strong></a>`);
+  }
+  
 // Update entry page elements
   if (entrySubtitleEl) entrySubtitleEl.textContent = getText("entrySubtitle");
+  if (entryTitleLineEls[0]) entryTitleLineEls[0].textContent = getText("entryTitle1");
+  if (entryTitleLineEls[1]) entryTitleLineEls[1].innerHTML = getText("entryTitle2");
   if (entryDescriptionEl) entryDescriptionEl.innerHTML = getText("entryDescription");
+  
+  // Update quiz page elements
+  if (quizSubtitleEl) quizSubtitleEl.textContent = getText("quizSubtitle");
+  if (quizTitle1El) quizTitle1El.textContent = getText("quizTitle1");
+  if (quizTitle2El) quizTitle2El.innerHTML = getText("quizTitle2");
+  if (quizDescriptionEl) quizDescriptionEl.textContent = getText("quizDescription");
+  
   if (actionSearchTitleEl) actionSearchTitleEl.textContent = getText("actionSearchTitle");
   if (actionSearchDescEl) actionSearchDescEl.innerHTML = getText("actionSearchDesc");
   if (actionTarotTitleEl) actionTarotTitleEl.textContent = getText("actionTarotTitle");
@@ -2223,6 +2362,7 @@ function applyLanguage(langCode) {
     renderCurrentMixedDrinkCard(false);
   }
 
+  initStarProgressBar();
   renderCurrentQuestion();
   updateProgress();
 }
@@ -2238,6 +2378,7 @@ document.addEventListener("click", (event) => {
   if (action === "tarot") {
     safeSetLocalStorage("arkti-entry-mode", "tarot");
     setAppView("quiz");
+    initStarProgressBar();
     renderCurrentQuestion();
     updateProgress();
     window.scrollTo(0, 0);
@@ -2254,6 +2395,7 @@ if (tarotEntryBtn) {
   tarotEntryBtn.addEventListener("click", () => {
     safeSetLocalStorage("arkti-entry-mode", "tarot");
     setAppView("quiz");
+    initStarProgressBar();
     renderCurrentQuestion();
     updateProgress();
     window.scrollTo(0, 0);
@@ -2414,6 +2556,16 @@ if (ingredientsBackBtnEl) {
   });
 }
 
+if (backButtonEl) {
+  backButtonEl.addEventListener("click", () => {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex -= 1;
+      renderCurrentQuestion();
+      updateProgress();
+    }
+  });
+}
+
 if (mixBackButtonEl) {
   mixBackButtonEl.addEventListener("click", () => {
     if (mixSourceMode === "random") {
@@ -2428,6 +2580,16 @@ if (mixBackButtonEl) {
 if (tarotBackBtnEl) {
   tarotBackBtnEl.addEventListener("click", () => {
     // Reset quiz for replay
+    answers.fill(null);
+    currentQuestionIndex = 0;
+    setAppView("entry");
+    window.scrollTo(0, 0);
+  });
+}
+
+if (quizBackBtnEl) {
+  quizBackBtnEl.addEventListener("click", () => {
+    // Reset quiz and return to entry
     answers.fill(null);
     currentQuestionIndex = 0;
     setAppView("entry");
@@ -2511,6 +2673,9 @@ if (startNowTabEl) {
   startNowTabEl.addEventListener("click", () => {
     safeSetLocalStorage("arkti-entry-mode", "tab-start-now");
     setAppView("quiz");
+    initStarProgressBar();
+    renderCurrentQuestion();
+    updateProgress();
     window.scrollTo(0, 0);
   });
 }
@@ -2531,6 +2696,21 @@ if (navCollectionsEl) {
 
 if (collectionsBackBtnEl) {
   collectionsBackBtnEl.addEventListener("click", () => {
+    setAppView("entry");
+    window.scrollTo(0, 0);
+  });
+}
+
+if (navAboutEl) {
+  navAboutEl.addEventListener("click", (event) => {
+    event.preventDefault();
+    setAppView("about");
+    window.scrollTo(0, 0);
+  });
+}
+
+if (aboutBackBtnEl) {
+  aboutBackBtnEl.addEventListener("click", () => {
     setAppView("entry");
     window.scrollTo(0, 0);
   });
@@ -2605,8 +2785,8 @@ if (sidebarAboutEl) {
   sidebarAboutEl.addEventListener("click", (event) => {
     event.preventDefault();
     closeSidebar();
-    // Handle About page navigation
-    window.alert(getText ? getText("aboutMessage") || "About page - Coming soon!" : "About page - Coming soon!");
+    setAppView("about");
+    window.scrollTo(0, 0);
   });
 }
 

@@ -85,24 +85,8 @@
 
         <!-- Central Tarot Card -->
         <div class="entry-tarot-section">
-          <div class="moon-phases">
-            <span class="moon-phase">🌑</span>
-            <span class="moon-phase">🌒</span>
-            <span class="moon-phase">🌓</span>
-          </div>
-          <div class="central-tarot-card">
-            <div class="tarot-card-inner">
-              <div class="card-border">
-                <div class="card-symbol">🌙</div>
-                <div class="card-rays"></div>
-              </div>
-            </div>
-          </div>
-          <div class="moon-phases">
-            <span class="moon-phase">🌔</span>
-            <span class="moon-phase">🌕</span>
-            <span class="moon-phase">🌖</span>
-          </div>
+          <div class="sun-decoration"></div>
+          <div class="moon-decoration"></div>
         </div>
 
         <!-- Action Cards -->
@@ -246,18 +230,103 @@
       </main>
     </section>
 
-    <div id="quizApp" hidden>
-      <div class="top-progress-wrap" aria-hidden="true">
-        <div class="top-progress-track">
-          <div id="topProgressBar" class="top-progress-bar"></div>
-        </div>
-      </div>
+    <section id="aboutApp" class="about-app" hidden>
+      <main class="about-panel">
+        <button id="aboutBackBtn" class="icon-back-btn" type="button" aria-label="Back">←</button>
+        
+        <div class="about-two-column">
+          <!-- Left Column -->
+          <div class="about-column about-left-column">
+            <p id="aboutSectionLabel" class="about-section-label">项目主体介绍</p>
+            <h1 id="aboutMainTitle" class="about-main-title">MistBar</h1>
+            
+            <div class="about-text-block">
+              <p id="aboutIntro1" class="about-paragraph">
+                这是一个情景式人格测试工具，灵感来源于塔罗占卜和鸡尾酒调制，旨在为用户提供一种轻松有趣的自我探索体验。
+              </p>
+              <p id="aboutIntro2" class="about-paragraph">
+                当前版本为0.1.0版本，仍处于早期阶段，之后也不一定会更新，但是如果有人帮我写代码我会很开心～ദ്ദി˶ｰ̀֊ｰ́ )✧. 
+              </p>
+              <p id="aboutIntro3" class="about-paragraph">
+                在线体验：<a href="https://leminxu.github.io/MistBar-quiz/" target="_blank" rel="noopener noreferrer" class="about-link">https://leminxu.github.io/MistBar-quiz/</a>
+              </p>
+              <p id="aboutIntro4" class="about-paragraph">
+                GitHub 仓库地址：<a href="https://leminxu.github.io/MistBar-quiz/" target="_blank" rel="noopener noreferrer" class="about-link">https://leminxu.github.io/MistBar-quiz/</a>
+              </p>
+            </div>
 
+            <div class="about-button-group">
+              <a href="https://leminxu.github.io/MistBar-quiz/" target="_blank" rel="noopener noreferrer" class="about-action-btn about-btn-github">
+                <span class="about-btn-icon">⭐</span>
+                <span id="aboutBtnGithub">去 GitHub 点赞 Star</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="about-column about-right-column">
+            <div class="about-text-block">
+              <div class="about-profile-image">
+                <img src="material/me.jpg" alt="Profile" class="about-me-photo" />
+              </div>
+              <p id="aboutDesc1" class="about-paragraph">
+                这段要写什么东西啊，我其实不知道。但是空着好像也不太好。
+              </p>
+              <p id="aboutDesc2" class="about-paragraph">
+                我随便写点什么，反正应该也没人会仔细看。
+              </p>
+              <p id="aboutDesc3" class="about-paragraph">
+                如果你仔细看的话，诶嘿，那你被我浪费了人生中好像也没有那么重要的30秒。
+              </p>
+              <p id="aboutDesc4" class="about-paragraph">
+                这个项目是什么呢？诶，对的，就不是你想的那样。他是我的期末作业。
+              </p>
+              <p id="aboutDesc5" class="about-paragraph">
+                怎么还没写完，但我真的已经没有话讲了，那只能让我再写点废话。
+              </p>
+              <p id="aboutDesc6" class="about-paragraph">
+                ok，最后，这张图片是我。对的，这个项目其实是一直小猫写的，所以写的烂你也不能压力一只小猫！ᯠ_   ̫ _ᯄ Ⳋ 
+              </p>
+              <p id="aboutDesc7" class="about-paragraph">
+                致谢：项目前端页面二创自 <a href="https://github.com/YBWLawao/ARKTI" target="_blank" rel="noopener noreferrer" class="about-link"><strong>ACGTI</strong></a>，原作者 @天马行空，网站链接 acgti.tianxingleo.top。
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <div id="quizApp" hidden>
       <main class="page">
-        <section id="quizSection" class="quiz-wrap card">
-          <p id="progressText" class="progress">Answered 0 / 30</p>
+        <button id="quizBackBtn" class="icon-back-btn" type="button" aria-label="Back">←</button>
+        <section id="quizSection" class="quiz-wrap">
+          <!-- Quiz Header -->
+          <header class="quiz-header">
+            <div class="quiz-subtitle">
+              <span class="subtitle-char">✦</span>
+              <span id="quizSubtitle">TAROT READING</span>
+              <span class="subtitle-char">✦</span>
+            </div>
+            <h1 class="quiz-main-title">
+              <span class="quiz-title-line" id="quizTitle1">Reveal your card.</span>
+              <span class="quiz-title-line" id="quizTitle2">Find <em>your</em> drink.</span>
+            </h1>
+            <p id="quizDescription" class="quiz-description">
+              Answer intuitively. Your first instinct knows.
+            </p>
+          </header>
+
+          <!-- Star Progress Bar -->
+          <div class="quiz-progress-bar">
+            <p id="progressText" class="progress-text">Answered 0 / 10</p>
+            <div class="star-progress-track">
+              <div id="starProgressContainer" class="star-progress-container"></div>
+            </div>
+          </div>
+
+          <!-- Quiz Card -->
           <section id="quizCard" class="quiz-card">
-            <p id="cardIndex" class="card-index">Question 1 / 30</p>
+            <p id="cardIndex" class="card-index">Question 1 / 10</p>
             <h2 id="questionText" class="card-question"></h2>
             <div id="optionList" class="option-list"></div>
             <div class="card-footer">

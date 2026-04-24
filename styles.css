@@ -9,7 +9,7 @@
 body {
   margin: 0;
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f4f5f7;
+  background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
   color: #2f3a46;
 }
 
@@ -47,14 +47,16 @@ body {
   justify-content: center;
 }
 .alcoholic-choice-btn:hover {
-  background: #f8f8f8;
+  background: #8b7db8;
+  color: #ffffff;
+  border-color: #8b7db8;
   transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 20px rgba(139, 125, 184, 0.3);
 }
 .alcoholic-choice-btn.selected {
-  background: #2c3e50;
+  background: #8b7db8;
   color: #ffffff;
-  border-color: #2c3e50;
+  border-color: #8b7db8;
   transform: translateY(-2px);
 }
 
@@ -174,7 +176,7 @@ body {
 
 .title-line em {
   font-style: italic;
-  color: #8b7355;
+  color: #746a93;
 }
 
 .entry-description {
@@ -207,57 +209,9 @@ body {
   filter: grayscale(1);
 }
 
-.central-tarot-card {
-  width: 160px;
-  height: 260px;
-  perspective: 1000px;
-}
-
-.tarot-card-inner {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #f5f3f0 0%, #e8e3dd 100%);
-  border-radius: 16px;
-  border: 3px solid #d4af37;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15),
-              inset 0 2px 10px rgba(255,255,255,0.3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.card-border {
-  width: 90%;
-  height: 90%;
-  border: 2px solid #8b7355;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.card-symbol {
-  font-size: 36px;
-  color: #8b7355;
-  z-index: 2;
-}
-
-.card-rays {
-  position: absolute;
-  inset: 10px;
-  background: radial-gradient(circle, transparent 30%, 
-              rgba(139, 115, 85, 0.1) 31%, 
-              rgba(139, 115, 85, 0.1) 32%, 
-              transparent 33%),
-              conic-gradient(from 0deg, 
-              transparent 0deg, rgba(139, 115, 85, 0.2) 5deg, 
-              transparent 10deg, transparent 350deg,
-              rgba(139, 115, 85, 0.2) 355deg, transparent 360deg);
-  border-radius: 8px;
+.sun-decoration,
+.moon-decoration {
+  display: none;
 }
 
 /* Action Cards */
@@ -335,7 +289,22 @@ body {
   display: grid;
   place-items: center;
   padding: 24px 14px 28px;
-  background: linear-gradient(180deg, #8b8f95 0%, #767a80 100%);
+  background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.search-app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(200, 170, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 30% 80%, rgba(255, 200, 150, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .mix-result-app {
@@ -343,7 +312,22 @@ body {
   display: grid;
   place-items: center;
   padding: 24px 14px 28px;
-  background: linear-gradient(180deg, #8b8f95 0%, #767a80 100%);
+  background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.mix-result-app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(200, 170, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 30% 80%, rgba(255, 200, 150, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .mix-result-panel {
@@ -352,11 +336,12 @@ body {
   gap: 14px;
   justify-items: center;
   position: relative;
+  z-index: 1;
 }
 
 .cocktail-flip {
   width: min(420px, 92vw);
-  height: 560px;
+  height: min(560px, 70vh);
   perspective: 1000px;
   cursor: pointer;
 }
@@ -416,6 +401,7 @@ body {
   overflow: hidden;
   justify-items: center;
   align-content: center;
+  background: #887aa4;
 }
 
 .cocktail-back-title {
@@ -441,11 +427,15 @@ body {
   line-height: 1.5;
   overflow: auto;
   text-align: center;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  padding: 12px;
 }
 
 .swipe-hint {
   margin: 2px 0 0;
-  color: #eef2f6;
+  color: #474037;
   font-size: 13px;
   text-align: center;
 }
@@ -455,6 +445,7 @@ body {
   display: grid;
   gap: 14px;
   position: relative;
+  z-index: 1;
 }
 
 .base-spirit-search-input {
@@ -480,7 +471,7 @@ body {
   align-self: start;
   border: 0;
   background: transparent;
-  color: #f5f7fb;
+  color: #8b7355;
   font-size: 26px;
   line-height: 1;
   font-weight: 700;
@@ -511,7 +502,7 @@ body {
 .search-title {
   margin: 0;
   text-align: center;
-  color: #f2f4f7;
+  color: #645442;
   font-size: clamp(26px, 4.6vw, 42px);
   font-weight: 800;
 }
@@ -558,7 +549,7 @@ body {
 .ingredient-checklist {
   border: 0;
   border-radius: 20px;
-  background: #90959d;
+  background: #ad9de1;
   padding: 0 10px 10px;
   max-height: 420px;
   overflow-y: auto;
@@ -592,7 +583,7 @@ body {
   border: 0;
   border-radius: 14px;
   padding: 0 8px 8px;
-  background: #90959d;
+  background: #ad9de1;
 }
 
 .ingredient-group-title {
@@ -611,7 +602,7 @@ body {
   user-select: none;
   padding: 8px 10px;
   margin: 0 -8px;
-  background: #90959d;
+  background: #ad9de1;
   border-radius: 12px;
 }
 
@@ -639,9 +630,9 @@ body {
 }
 
 .ingredient-card-btn {
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(200, 72, 255, 0.2);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(54, 9, 89, 0.2);
   color: #ffffff;
   min-height: 170px;
   padding: 10px;
@@ -654,8 +645,8 @@ body {
 }
 
 .ingredient-card-btn.active {
-  border-color: #53b890;
-  background: rgba(83, 184, 144, 0.22);
+  border: 2px solid rgba(12, 3, 15, 0.2);
+  background: rgba(232, 202, 255, 0.3);
 }
 
 .ingredient-card-name {
@@ -692,13 +683,20 @@ body {
   margin-top: 8px;
   border: 0;
   border-radius: 999px;
-  background: radial-gradient(circle at center, #181d2a 0%, #0f1118 100%);
-  color: #f5f7fb;
-  font-size: clamp(24px, 4.2vw, 44px);
-  font-weight: 800;
-  padding: 16px 20px;
+  background: #675e85;
+  color: #ffffff;
+  font-size: clamp(18px, 3.2vw, 32px);
+  font-weight: 700;
+  padding: 14px 18px;
   cursor: pointer;
-  box-shadow: 0 8px 18px rgba(17, 20, 27, 0.35);
+  box-shadow: 0 6px 14px rgba(103, 94, 133, 0.3);
+  transition: all 0.2s ease;
+}
+
+.mix-btn:hover {
+  background: #564d6f;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(103, 94, 133, 0.4);
 }
 
 .api-status {
@@ -714,14 +712,14 @@ body {
   top: 0;
   z-index: 10;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  background: rgba(255, 255, 255, 0.95);
+  background: #675e85;
   backdrop-filter: blur(12px);
 }
 
 .topbar-inner {
   width: min(1180px, 94vw);
   margin: 0 auto;
-  min-height: 64px;
+  min-height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -752,9 +750,9 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 300px;
+  width: 200px;
   height: 100vh;
-  background: #ffffff;
+  background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
   border-right: 1px solid #d9dde3;
   transform: translateX(-100%);
   transition: transform 0.3s ease;
@@ -827,7 +825,7 @@ body {
 }
 
 .sidebar-link:hover {
-  background-color: #f8f9fa;
+  background-color: #e7e1f2;
 }
 
 /* Hamburger Menu */
@@ -845,7 +843,7 @@ body {
   display: block;
   width: 20px;
   height: 2px;
-  background: #2f3a46;
+  background: #f7f8fb;
   transition: all 0.3s ease;
 }
 
@@ -860,7 +858,7 @@ body {
 
 .top-progress-wrap {
   position: sticky;
-  top: 64px;
+  top: 75px;
   z-index: 9;
   background: rgba(244, 245, 247, 0.96);
   padding: 8px 0 6px;
@@ -879,7 +877,7 @@ body {
   width: 0;
   height: 100%;
   border-radius: 999px;
-  background: #2fa36d;
+  background: #7d6ca6;
   transition: width 0.2s ease;
 }
 
@@ -899,9 +897,9 @@ body {
   border: 0;
   background: transparent;
   padding: 0;
-  font-size: 18px;
-  font-weight: 400;
-  color: #2c2c2c;
+  font-size: 30px;
+  font-weight: 500;
+  color: #f7f8fb;
   letter-spacing: 0.5px;
   white-space: nowrap;
   cursor: pointer;
@@ -918,8 +916,8 @@ body {
 
 .lang-toggle {
   border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(248, 248, 248, 0.8);
-  color: #666;
+  background: #9a7f5f;
+  color: #ede9f0;
   border-radius: 20px;
   padding: clamp(8px, 1.2vw, 10px) clamp(14px, 2vw, 16px);
   font-size: clamp(13px, 1.4vw, 14px);
@@ -940,7 +938,7 @@ body {
 }
 
 .lang-toggle:hover {
-  background: rgba(240, 240, 240, 0.9);
+  background: #b09473;
   border-color: rgba(0, 0, 0, 0.15);
 }
 
@@ -991,7 +989,7 @@ body {
 }
 
 .nav-link {
-  color: #666;
+  color: #f7f8fb;
   text-decoration: none;
   font-weight: 400;
   padding: 10px 16px;
@@ -1006,7 +1004,7 @@ body {
 
 .start-now-btn {
   border: 0;
-  background: #8b7db8;
+  background: #8b7355;
   color: #ffffff;
   border-radius: 20px;
   padding: 12px 24px;
@@ -1018,7 +1016,7 @@ body {
 }
 
 .start-now-btn:hover {
-  background: #7a6da6;
+  background: #75624a;
   transform: translateY(-1px);
 }
 
@@ -1082,19 +1080,134 @@ body {
 
 .quiz-wrap {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
 }
 
 #quizApp .page {
   width: min(900px, 92vw);
-  min-height: calc(100svh - 120px);
+  min-height: calc(100svh - 80px);
   margin: 0 auto 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 8px 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  justify-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+#quizApp .icon-back-btn {
+  justify-self: start;
+  align-self: start;
+  margin-top: 4px;
 }
 
 #quizApp .quiz-wrap {
   width: min(760px, 100%);
+  position: relative;
+  z-index: 1;
+}
+
+/* Quiz Header */
+.quiz-header {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.quiz-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: #8b7355;
+  margin-bottom: 16px;
+}
+
+.quiz-main-title {
+  margin: 0 0 16px;
+  color: #2c2c2c;
+  line-height: 1.2;
+}
+
+.quiz-title-line {
+  display: block;
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 300;
+  font-family: 'Georgia', serif;
+}
+
+.quiz-title-line em {
+  font-style: italic;
+  color: #746a93;
+}
+
+.quiz-description {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 300;
+}
+
+/* Star Progress Bar */
+.quiz-progress-bar {
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.progress-text {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: #8b7355;
+  letter-spacing: 0.5px;
+}
+
+.star-progress-track {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+}
+
+.star-progress-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.progress-star {
+  font-size: 20px;
+  transition: all 0.3s ease;
+  filter: grayscale(1);
+  opacity: 0.3;
+}
+
+.progress-star.filled {
+  filter: none;
+  opacity: 1;
+  color: #725f82;
+}
+
+.progress-star.current {
+  animation: starPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes starPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
 }
 
 .progress {
@@ -1347,7 +1460,7 @@ body {
   }
   
   .entry-header {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
   }
   
   /* 移动端隐藏塔罗卡片 */
@@ -1358,12 +1471,15 @@ body {
   .entry-actions {
     grid-template-columns: 1fr;
     gap: 12px;
-    margin-top: 20px;
+    margin-top: 10px;
   }
   
   .action-card {
     padding: 12px 40px 12px 16px;
     min-height: 60px;
+    width: 94%;
+    max-width: 450px;
+    justify-self: center;
     transform: translateY(0);
     transition: all 0.3s ease;
     font-size: 14px;
@@ -1380,7 +1496,7 @@ body {
     font-size: 20px;
     margin-bottom: 0;
     position: absolute;
-    left: 12px;
+    left: 40px;
     top: 50%;
     transform: translateY(-50%);
   }
@@ -1416,6 +1532,11 @@ body {
   .entry-description {
     font-size: 16px;
   }
+  
+  .cocktail-flip {
+    width: min(340px, 88vw);
+    height: min(480px, 65vh);
+  }
 }
 
 @media (min-width: 860px) {
@@ -1429,6 +1550,11 @@ body {
   .entry-page {
     padding: 16px 20px 20px;
     justify-content: center;
+  }
+
+  .entry-subtitle {
+    font-size: 17px;
+    letter-spacing: 2.4px;
   }
   
   .entry-container {
@@ -1461,11 +1587,6 @@ body {
     justify-content: space-between;
   }
   
-  .central-tarot-card {
-    width: 140px;
-    height: 240px;
-  }
-  
   .title-line {
     font-size: clamp(32px, 4vw, 40px);
   }
@@ -1476,10 +1597,22 @@ body {
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: linear-gradient(160deg, #0d0d1a 0%, #1a0a2e 60%, #0d0d1a 100%);
+  background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.tarot-loading-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(200, 170, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 30% 80%, rgba(255, 200, 150, 0.08) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .tarot-loading-content {
@@ -1493,9 +1626,11 @@ body {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  border: 4px solid rgba(200, 170, 255, 0.18);
-  border-top-color: #c8aaff;
+  border: 4px solid rgba(139, 115, 85, 0.25);
+  border-top-color: #8b7355;
   animation: tarotSpin 1s linear infinite;
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes tarotSpin {
@@ -1503,11 +1638,13 @@ body {
 }
 
 .tarot-loading-text {
-  color: rgba(200, 170, 255, 0.85);
+  color: #8b7355;
   font-size: 1.15rem;
   letter-spacing: 0.08em;
   margin: 0;
   animation: tarotPulse 1.6s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes tarotPulse {
@@ -1518,9 +1655,24 @@ body {
 /* ── Tarot Result App ── */
 .tarot-result-app {
   min-height: 100svh;
-  background: linear-gradient(160deg, #0d0d1a 0%, #1a0a2e 60%, #0d0d1a 100%);
+  background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.tarot-result-app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(200, 170, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 30% 80%, rgba(255, 200, 150, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .tarot-result-panel {
@@ -1529,6 +1681,8 @@ body {
   align-items: center;
   padding: 24px 16px 48px;
   gap: 16px;
+  position: relative;
+  z-index: 1;
 }
 
 .tarot-card-name {
@@ -1536,7 +1690,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #c8aaff;
+  color: #8b7355;
   margin: 0;
   text-align: center;
 }
@@ -1573,9 +1727,9 @@ body {
 
 /* Front */
 .tarot-front {
-  background: #1c1030;
-  border: 2px solid rgba(200, 170, 255, 0.3);
-  box-shadow: 0 8px 40px rgba(100, 40, 180, 0.45),
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(139, 115, 85, 0.3);
+  box-shadow: 0 8px 40px rgba(139, 115, 85, 0.25),
               inset 0 0 60px rgba(200, 170, 255, 0.04);
   display: flex;
   flex-direction: column;
@@ -1594,17 +1748,17 @@ body {
   padding: 12px 16px;
   text-align: center;
   font-size: 0.85rem;
-  color: rgba(200, 170, 255, 0.7);
+  color: #8b7355;
   letter-spacing: 0.04em;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.8);
 }
 
 /* Back */
 .tarot-back {
   transform: rotateY(180deg);
-  background: #12001f;
-  border: 2px solid rgba(200, 170, 255, 0.2);
-  box-shadow: 0 8px 40px rgba(100, 40, 180, 0.45);
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(139, 115, 85, 0.2);
+  box-shadow: 0 8px 40px rgba(139, 115, 85, 0.25);
 }
 
 .tarot-back-scroll {
@@ -1612,7 +1766,7 @@ body {
   overflow-y: auto;
   padding: 20px 18px 24px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(200, 170, 255, 0.3) transparent;
+  scrollbar-color: rgba(139, 115, 85, 0.3) transparent;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -1628,7 +1782,7 @@ body {
   height: 180px;
   object-fit: contain;
   object-position: center;
-  background: #12001f;
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 12px;
   margin-bottom: 14px;
   display: block;
@@ -1637,7 +1791,7 @@ body {
 .tarot-cocktail-name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #e8d5ff;
+  color: #2c2c2c;
   margin: 0 0 14px;
   text-align: center;
 }
@@ -1647,7 +1801,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(200, 170, 255, 0.6);
+  color: #8b7355;
   margin: 14px 0 6px;
 }
 
@@ -1662,52 +1816,69 @@ body {
 
 .tarot-ingredient-list li {
   font-size: 0.9rem;
-  color: #d0c0f0;
+  color: #4a4a4a;
   padding: 5px 0;
-  border-bottom: 1px solid rgba(200, 170, 255, 0.08);
+  border-bottom: 1px solid rgba(139, 115, 85, 0.15);
   display: flex;
   justify-content: space-between;
 }
 
 .tarot-ingredient-list li span.measure {
-  color: rgba(200, 170, 255, 0.55);
+  color: #8b7355;
   font-size: 0.82rem;
 }
 
 .tarot-cocktail-steps {
   font-size: 0.88rem;
   line-height: 1.65;
-  color: #bba8d8;
+  color: #5a5a5a;
   margin: 0;
 }
 
-/* Back button override for dark page */
+/* Back button override */
 .tarot-result-panel .icon-back-btn {
   align-self: flex-start;
-  background: rgba(200, 170, 255, 0.1);
-  color: #c8aaff;
-  border: 1px solid rgba(200, 170, 255, 0.25);
+  background: rgba(139, 115, 85, 0.1);
+  color: #8b7355;
+  border: 1px solid rgba(139, 115, 85, 0.25);
 }
 
 .tarot-result-panel .icon-back-btn:hover {
-  background: rgba(200, 170, 255, 0.2);
+  background: rgba(139, 115, 85, 0.2);
 }
 
 .collections-app {
   min-height: 100svh;
-  background: linear-gradient(160deg, #0d0d1a 0%, #1a0a2e 60%, #0d0d1a 100%);
+  background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.collections-app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(200, 170, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 30% 80%, rgba(255, 200, 150, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .collections-panel {
   padding: 24px 16px 40px;
   width: min(1300px, 100%);
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .collections-title {
   margin: 12px 0 22px;
   text-align: center;
-  color: #c8aaff;
+  color: #8b7355;
   letter-spacing: 0.08em;
 }
 
@@ -1718,6 +1889,72 @@ body {
 }
 
 @media (min-width: 769px) {
+  .entry-tarot-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+  
+  .sun-decoration {
+    display: block;
+    position: fixed;
+    left: -15%;
+    width: 725px;
+    height: 725px;
+    background: url('material/sun.png') center / contain no-repeat;
+    flex-shrink: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  .moon-decoration {
+    display: block;
+    position: fixed;
+    right: -15%;
+    width: 700px;
+    height: 700px;
+    background: url('material/moon.png') center / contain no-repeat;
+    flex-shrink: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  /* Quiz page sun and moon decorations */
+  #quizApp::before {
+    content: '';
+    display: block;
+    position: fixed;
+    left: -15%;
+    width: 725px;
+    height: 725px;
+    background: url('material/sun.png') center / contain no-repeat;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  #quizApp::after {
+    content: '';
+    display: block;
+    position: fixed;
+    right: -15%;
+    width: 700px;
+    height: 700px;
+    background: url('material/moon.png') center / contain no-repeat;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  
   .collection-card-grid {
     grid-template-columns: repeat(3, minmax(0, 220px));
     justify-content: center;
@@ -1728,6 +1965,219 @@ body {
 @media (max-width: 768px) {
   .collection-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ── About Page ── */
+.about-app {
+  min-height: 100svh;
+  background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.about-app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(200, 170, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 30% 80%, rgba(255, 200, 150, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-panel {
+  padding: 24px 16px 48px;
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.about-two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.about-column {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(139, 115, 85, 0.2);
+  border-radius: 20px;
+  padding: 32px 28px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.about-section-label {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #8b7355;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.about-main-title {
+  margin: 0 0 24px;
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 700;
+  color: #2c2c2c;
+  font-family: 'Georgia', serif;
+  line-height: 1.1;
+}
+
+.about-text-block {
+  margin-bottom: 24px;
+}
+
+.about-paragraph {
+  margin: 0 0 16px 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #4a4a4a;
+}
+
+.about-paragraph strong {
+  color: #8b7355;
+  font-weight: 600;
+}
+
+.about-link {
+  color: #746a93;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(116, 106, 147, 0.3);
+  transition: all 0.2s ease;
+  word-break: break-all;
+}
+
+.about-link:hover {
+  color: #8b7db8;
+  border-bottom-color: #8b7db8;
+}
+
+.about-button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.about-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.about-btn-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.about-btn-github {
+  background: linear-gradient(135deg, #2ea44f 0%, #238636 100%);
+}
+
+.about-btn-github:hover {
+  background: linear-gradient(135deg, #238636 0%, #1a6b28 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(46, 164, 79, 0.4);
+}
+
+.about-btn-bilibili {
+  background: linear-gradient(135deg, #fb7299 0%, #f25d8e 100%);
+}
+
+.about-btn-bilibili:hover {
+  background: linear-gradient(135deg, #f25d8e 0%, #e84c7a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(251, 114, 153, 0.4);
+}
+
+.about-btn-redbook {
+  background: linear-gradient(135deg, #ff2442 0%, #e6001a 100%);
+}
+
+.about-btn-redbook:hover {
+  background: linear-gradient(135deg, #e6001a 0%, #cc0017 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 36, 66, 0.4);
+}
+
+.about-right-column .about-text-block {
+  margin-bottom: 0;
+}
+
+.about-profile-image {
+  float: left;
+  margin: 0 20px 16px 0;
+}
+
+.about-me-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .about-panel {
+    padding: 20px 14px 40px;
+  }
+  
+  .about-two-column {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .about-column {
+    padding: 24px 20px;
+  }
+  
+  .about-main-title {
+    font-size: clamp(32px, 8vw, 42px);
+    margin-bottom: 20px;
+  }
+  
+  .about-text-block {
+    margin-bottom: 20px;
+  }
+  
+  .about-paragraph {
+    font-size: 14px;
+    margin: 0 0 14px 0;
+  }
+  
+  .about-button-group {
+    gap: 10px;
+  }
+  
+  .about-action-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+  
+  .about-profile-image {
+    float: left;
+    margin: 0 12px 12px 0;
+  }
+  
+  .about-me-photo {
+    width: 100px;
+    height: 100px;
   }
 }
 
@@ -1760,9 +2210,9 @@ body {
 }
 
 .collection-front {
-  background: #1c1030;
-  border: 2px solid rgba(200, 170, 255, 0.28);
-  box-shadow: 0 8px 28px rgba(100, 40, 180, 0.35);
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(139, 115, 85, 0.28);
+  box-shadow: 0 8px 28px rgba(139, 115, 85, 0.25);
   display: grid;
   grid-template-rows: 1fr auto;
 }
@@ -1772,24 +2222,24 @@ body {
   height: 100%;
   object-fit: contain;
   object-position: center;
-  background: #12001f;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .collection-card-title {
   margin: 0;
   padding: 10px 10px;
   text-align: center;
-  color: #e6dcff;
+  color: #2c2c2c;
   font-size: 0.9rem;
   letter-spacing: 0.04em;
-  background: rgba(0, 0, 0, 0.36);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .collection-back {
   transform: rotateY(180deg);
-  background: #12001f;
-  border: 2px solid rgba(200, 170, 255, 0.22);
-  box-shadow: 0 8px 28px rgba(100, 40, 180, 0.35);
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(139, 115, 85, 0.22);
+  box-shadow: 0 8px 28px rgba(139, 115, 85, 0.25);
 }
 
 .collection-back-content {
@@ -1814,20 +2264,20 @@ body {
   width: 100%;
   height: 110px;
   object-fit: contain;
-  background: #12001f;
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   margin-bottom: 8px;
 }
 
 .collection-back h4 {
   margin: 0 0 8px;
-  color: #e8d5ff;
+  color: #2c2c2c;
   font-size: 1rem;
 }
 
 .collection-back .label {
   margin: 8px 0 4px;
-  color: rgba(200, 170, 255, 0.65);
+  color: #8b7355;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 0.68rem;
@@ -1841,17 +2291,17 @@ body {
 }
 
 .collection-back li {
-  color: #d0c0f0;
+  color: #4a4a4a;
   font-size: 0.82rem;
   line-height: 1.35;
   padding: 3px 0;
-  border-bottom: 1px solid rgba(200, 170, 255, 0.08);
+  border-bottom: 1px solid rgba(139, 115, 85, 0.12);
   text-align: center;
 }
 
 .collection-back .steps {
   margin: 0;
-  color: #bba8d8;
+  color: #5a5a5a;
   font-size: 0.8rem;
   line-height: 1.45;
   display: block;
