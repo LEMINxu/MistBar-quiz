@@ -113,6 +113,201 @@ const aboutBackBtnEl = document.getElementById("aboutBackBtn");
 const COCKTAIL_DB_V2_BASE_URL = "https://www.thecocktaildb.com/api/json/v2/961249867";
 const COCKTAIL_DB_INGREDIENT_IMAGE_BASE_URL = "https://www.thecocktaildb.com/images/ingredients";
 
+// 鸡尾酒名称中英文对照表
+const COCKTAIL_NAME_TRANSLATIONS = {
+  "Mojito": "莫吉托",
+  "Margarita": "玛格丽特",
+  "Old Fashioned": "老式鸡尾酒",
+  "Negroni": "内格罗尼",
+  "Daiquiri": "黛克瑞",
+  "Manhattan": "曼哈顿",
+  "Whiskey Sour": "威士忌酸味酒",
+  "Martini": "马提尼",
+  "Cosmopolitan": "大都会",
+  "Pina Colada": "椰林飘香",
+  "Mai Tai": "迈泰",
+  "Gimlet": "琴蕾",
+  "Bloody Mary": "血腥玛丽",
+  "Moscow Mule": "莫斯科骡子",
+  "Caipirinha": "凯匹林纳",
+  "Singapore Sling": "新加坡司令",
+  "Mint Julep": "薄荷朱利普",
+  "Tom Collins": "汤姆柯林斯",
+  "Aperol Spritz": "阿佩罗气泡酒",
+  "Espresso Martini": "浓缩咖啡马提尼",
+  "French 75": "法国75",
+  "Sazerac": "萨泽拉克",
+  "Paloma": "帕洛玛",
+  "Long Island Iced Tea": "长岛冰茶",
+  "Tequila Sunrise": "龙舌兰日出",
+  "Sex on the Beach": "性感沙滩",
+  "Bellini": "贝利尼",
+  "Irish Coffee": "爱尔兰咖啡",
+  "White Russian": "白色俄罗斯",
+  "Black Russian": "黑色俄罗斯",
+  "Gin and Tonic": "金汤力",
+  "Rum and Coke": "朗姆可乐",
+  "Screwdriver": "螺丝起子",
+};
+
+// 配料中英文对照表
+const INGREDIENT_TRANSLATIONS = {
+  // 基酒
+  "Vodka": "伏特加",
+  "Gin": "金酒",
+  "Rum": "朗姆酒",
+  "Light rum": "白朗姆酒",
+  "Dark rum": "深色朗姆酒",
+  "Tequila": "龙舌兰",
+  "Whiskey": "威士忌",
+  "Bourbon": "波旁威士忌",
+  "Scotch": "苏格兰威士忌",
+  "Brandy": "白兰地",
+  "Cognac": "干邑",
+  
+  // 利口酒
+  "Triple sec": "橙味利口酒",
+  "Cointreau": "君度橙酒",
+  "Grand Marnier": "金万利橙酒",
+  "Kahlua": "咖啡利口酒",
+  "Baileys irish cream": "百利甜酒",
+  "Amaretto": "杏仁利口酒",
+  "Campari": "金巴利",
+  "Aperol": "阿佩罗",
+  "Vermouth": "苦艾酒",
+  "Sweet Vermouth": "甜苦艾酒",
+  "Dry Vermouth": "干苦艾酒",
+  
+  // 果汁和饮料
+  "Lime juice": "青柠汁",
+  "Lemon juice": "柠檬汁",
+  "Orange juice": "橙汁",
+  "Cranberry juice": "蔓越莓汁",
+  "Pineapple juice": "菠萝汁",
+  "Grapefruit juice": "葡萄柚汁",
+  "Tomato juice": "番茄汁",
+  "Apple juice": "苹果汁",
+  "Lime Juice": "青柠汁",
+  "Lemon Juice": "柠檬汁",
+  
+  // 糖浆和甜味剂
+  "Simple syrup": "糖浆",
+  "Sugar syrup": "糖浆",
+  "Sugar": "糖",
+  "Honey": "蜂蜜",
+  "Grenadine": "石榴糖浆",
+  "Agave syrup": "龙舌兰糖浆",
+  
+  // 苏打水和气泡水
+  "Soda water": "苏打水",
+  "Club soda": "苏打水",
+  "Tonic water": "汤力水",
+  "Ginger ale": "姜汁汽水",
+  "Ginger beer": "姜啤",
+  "Cola": "可乐",
+  "Sprite": "雪碧",
+  "Prosecco": "普罗塞克起泡酒",
+  "Champagne": "香槟",
+  
+  // 新鲜食材
+  "Mint": "薄荷",
+  "Lime": "青柠",
+  "Lemon": "柠檬",
+  "Orange": "橙子",
+  "Cherry": "樱桃",
+  "Strawberry": "草莓",
+  "Cucumber": "黄瓜",
+  "Basil": "罗勒",
+  "Thyme": "百里香",
+  "Rosemary": "迷迭香",
+  
+  // 其他
+  "Ice": "冰块",
+  "Salt": "盐",
+  "Black pepper": "黑胡椒",
+  "Tabasco sauce": "塔巴斯科辣酱",
+  "Worcestershire sauce": "伍斯特酱",
+  "Bitters": "苦精",
+  "Angostura bitters": "安格斯图拉苦精",
+  "Coffee": "咖啡",
+  "Espresso": "浓缩咖啡",
+  "Cream": "奶油",
+  "Milk": "牛奶",
+  "Coconut cream": "椰浆",
+  "Egg white": "蛋清",
+  "Maraschino cherry": "黑樱桃",
+};
+
+// 配方说明关键词翻译（用于简单替换）
+const INSTRUCTION_KEYWORDS = {
+  // 动词
+  "Combine": "混合",
+  "combine": "混合",
+  "Mix": "混合",
+  "mix": "混合",
+  "Shake": "摇匀",
+  "shake": "摇匀",
+  "Stir": "搅拌",
+  "stir": "搅拌",
+  "Strain": "过滤",
+  "strain": "过滤",
+  "Pour": "倒入",
+  "pour": "倒入",
+  "Add": "加入",
+  "add": "加入",
+  "Muddle": "捣碎",
+  "muddle": "捣碎",
+  "Garnish": "装饰",
+  "garnish": "装饰",
+  "Serve": "上桌",
+  "serve": "上桌",
+  "Fill": "装满",
+  "fill": "装满",
+  "Top": "倒至顶部",
+  "top": "倒至顶部",
+  "Build": "直调",
+  "build": "直调",
+  "Layer": "分层",
+  "layer": "分层",
+  "Rim": "杯口沾边",
+  "rim": "杯口沾边",
+  "Squeeze": "挤压",
+  "squeeze": "挤压",
+  "Drop": "滴入",
+  "drop": "滴入",
+  
+  // 名词
+  "ingredients": "所有配料",
+  "ice": "冰块",
+  "shaker": "调酒器",
+  "glass": "杯子",
+  "cocktail glass": "鸡尾酒杯",
+  "highball glass": "高球杯",
+  "rocks glass": "古典杯",
+  "old fashioned glass": "古典杯",
+  "contents": "内容物",
+  "wedge": "角",
+  "slice": "片",
+  "twist": "扭卷",
+  "peel": "皮",
+  "wheel": "轮片",
+  "sprig": "枝",
+  "cherry": "樱桃",
+  "olive": "橄榄",
+  "salt": "盐",
+  "sugar": "糖",
+  
+  // 介词和连词
+  " with ": " 加入 ",
+  " into ": " 倒入 ",
+  " in ": " 在 ",
+  " and ": " 和 ",
+  " all ": " 所有 ",
+};
+
+// Translation cache to avoid repeated lookups
+const translationCache = {};
+
 // Tarot card → Rider-Waite image (sacred-texts.com public domain)
 const TAROT_IMAGES = {
   "Fool":             "https://www.sacred-texts.com/tarot/pkt/img/ar00.jpg",
@@ -192,9 +387,10 @@ let touchStartY = 0;
 let baseSpiritSearchQuery = "";
 let ingredientSearchQuery = "";
 let selectedAlcoholic = null;
+let filteredIngredientsForBaseSpirit = []; // Store filtered ingredients based on selected base spirits
 
 // Quiz Questions - Immersive Story: Finding Yourself in the Mist
-const questions = [
+const questionsEn = [
   { text: "Mist surrounds you. You step through an ancient door. Behind it:", options: [
     { text: "A. Mirror reflecting your true self", tags: ["High Priestess", "Justice"] },
     { text: "B. Endless winding path", tags: ["Fool", "Magician"] },
@@ -257,9 +453,77 @@ const questions = [
   ]}
 ];
 
-const answers = Array(questions.length).fill(null);
+const questionsZh = [
+  { text: "迷雾环绕着你。你跨过一扇古老的门。门后是：", options: [
+    { text: "A. 映出真实自我的镜子", tags: ["High Priestess", "Justice"] },
+    { text: "B. 无尽延伸的蜿蜒道路", tags: ["Fool", "Magician"] },
+    { text: "C. 繁花盛开的园地", tags: ["Empress", "Lovers"] },
+    { text: "D. 秩序井然的金色宫殿", tags: ["Emperor", "Hierophant"] }
+  ]},
+  { text: "迷雾中走来一个身影。它是：", options: [
+    { text: "A. 吟诵古老箴言的声音", tags: ["Hierophant", "High Priestess"] },
+    { text: "B. 邀你共舞的手", tags: ["Lovers", "Chariot"] },
+    { text: "C. 骑在烈马上的骑士", tags: ["Chariot", "Emperor"] },
+    { text: "D. 温柔包容的怀抱", tags: ["Strength", "Hermit"] }
+  ]},
+  { text: "你想起上一次独处。那时你正在：", options: [
+    { text: "A. 在黑暗中点起一盏灯", tags: ["Hermit", "Justice"] },
+    { text: "B. 面对命运之轮的转动，无能为力", tags: ["Wheel of Fortune", "Death"] },
+    { text: "C. 在对立的力量之间寻找平衡", tags: ["Justice", "Temperance"] },
+    { text: "D. 倒悬着，等待时机", tags: ["Hanged Man", "Moon"] }
+  ]},
+  { text: "一个无法逃避的真相：生命终将结束。你感到：", options: [
+    { text: "A. 这是自然的转化，我会重生", tags: ["Death", "Temperance"] },
+    { text: "B. 我已学会放手，内心平和", tags: ["Temperance", "Hermit"] },
+    { text: "C. 我最深的欲望被唤醒", tags: ["Devil", "Tower"] },
+    { text: "D. 旧的自我必须粉碎才能重建", tags: ["Tower", "Fool"] }
+  ]},
+  { text: "天空裂开了一道口子。光芒穿透迷雾。那是：", options: [
+    { text: "A. 永恒指引的星辰", tags: ["Star", "Judgement"] },
+    { text: "B. 与影子交织的月光", tags: ["Moon", "Devil"] },
+    { text: "C. 璀璨夺目的金色太阳", tags: ["Sun"] },
+    { text: "D. 宇宙意识的觉醒", tags: ["Judgement", "World"] }
+  ]},
+  { text: "两条路在此分岔。一条通往：", options: [
+    { text: "A. 完整的自我，完美的和谐", tags: ["World", "Temperance"] },
+    { text: "B. 无限的可能性，创造的力量", tags: ["Magician", "Fool"] },
+    { text: "C. 一座容纳所有答案的神殿", tags: ["High Priestess", "Hierophant"] },
+    { text: "D. 生命的源头，万物的苏醒", tags: ["Empress", "Wheel of Fortune"] }
+  ]},
+  { text: "风暴突然降临。你的选择是：", options: [
+    { text: "A. 无论代价，坚守我的真理", tags: ["Emperor", "Justice"] },
+    { text: "B. 保持信念，以力量抗击", tags: ["Hierophant", "Strength"] },
+    { text: "C. 反思内心，追随我的心", tags: ["Lovers", "Hanged Man"] },
+    { text: "D. 以勇气乘风破浪", tags: ["Chariot", "Magician"] }
+  ]},
+  { text: "风暴过去，夜幕降临。你感觉到：", options: [
+    { text: "A. 沉睡已久的勇气觉醒", tags: ["Strength", "Fool"] },
+    { text: "B. 来自内心深处的古老智慧", tags: ["Hermit", "High Priestess"] },
+    { text: "C. 命运之轮悄然转动", tags: ["Wheel of Fortune", "Judgement"] },
+    { text: "D. 隐藏的真相闪闪发光", tags: ["Justice", "Devil"] }
+  ]},
+  { text: "穿越黑暗与光明，秘密浮现：", options: [
+    { text: "A. 优雅地放手，自由随之而来", tags: ["Hanged Man", "Death"] },
+    { text: "B. 在矛盾中寻找和谐", tags: ["Temperance", "Lovers"] },
+    { text: "C. 拥抱欲望与阴影", tags: ["Devil", "Empress"] },
+    { text: "D. 打破界限，获得重生", tags: ["Tower", "World"] }
+  ]},
+  { text: "迷雾散去。古老的门再次出现。你会：", options: [
+    { text: "A. 打开它，迎接未知", tags: ["Star", "Strength"] },
+    { text: "B. 忽视它，这只是一场梦", tags: ["Moon", "Hermit"] },
+    { text: "C. 转身离开，原路返回", tags: ["Sun"] },
+    { text: "D. 砸碎这扇门", tags: ["Judgement", "Chariot"] }
+  ]}
+];
+
+const answers = Array(questionsEn.length).fill(null);
 let currentQuestionIndex = 0;
 let currentLanguage = "en";
+
+// Helper function to get questions based on current language
+function getQuestions() {
+  return currentLanguage === "zh" ? questionsZh : questionsEn;
+}
 
 const i18n = {
   en: {
@@ -578,6 +842,79 @@ async function fetchJsonWithTimeout(url, timeoutMs = REQUEST_TIMEOUT_MS) {
   }
 }
 
+// Local translation function using dictionary
+function translateText(text, targetLang = "ZH") {
+  if (!text || !text.trim()) return text;
+  if (targetLang !== "ZH") return text;
+  
+  // Check cache first
+  const cacheKey = `${text}_${targetLang}`;
+  if (translationCache[cacheKey]) {
+    return translationCache[cacheKey];
+  }
+  
+  // Try exact match first (case-insensitive)
+  const textLower = text.toLowerCase();
+  
+  // Check cocktail names
+  for (const [en, zh] of Object.entries(COCKTAIL_NAME_TRANSLATIONS)) {
+    if (en.toLowerCase() === textLower) {
+      translationCache[cacheKey] = zh;
+      return zh;
+    }
+  }
+  
+  // Check ingredients
+  for (const [en, zh] of Object.entries(INGREDIENT_TRANSLATIONS)) {
+    if (en.toLowerCase() === textLower) {
+      translationCache[cacheKey] = zh;
+      return zh;
+    }
+  }
+  
+  // Try partial match for ingredients (e.g., "Light Rum" might not match "Light rum")
+  for (const [en, zh] of Object.entries(INGREDIENT_TRANSLATIONS)) {
+    if (textLower.includes(en.toLowerCase()) || en.toLowerCase().includes(textLower)) {
+      translationCache[cacheKey] = zh;
+      return zh;
+    }
+  }
+  
+  // If no translation found, return original text
+  return text;
+}
+
+// Translate instructions by replacing keywords
+function translateInstructions(text, targetLang = "ZH") {
+  if (!text || !text.trim()) return text;
+  if (targetLang !== "ZH") return text;
+  
+  // Check cache first
+  const cacheKey = `instructions_${text}_${targetLang}`;
+  if (translationCache[cacheKey]) {
+    return translationCache[cacheKey];
+  }
+  
+  let translated = text;
+  
+  // Replace instruction keywords
+  for (const [en, zh] of Object.entries(INSTRUCTION_KEYWORDS)) {
+    // Use word boundary for better matching
+    const regex = new RegExp(en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+    translated = translated.replace(regex, zh);
+  }
+  
+  // Translate ingredient names in the instructions
+  for (const [en, zh] of Object.entries(INGREDIENT_TRANSLATIONS)) {
+    const regex = new RegExp('\\b' + en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+    translated = translated.replace(regex, zh);
+  }
+  
+  // Cache and return
+  translationCache[cacheKey] = translated;
+  return translated;
+}
+
 async function fetchFirstSuccessfulJson(urls, timeoutMs = REQUEST_TIMEOUT_MS) {
   let lastError = null;
   for (const url of urls) {
@@ -594,6 +931,7 @@ async function fetchFirstSuccessfulJson(urls, timeoutMs = REQUEST_TIMEOUT_MS) {
 function initStarProgressBar() {
   if (!starProgressContainerEl) return;
   starProgressContainerEl.innerHTML = "";
+  const questions = getQuestions();
   for (let i = 0; i < questions.length; i++) {
     const star = document.createElement("span");
     star.className = "progress-star";
@@ -603,6 +941,7 @@ function initStarProgressBar() {
 }
 
 function renderCurrentQuestion() {
+  const questions = getQuestions();
   const question = questions[currentQuestionIndex];
   if (currentLanguage === "zh") {
     cardIndexEl.textContent = `第 ${currentQuestionIndex + 1} 题 / 共 ${questions.length} 题`;
@@ -648,6 +987,7 @@ function renderCurrentQuestion() {
 function updateProgress() {
   const answered = answers.filter((value) => value !== null).length;
   const currentProgress = currentQuestionIndex + 1;
+  const questions = getQuestions();
   progressTextEl.textContent = `${getText("answered")} ${currentProgress} / ${questions.length}`;
   
   // Update star progress bar
@@ -674,6 +1014,7 @@ function updateProgress() {
 }
 
 function getType() {
+  const questions = getQuestions();
   const tally = {};
   questions.forEach((question, index) => {
     const answer = answers[index];
@@ -744,7 +1085,10 @@ async function showTarotResult(cardName) {
     if (drink) {
       tarotCocktailImageEl.src = drink.strDrinkThumb || "";
       tarotCocktailImageEl.alt = drink.strDrink || "";
-      tarotCocktailNameEl.textContent = drink.strDrink || "Unknown Cocktail";
+      
+      // Translate cocktail name
+      const drinkName = await getDrinkName(drink);
+      tarotCocktailNameEl.textContent = drinkName;
 
       // Build ingredients list
       tarotCocktailIngredientsEl.innerHTML = "";
@@ -754,7 +1098,10 @@ async function showTarotResult(cardName) {
         if (!ing) break;
         const li = document.createElement("li");
         const ingSpan = document.createElement("span");
-        ingSpan.textContent = ing;
+        
+        // Translate ingredient if in Chinese mode
+        ingSpan.textContent = currentLanguage === "zh" ? translateText(ing, "ZH") : ing;
+        
         li.appendChild(ingSpan);
         if (measure) {
           const measureSpan = document.createElement("span");
@@ -765,7 +1112,9 @@ async function showTarotResult(cardName) {
         tarotCocktailIngredientsEl.appendChild(li);
       }
 
-      tarotCocktailStepsEl.textContent = drink.strInstructions || "No instructions available.";
+      // Translate instructions
+      const instructions = getDrinkInstructions(drink);
+      tarotCocktailStepsEl.textContent = instructions;
     }
   } catch (err) {
     tarotCocktailNameEl.textContent = "Couldn't load cocktail";
@@ -864,19 +1213,39 @@ async function hydrateCollectionCard(cardEl, cardName) {
     }
 
     console.log('Loaded drink for', cardName, ':', drink.strDrink);
+    console.log('[Collection] Current language:', currentLanguage);
     
     drinkImageEl.src = drink.strDrinkThumb || "";
-    drinkImageEl.alt = drink.strDrink || "Cocktail";
-    drinkNameEl.textContent = drink.strDrink || getText("mixUntitled");
+    const drinkName = getDrinkName(drink);
+    drinkImageEl.alt = drinkName;
+    drinkNameEl.textContent = drinkName;
 
     ingredientListEl.innerHTML = "";
-    getDrinkIngredients(drink).forEach((item) => {
+    const ingredients = getDrinkIngredients(drink);
+    for (const item of ingredients) {
       const li = document.createElement("li");
-      li.textContent = item;
+      // Translate ingredient if in Chinese mode
+      if (currentLanguage === "zh") {
+        // Split measure and ingredient
+        const parts = item.split(/\s+/);
+        if (parts.length > 1) {
+          // Has measure, translate only the ingredient part
+          const measure = parts[0];
+          const ingredient = parts.slice(1).join(" ");
+          const translatedIng = translateText(ingredient, "ZH");
+          li.textContent = `${measure} ${translatedIng}`;
+        } else {
+          // No measure, translate the whole thing
+          li.textContent = translateText(item, "ZH");
+        }
+      } else {
+        li.textContent = item;
+      }
       ingredientListEl.append(li);
-    });
+    }
 
-    stepsEl.textContent = getDrinkInstructions(drink);
+    const instructions = getDrinkInstructions(drink);
+    stepsEl.textContent = instructions;
   } catch (error) {
     console.error('Error loading cocktail for', cardName, ':', error);
     drinkNameEl.textContent = "Failed to load cocktail";
@@ -968,14 +1337,24 @@ function getDrinkIngredients(drink) {
 
 function getDrinkInstructions(drink) {
   if (currentLanguage === "zh") {
-    return (
-      drink["strInstructionsZH-HANS"] ||
-      drink.strInstructionsZH ||
-      drink.strInstructions ||
-      getText("mixNoInstructions")
-    );
+    const zhInstructions = drink["strInstructionsZH-HANS"] || drink.strInstructionsZH;
+    if (zhInstructions) return zhInstructions;
+    
+    // If no Chinese instructions, return English instructions
+    const enInstructions = drink.strInstructions;
+    if (enInstructions) {
+      return enInstructions;
+    }
+    return getText("mixNoInstructions");
   }
   return drink.strInstructions || getText("mixNoInstructions");
+}
+
+function getDrinkName(drink) {
+  if (currentLanguage === "zh" && drink.strDrink) {
+    return translateText(drink.strDrink, "ZH");
+  }
+  return drink.strDrink || getText("mixUntitled");
 }
 
 function updateMixResultTitle() {
@@ -985,7 +1364,8 @@ function updateMixResultTitle() {
     return;
   }
   if (mixedDrinkCards.length === 1) {
-    mixResultTitleEl.textContent = mixedDrinkCards[0].strDrink || getText("mixUntitled");
+    const drinkName = getDrinkName(mixedDrinkCards[0]);
+    mixResultTitleEl.textContent = drinkName;
     return;
   }
   mixResultTitleEl.textContent = getText("mixResultTitleWithIndex")(currentMixedDrinkIndex + 1, mixedDrinkCards.length);
@@ -1015,10 +1395,12 @@ async function renderCurrentMixedDrinkCard(navigate = true) {
     cocktailNameEl.style.display = "none";
   } else {
     cocktailNameEl.style.display = "";
-    cocktailNameEl.textContent = currentDrink.strDrink || getText("mixUntitled");
+    const displayName = getDrinkName(currentDrink);
+    cocktailNameEl.textContent = displayName;
   }
   cocktailImageEl.src = currentDrink.strDrinkThumb || "";
-  cocktailImageEl.alt = currentDrink.strDrink || getText("mixUntitled");
+  const altName = getDrinkName(currentDrink);
+  cocktailImageEl.alt = altName;
 
   cocktailIngredientsEl.innerHTML = "";
   cocktailInstructionsEl.textContent = getText("mixLoadingDetail");
@@ -1038,18 +1420,37 @@ async function renderCurrentMixedDrinkCard(navigate = true) {
       return;
     }
 
-    cocktailNameEl.textContent = detail.strDrink || currentDrink.strDrink || getText("mixUntitled");
+    const detailName = getDrinkName(detail);
+    cocktailNameEl.textContent = detailName;
     cocktailImageEl.src = detail.strDrinkThumb || currentDrink.strDrinkThumb || "";
-    cocktailImageEl.alt = detail.strDrink || currentDrink.strDrink || getText("mixUntitled");
+    cocktailImageEl.alt = detailName;
 
     cocktailIngredientsEl.innerHTML = "";
-    getDrinkIngredients(detail).forEach((item) => {
+    const ingredients = getDrinkIngredients(detail);
+    for (const item of ingredients) {
       const li = document.createElement("li");
-      li.textContent = item;
+      // Translate ingredient if in Chinese mode
+      if (currentLanguage === "zh") {
+        // Split measure and ingredient
+        const parts = item.split(/\s+/);
+        if (parts.length > 1) {
+          // Has measure, translate only the ingredient part
+          const measure = parts[0];
+          const ingredient = parts.slice(1).join(" ");
+          const translatedIng = translateText(ingredient, "ZH");
+          li.textContent = `${measure} ${translatedIng}`;
+        } else {
+          // No measure, translate the whole thing
+          li.textContent = translateText(item, "ZH");
+        }
+      } else {
+        li.textContent = item;
+      }
       cocktailIngredientsEl.append(li);
-    });
+    }
 
-    cocktailInstructionsEl.textContent = getDrinkInstructions(detail);
+    const instructions = getDrinkInstructions(detail);
+    cocktailInstructionsEl.textContent = instructions;
   } catch (error) {
     if (requestId !== mixRenderRequestId) return;
     cocktailInstructionsEl.textContent = getText("mixNoInstructions");
@@ -1680,6 +2081,191 @@ function getSelectedBaseSpiritCount() {
   return Array.from(selectedIngredients).filter((value) => isProvidedBaseSpirit(value) && !isLiqueurIngredient(value)).length;
 }
 
+// Get selected base spirits
+function getSelectedBaseSpirits() {
+  return Array.from(selectedIngredients).filter((value) => isProvidedBaseSpirit(value) && !isLiqueurIngredient(value));
+}
+
+// Helper function to delay between API calls
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Map specific base spirit names to generic API ingredient names
+const BASE_SPIRIT_TO_API_INGREDIENT = {
+  // Rum brands/types
+  'bacardi': 'Light rum',
+  'bacardi limon': 'Light rum',
+  'malibu rum': 'Coconut rum',
+  'captain morgan': 'Spiced rum',
+  'dark rum': 'Dark rum',
+  'light rum': 'Light rum',
+  'white rum': 'Light rum',
+  'spiced rum': 'Spiced rum',
+  'black rum': 'Dark rum',
+  'gold rum': 'Light rum',
+  '151 proof rum': 'Light rum',
+  'rum': 'Light rum',
+  
+  // Vodka brands/types
+  'absolut vodka': 'Vodka',
+  'absolut citron': 'Vodka',
+  'absolut kurant': 'Vodka',
+  'absolut peppar': 'Vodka',
+  'smirnoff': 'Vodka',
+  'grey goose': 'Vodka',
+  'vodka': 'Vodka',
+  'citrus vodka': 'Vodka',
+  'lemon vodka': 'Vodka',
+  'vanilla vodka': 'Vodka',
+  
+  // Whiskey brands/types
+  'jack daniels': 'Bourbon',
+  'jim beam': 'Bourbon',
+  'johnnie walker': 'Scotch',
+  'crown royal': 'Canadian whisky',
+  'wild turkey': 'Bourbon',
+  'bourbon': 'Bourbon',
+  'scotch': 'Scotch',
+  'whiskey': 'Bourbon',
+  'whisky': 'Scotch',
+  'rye whiskey': 'Rye whiskey',
+  'irish whiskey': 'Irish whiskey',
+  'tennessee whiskey': 'Bourbon',
+  
+  // Gin
+  'gin': 'Gin',
+  'sloe gin': 'Sloe gin',
+  
+  // Tequila
+  'tequila': 'Tequila',
+  'gold tequila': 'Tequila',
+  
+  // Brandy
+  'brandy': 'Brandy',
+  'cognac': 'Cognac',
+  
+  // Others
+  'absinthe': 'Absinthe',
+  'mezcal': 'Mezcal',
+  'sake': 'Sake',
+  'cachaca': 'Cachaca',
+};
+
+function getApiIngredientName(baseSpiritName) {
+  const normalized = normalizeBaseSpiritKey(baseSpiritName);
+  return BASE_SPIRIT_TO_API_INGREDIENT[normalized] || baseSpiritName;
+}
+
+// Fetch ingredients that are compatible with selected base spirits
+async function getIngredientsForBaseSpirits(baseSpirits) {
+  console.log('[Ingredient Filter] Selected base spirits:', baseSpirits);
+  
+  if (!baseSpirits || baseSpirits.length === 0) {
+    console.log('[Ingredient Filter] No base spirits selected, returning all ingredients');
+    return filterOptions.ingredient; // Return all ingredients if no base spirit selected
+  }
+  
+  try {
+    const allIngredients = new Set();
+    
+    // For each selected base spirit, fetch cocktails containing it
+    for (const baseSpirit of baseSpirits) {
+      // Map to generic API ingredient name
+      const apiIngredientName = getApiIngredientName(baseSpirit);
+      const ingredientQuery = toApiIngredientValue(apiIngredientName);
+      // Use v2 API for filtering by ingredient
+      const apiUrl = `${COCKTAIL_DB_V2_BASE_URL}/filter.php?i=${ingredientQuery}`;
+      console.log(`[Ingredient Filter] Mapping ${baseSpirit} -> ${apiIngredientName}`);
+      console.log('[Ingredient Filter] API URL:', apiUrl);
+      const res = await fetch(apiUrl);
+      const data = await res.json();
+      console.log('[Ingredient Filter] Full API response:', data);
+      
+      // Check if drinks is actually an array
+      let drinks = [];
+      if (data.drinks && Array.isArray(data.drinks)) {
+        drinks = data.drinks;
+      } else if (data.drinks === 'None found' || data.drinks === 'no data found') {
+        console.warn(`[Ingredient Filter] No cocktails found for ${apiIngredientName}`);
+        drinks = [];
+      }
+      
+      console.log(`[Ingredient Filter] Found ${drinks.length} cocktails for ${baseSpirit}`);
+      
+      if (drinks.length > 0) {
+        console.log('[Ingredient Filter] Sample drink data:', drinks[0]);
+      }
+      
+      // Fetch full details for each drink to get all ingredients
+      const drinksToFetch = drinks.slice(0, 10); // Reduce to 10 drinks to avoid rate limits
+      for (let idx = 0; idx < drinksToFetch.length; idx++) {
+        const drink = drinksToFetch[idx];
+        
+        if (!drink || !drink.idDrink) {
+          console.warn(`[Ingredient Filter] Invalid drink object at index ${idx}:`, drink);
+          continue;
+        }
+        try {
+          // Add delay between requests to avoid rate limiting
+          if (idx > 0) {
+            await delay(100); // 100ms delay between requests
+          }
+          
+          // Use v2 API for drink details
+          const detailRes = await fetch(`${COCKTAIL_DB_V2_BASE_URL}/lookup.php?i=${drink.idDrink}`);
+          if (!detailRes.ok) {
+            console.warn(`Failed to fetch drink ${drink.idDrink}: ${detailRes.status}`);
+            continue;
+          }
+          
+          const detailData = await detailRes.json();
+          const fullDrink = detailData.drinks?.[0];
+          
+          if (fullDrink) {
+            // Extract all ingredients from this cocktail
+            for (let i = 1; i <= 15; i++) {
+              const ingredient = fullDrink[`strIngredient${i}`];
+              if (ingredient && ingredient.trim()) {
+                allIngredients.add(ingredient.trim());
+              }
+            }
+          }
+        } catch (err) {
+          console.warn(`Failed to fetch drink details for ${drink.idDrink}:`, err.message);
+        }
+      }
+      
+      // Add delay between different base spirits
+      if (baseSpirits.indexOf(baseSpirit) < baseSpirits.length - 1) {
+        await delay(200);
+      }
+    }
+    
+    console.log(`[Ingredient Filter] Total unique ingredients found: ${allIngredients.size}`);
+    console.log('[Ingredient Filter] Ingredients:', Array.from(allIngredients).slice(0, 20));
+    
+    // Filter to only include ingredients that exist in our main ingredient list
+    const compatibleIngredients = filterOptions.ingredient.filter(ing => 
+      Array.from(allIngredients).some(fetchedIng => 
+        normalizeBaseSpiritKey(ing) === normalizeBaseSpiritKey(fetchedIng)
+      )
+    );
+    
+    console.log(`[Ingredient Filter] Compatible ingredients after filtering: ${compatibleIngredients.length}`);
+    console.log('[Ingredient Filter] Sample compatible ingredients:', compatibleIngredients.slice(0, 10));
+    
+    if (compatibleIngredients.length === 0) {
+      console.warn('[Ingredient Filter] No compatible ingredients found, returning all ingredients');
+    }
+    
+    return compatibleIngredients.length > 0 ? compatibleIngredients : filterOptions.ingredient;
+  } catch (error) {
+    console.error('Error fetching ingredients for base spirits:', error);
+    return filterOptions.ingredient; // Return all ingredients on error
+  }
+}
+
 function sortBaseSpiritsWithPriority(values) {
   const priorityOrder = new Map([
     ["bacardi", 0],
@@ -1795,14 +2381,21 @@ function renderBaseSpiritChecklist(values) {
 }
 
 function renderIngredientChecklist(values) {
+  console.log('[renderIngredientChecklist] Called with', values.length, 'values');
+  console.log('[renderIngredientChecklist] First 10 values:', values.slice(0, 10));
+  
   if (!ingredientChecklistEl) return;
   ingredientChecklistEl.innerHTML = "";
 
   const otherIngredients = getOtherIngredientValues(values);
+  console.log('[renderIngredientChecklist] After filtering out base spirits:', otherIngredients.length);
+  
   const keyword = normalizeBaseSpiritKey(ingredientSearchQuery);
   const filteredOtherIngredients = keyword
     ? otherIngredients.filter((value) => normalizeBaseSpiritKey(value).includes(keyword))
     : otherIngredients;
+  
+  console.log('[renderIngredientChecklist] After search filter:', filteredOtherIngredients.length);
 
   const groups = {
     liqueur: [],
@@ -1963,7 +2556,11 @@ async function loadIngredientOptions() {
       safeSetJsonLocalStorage(INGREDIENT_CACHE_KEY, filteredIngredients);
     }
     renderBaseSpiritChecklist(filterOptions.ingredient);
-    renderIngredientChecklist(filterOptions.ingredient);
+    // Use filtered ingredients if available, otherwise use all ingredients
+    const ingredientsToDisplay = filteredIngredientsForBaseSpirit.length > 0 
+      ? filteredIngredientsForBaseSpirit 
+      : filterOptions.ingredient;
+    renderIngredientChecklist(ingredientsToDisplay);
     ingredientsLoaded = true;
     filtersLoaded = searchFiltersLoaded;
     updateStatusText("statusReady");
@@ -1987,7 +2584,11 @@ async function loadIngredientOptions() {
 
     safeSetJsonLocalStorage(INGREDIENT_CACHE_KEY, filterOptions.ingredient);
     renderBaseSpiritChecklist(filterOptions.ingredient);
-    renderIngredientChecklist(filterOptions.ingredient);
+    // Use filtered ingredients if available, otherwise use all ingredients
+    const ingredientsToDisplay = filteredIngredientsForBaseSpirit.length > 0 
+      ? filteredIngredientsForBaseSpirit 
+      : filterOptions.ingredient;
+    renderIngredientChecklist(ingredientsToDisplay);
 
     ingredientsLoaded = true;
     filtersLoaded = searchFiltersLoaded;
@@ -2051,6 +2652,19 @@ function toApiIngredientValue(value) {
 async function fetchDrinksByIngredients(ingredients) {
   // 新逻辑：只要选中项中任意两个组合能组成酒就返回结果
   if (!Array.isArray(ingredients) || ingredients.length < 2) return [];
+  
+  // Map ingredient names to API-compatible names (e.g., Bacardi -> Light rum)
+  const mappedIngredients = ingredients.map(ing => {
+    const normalized = normalizeBaseSpiritKey(ing);
+    // Check if this is a base spirit that needs mapping
+    if (BASE_SPIRIT_TO_API_INGREDIENT[normalized]) {
+      return BASE_SPIRIT_TO_API_INGREDIENT[normalized];
+    }
+    return ing;
+  });
+  
+  console.log('[fetchDrinksByIngredients] Original ingredients:', ingredients);
+  console.log('[fetchDrinksByIngredients] Mapped ingredients:', mappedIngredients);
 
   // 生成所有两两组合（含egg特殊处理）
   function getIngredientPairs(arr) {
@@ -2063,7 +2677,7 @@ async function fetchDrinksByIngredients(ingredients) {
     return pairs;
   }
 
-  const pairs = getIngredientPairs(ingredients);
+  const pairs = getIngredientPairs(mappedIngredients);
   const EGG_VARIANTS = ["Egg", "Egg White", "Egg Yolk"];
 
   // 对每组组合调用API，egg特殊处理
@@ -2075,22 +2689,30 @@ async function fetchDrinksByIngredients(ingredients) {
         EGG_VARIANTS.map(async (eggVariant) => {
           const variant = [...nonEgg, eggVariant];
           const ingredientQuery = variant.map(toApiIngredientValue).join(",");
-          const res = await fetch(`${COCKTAIL_DB_V2_BASE_URL}/filter.php?i=${encodeURIComponent(ingredientQuery)}`);
+          const apiUrl = `${COCKTAIL_DB_V2_BASE_URL}/filter.php?i=${encodeURIComponent(ingredientQuery)}`;
+          console.log('[fetchDrinksByIngredients] API call for egg variant:', variant, 'URL:', apiUrl);
+          const res = await fetch(apiUrl);
           const data = await res.json();
+          console.log('[fetchDrinksByIngredients] Egg variant response:', data);
           return data.drinks || [];
         })
       );
       return results.flat();
     } else {
       const ingredientQuery = pair.map(toApiIngredientValue).join(",");
-      const res = await fetch(`${COCKTAIL_DB_V2_BASE_URL}/filter.php?i=${encodeURIComponent(ingredientQuery)}`);
+      const apiUrl = `${COCKTAIL_DB_V2_BASE_URL}/filter.php?i=${encodeURIComponent(ingredientQuery)}`;
+      console.log('[fetchDrinksByIngredients] API call for pair:', pair, 'Query:', ingredientQuery, 'URL:', apiUrl);
+      const res = await fetch(apiUrl);
       const data = await res.json();
+      console.log('[fetchDrinksByIngredients] API response:', data);
       return data.drinks || [];
     }
   });
 
   // 收集所有结果并去重
   const allResults = (await Promise.all(fetches)).flat();
+  console.log('[fetchDrinksByIngredients] Total API results:', allResults.length);
+  
   // 统计每个酒用到了多少选中项，优先展示用得多的
   const drinkMap = new Map(); // idDrink -> {drink, matchCount}
   for (const drink of allResults) {
@@ -2162,6 +2784,8 @@ async function mixOneDrink() {
   try {
     const alcoholicValue = selectedAlcoholic || "";
     const ingredientValues = Array.from(selectedIngredients);
+    
+    console.log('[mixOneDrink] Starting with ingredients:', ingredientValues);
 
     if (ingredientValues.length < 1) {
       updateStatusText("mixNeedAtLeastTwo");
@@ -2169,6 +2793,7 @@ async function mixOneDrink() {
     }
 
     let matchedDrinks = await fetchDrinksByIngredients(ingredientValues);
+    console.log('[mixOneDrink] Matched drinks:', matchedDrinks.length);
 
     if (!matchedDrinks.length) {
       updateStatusText("statusNoResult");
@@ -2342,7 +2967,11 @@ function applyLanguage(langCode) {
       populateSelect(glassSelectEl, filterOptions.glass);
     }
     renderBaseSpiritChecklist(filterOptions.ingredient);
-    renderIngredientChecklist(filterOptions.ingredient);
+    // Use filtered ingredients if available, otherwise use all ingredients
+    const ingredientsToDisplay = filteredIngredientsForBaseSpirit.length > 0 
+      ? filteredIngredientsForBaseSpirit 
+      : filterOptions.ingredient;
+    renderIngredientChecklist(ingredientsToDisplay);
     if (alcoholicSelectEl) {
       populateSelect(alcoholicSelectEl, filterOptions.alcoholic);
     }
@@ -2487,17 +3116,34 @@ if (searchBackBtnEl) {
 
 if (openIngredientsBtnEl) {
   openIngredientsBtnEl.addEventListener("click", () => {
+    // Reset filtered ingredients when entering base spirit selection
+    filteredIngredientsForBaseSpirit = [];
     setAppView("ingredients-base");
     window.scrollTo(0, 0);
   });
 }
 
 if (baseNextBtnEl) {
-  baseNextBtnEl.addEventListener("click", () => {
+  baseNextBtnEl.addEventListener("click", async () => {
     if (!getSelectedBaseSpiritCount()) {
       showNoticeModal(getText("mixNeedBaseSpirit"));
       return;
     }
+    
+    // Show loading state
+    updateStatusText("statusLoading");
+    
+    // Get selected base spirits and fetch compatible ingredients
+    const selectedBaseSpirits = getSelectedBaseSpirits();
+    const compatibleIngredients = await getIngredientsForBaseSpirits(selectedBaseSpirits);
+    
+    // Store filtered ingredients for search functionality
+    filteredIngredientsForBaseSpirit = compatibleIngredients;
+    
+    // Render ingredient checklist with filtered ingredients
+    console.log('[Ingredient Filter] About to render checklist with', compatibleIngredients.length, 'ingredients');
+    renderIngredientChecklist(compatibleIngredients);
+    
     setAppView("ingredients");
     window.scrollTo(0, 0);
     updateStatusText("statusReady");
@@ -2516,14 +3162,20 @@ if (baseSpiritSearchInputEl) {
 if (ingredientSearchInputEl) {
   ingredientSearchInputEl.addEventListener("input", () => {
     ingredientSearchQuery = ingredientSearchInputEl.value || "";
-    if (filterOptions.ingredient.length) {
-      renderIngredientChecklist(filterOptions.ingredient);
+    // Use filtered ingredients if available (when base spirits are selected), otherwise use all ingredients
+    const ingredientsToRender = filteredIngredientsForBaseSpirit.length > 0 
+      ? filteredIngredientsForBaseSpirit 
+      : filterOptions.ingredient;
+    if (ingredientsToRender.length) {
+      renderIngredientChecklist(ingredientsToRender);
     }
   });
 }
 
 if (baseBackBtnEl) {
   baseBackBtnEl.addEventListener("click", () => {
+    // Reset filtered ingredients when going back from base spirit page
+    filteredIngredientsForBaseSpirit = [];
     setAppView("search");
     window.scrollTo(0, 0);
   });
@@ -2546,6 +3198,8 @@ if (ingredientsDoneBtnEl) {
 
 if (ingredientsBackBtnEl) {
   ingredientsBackBtnEl.addEventListener("click", () => {
+    // Reset filtered ingredients when going back to reselect base spirits
+    filteredIngredientsForBaseSpirit = [];
     // 如果选择了non-alcoholic，返回到酒精偏好页面；否则返回到基酒页面
     if (selectedAlcoholic === "Non_Alcoholic") {
       setAppView("search");
