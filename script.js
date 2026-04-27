@@ -87,6 +87,8 @@ const cocktailIngredientsEl = document.getElementById("cocktailIngredients");
 const cocktailInstructionsEl = document.getElementById("cocktailInstructions");
 const cocktailSwipeHintEl = document.getElementById("cocktailSwipeHint");
 const mixBackButtonEl = document.getElementById("mixBackButton");
+const prevCocktailBtnEl = document.getElementById("prevCocktailBtn");
+const nextCocktailBtnEl = document.getElementById("nextCocktailBtn");
 const noticeModalEl = document.getElementById("noticeModal");
 const noticeMessageEl = document.getElementById("noticeMessage");
 const noticeConfirmBtnEl = document.getElementById("noticeConfirmBtn");
@@ -95,6 +97,7 @@ const noticeConfirmBtnEl = document.getElementById("noticeConfirmBtn");
 const tarotLoadingOverlayEl = document.getElementById("tarotLoadingOverlay");
 const tarotResultAppEl = document.getElementById("tarotResultApp");
 const tarotBackBtnEl = document.getElementById("tarotBackBtn");
+const tarotTryAgainBtnEl = document.getElementById("tarotTryAgainBtn");
 const quizBackBtnEl = document.getElementById("quizBackBtn");
 const tarotFlipCardEl = document.getElementById("tarotFlipCard");
 const tarotCardNameEl = document.getElementById("tarotCardName");
@@ -364,6 +367,25 @@ const TAROT_COLLECTION_CARDS = Object.keys(TAROT_IMAGES);
 const INGREDIENT_CACHE_KEY = "arkti-ingredient-options";
 const REQUEST_TIMEOUT_MS = 8000;
 
+// Helper function to add delay between requests
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Helper function to batch process requests with delay
+async function batchProcess(items, processor, batchSize = 5, delayMs = 100) {
+  const results = [];
+  for (let i = 0; i < items.length; i += batchSize) {
+    const batch = items.slice(i, i + batchSize);
+    const batchResults = await Promise.all(batch.map(processor));
+    results.push(...batchResults);
+    if (i + batchSize < items.length) {
+      await delay(delayMs);
+    }
+  }
+  return results;
+}
+
 let filtersLoaded = false;
 let ingredientsLoaded = false;
 let searchFiltersLoaded = false;
@@ -613,7 +635,7 @@ const i18n = {
     mixResultTitleWithIndex: (current, total) => `Matched Cocktails (${current}/${total})`,
     mixBackSearch: "Back to Search",
     mixBackTitle: "Ingredients & Steps",
-    mixSwipeHint: "Swipe left/right to change cocktail card · Tap card to flip",
+    mixSwipeHint: "Tap card to flip",
     mixNoInstructions: "No instructions available.",
     mixLoadingDetail: "Loading details...",
     mixNeedAtLeastTwo: "Select at least 1 ingredient.",
@@ -1079,8 +1101,26 @@ async function showTarotResult(cardName) {
     const keyword = TAROT_COCKTAIL_KEYWORDS[cardName] || "cocktail";
     const searchUrl = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(keyword)}`;
     const data = await fetch(searchUrl).then((r) => r.json());
-    const drink = (data.drinks && data.drinks[0]) ||
-      await fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php").then((r) => r.json()).then((d) => d.drinks[0]);
+    
+    let drink = null;
+    if (data.drinks?.length) {
+      // Sort drinks by name to ensure consistent ordering
+      const sortedDrinks = data.drinks.sort((a, b) => 
+        a.strDrink.localeCompare(b.strDrink)
+      );
+      
+      // Try to find exact match first (case-insensitive)
+      const exactMatch = sortedDrinks.find(d => 
+        d.strDrink.toLowerCase() === keyword.toLowerCase()
+      );
+      
+      drink = exactMatch || sortedDrinks[0];
+    } else {
+      // Fallback to random
+      drink = await fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
+        .then((r) => r.json())
+        .then((d) => d.drinks[0]);
+    }
 
     if (drink) {
       tarotCocktailImageEl.src = drink.strDrinkThumb || "";
@@ -1138,8 +1178,24 @@ async function fetchCocktailForTarotCard(cardName) {
   const keyword = TAROT_COCKTAIL_KEYWORDS[cardName] || "cocktail";
   const searchUrl = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(keyword)}`;
   const searchData = await fetch(searchUrl).then((response) => response.json());
+  
   if (searchData.drinks?.length) {
-    return searchData.drinks[0];
+    // Sort drinks by name to ensure consistent ordering
+    const sortedDrinks = searchData.drinks.sort((a, b) => 
+      a.strDrink.localeCompare(b.strDrink)
+    );
+    
+    // Try to find exact match first (case-insensitive)
+    const exactMatch = sortedDrinks.find(drink => 
+      drink.strDrink.toLowerCase() === keyword.toLowerCase()
+    );
+    
+    if (exactMatch) {
+      return exactMatch;
+    }
+    
+    // Otherwise return the first sorted result (consistent ordering)
+    return sortedDrinks[0];
   }
 
   const randomData = await fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
@@ -1462,6 +1518,17 @@ async function renderCurrentMixedDrinkCard(navigate = true) {
       cocktailSwipeHintEl.textContent = "Tap card to flip";
     } else {
       cocktailSwipeHintEl.textContent = getText("mixSwipeHint");
+    }
+  }
+
+  // Update navigation buttons visibility and state
+  if (prevCocktailBtnEl && nextCocktailBtnEl) {
+    if (mixedDrinkCards.length <= 1) {
+      prevCocktailBtnEl.style.display = "none";
+      nextCocktailBtnEl.style.display = "none";
+    } else {
+      prevCocktailBtnEl.style.display = "";
+      nextCocktailBtnEl.style.display = "";
     }
   }
 }
@@ -2178,8 +2245,24 @@ async function getIngredientsForBaseSpirits(baseSpirits) {
       const apiUrl = `${COCKTAIL_DB_V2_BASE_URL}/filter.php?i=${ingredientQuery}`;
       console.log(`[Ingredient Filter] Mapping ${baseSpirit} -> ${apiIngredientName}`);
       console.log('[Ingredient Filter] API URL:', apiUrl);
-      const res = await fetch(apiUrl);
-      const data = await res.json();
+      
+      let res, data;
+      try {
+        res = await fetch(apiUrl);
+        if (!res.ok) {
+          console.warn(`[Ingredient Filter] API returned status ${res.status} for ${baseSpirit}`);
+          if (res.status === 429) {
+            console.warn('[Ingredient Filter] Rate limit hit, skipping remaining requests');
+            break; // Stop fetching more base spirits
+          }
+          continue; // Skip this base spirit
+        }
+        data = await res.json();
+      } catch (fetchError) {
+        console.error(`[Ingredient Filter] Network error for ${baseSpirit}:`, fetchError);
+        continue; // Skip this base spirit on error
+      }
+      
       console.log('[Ingredient Filter] Full API response:', data);
       
       // Check if drinks is actually an array
@@ -2198,7 +2281,8 @@ async function getIngredientsForBaseSpirits(baseSpirits) {
       }
       
       // Fetch full details for each drink to get all ingredients
-      const drinksToFetch = drinks.slice(0, 10); // Reduce to 10 drinks to avoid rate limits
+      // Limit to 5 drinks per base spirit to reduce API calls
+      const drinksToFetch = drinks.slice(0, 5);
       for (let idx = 0; idx < drinksToFetch.length; idx++) {
         const drink = drinksToFetch[idx];
         
@@ -2209,13 +2293,17 @@ async function getIngredientsForBaseSpirits(baseSpirits) {
         try {
           // Add delay between requests to avoid rate limiting
           if (idx > 0) {
-            await delay(100); // 100ms delay between requests
+            await delay(150); // 150ms delay between requests
           }
           
           // Use v2 API for drink details
           const detailRes = await fetch(`${COCKTAIL_DB_V2_BASE_URL}/lookup.php?i=${drink.idDrink}`);
           if (!detailRes.ok) {
-            console.warn(`Failed to fetch drink ${drink.idDrink}: ${detailRes.status}`);
+            console.warn(`[Ingredient Filter] Failed to fetch drink ${drink.idDrink}: ${detailRes.status}`);
+            if (detailRes.status === 429) {
+              console.warn('[Ingredient Filter] Rate limit hit on drink details');
+              break; // Stop fetching more drinks
+            }
             continue;
           }
           
@@ -2232,13 +2320,13 @@ async function getIngredientsForBaseSpirits(baseSpirits) {
             }
           }
         } catch (err) {
-          console.warn(`Failed to fetch drink details for ${drink.idDrink}:`, err.message);
+          console.warn(`[Ingredient Filter] Failed to fetch drink details for ${drink.idDrink}:`, err.message);
         }
       }
       
-      // Add delay between different base spirits
+      // Add longer delay between different base spirits to avoid rate limits
       if (baseSpirits.indexOf(baseSpirit) < baseSpirits.length - 1) {
-        await delay(200);
+        await delay(300); // 300ms delay between base spirits
       }
     }
     
@@ -2775,8 +2863,12 @@ function intersectIdSets(idSets) {
 
 async function mixOneDrink() {
   if (!filtersLoaded) {
+    console.log('[mixOneDrink] Filters not loaded, loading now...');
     await loadCocktailFilters();
-    if (!filtersLoaded) return;
+    if (!filtersLoaded) {
+      console.error('[mixOneDrink] Failed to load filters');
+      return;
+    }
   }
 
   updateStatusText("statusMixing");
@@ -2786,26 +2878,38 @@ async function mixOneDrink() {
     const ingredientValues = Array.from(selectedIngredients);
     
     console.log('[mixOneDrink] Starting with ingredients:', ingredientValues);
+    console.log('[mixOneDrink] Alcoholic filter:', alcoholicValue);
 
-    if (ingredientValues.length < 1) {
+    if (ingredientValues.length < 2) {
+      console.warn('[mixOneDrink] Less than 2 ingredients selected');
       updateStatusText("mixNeedAtLeastTwo");
       return;
     }
 
+    console.log('[mixOneDrink] Calling fetchDrinksByIngredients...');
     let matchedDrinks = await fetchDrinksByIngredients(ingredientValues);
     console.log('[mixOneDrink] Matched drinks:', matchedDrinks.length);
+    
+    if (matchedDrinks.length > 0) {
+      console.log('[mixOneDrink] Sample matched drinks:', matchedDrinks.slice(0, 3).map(d => d.strDrink));
+    }
 
     if (!matchedDrinks.length) {
+      console.warn('[mixOneDrink] No drinks matched');
       updateStatusText("statusNoResult");
       return;
     }
 
     // 根据酒精类型过滤
     if (alcoholicValue) {
+      console.log('[mixOneDrink] Applying alcoholic filter:', alcoholicValue);
       const filterIdSet = await fetchIdsByFilter("a", alcoholicValue);
+      console.log('[mixOneDrink] Filter ID set size:', filterIdSet.size);
       matchedDrinks = matchedDrinks.filter((drink) => filterIdSet.has(drink.idDrink));
+      console.log('[mixOneDrink] Drinks after alcoholic filter:', matchedDrinks.length);
 
       if (!matchedDrinks.length) {
+        console.warn('[mixOneDrink] No drinks after alcoholic filter');
         updateStatusText("statusNoResult");
         return;
       }
@@ -2816,8 +2920,10 @@ async function mixOneDrink() {
     currentMixedDrinkIndex = 0;
     mixSourceMode = "search";
     updateStatusMessage("");
+    console.log('[mixOneDrink] Rendering', matchedDrinks.length, 'drinks');
     await renderCurrentMixedDrinkCard(true);
   } catch (error) {
+    console.error('[mixOneDrink] Error:', error);
     updateStatusText("statusError");
   }
 }
@@ -3131,10 +3237,15 @@ if (baseNextBtnEl) {
     }
     
     // Show loading state
-    updateStatusText("statusLoading");
+    const selectedBaseSpirits = getSelectedBaseSpirits();
+    if (selectedBaseSpirits.length > 2) {
+      updateStatusText("statusLoading");
+      console.log('[Base Spirit] Loading ingredients for', selectedBaseSpirits.length, 'base spirits - this may take a moment...');
+    } else {
+      updateStatusText("statusLoading");
+    }
     
     // Get selected base spirits and fetch compatible ingredients
-    const selectedBaseSpirits = getSelectedBaseSpirits();
     const compatibleIngredients = await getIngredientsForBaseSpirits(selectedBaseSpirits);
     
     // Store filtered ingredients for search functionality
@@ -3174,6 +3285,8 @@ if (ingredientSearchInputEl) {
 
 if (baseBackBtnEl) {
   baseBackBtnEl.addEventListener("click", () => {
+    // Clear selected ingredients when going back from base spirit page
+    selectedIngredients.clear();
     // Reset filtered ingredients when going back from base spirit page
     filteredIngredientsForBaseSpirit = [];
     setAppView("search");
@@ -3183,21 +3296,36 @@ if (baseBackBtnEl) {
 
 if (ingredientsDoneBtnEl) {
   ingredientsDoneBtnEl.addEventListener("click", async () => {
+    console.log('[Ingredient Done] Button clicked');
+    console.log('[Ingredient Done] Selected ingredients size:', selectedIngredients.size);
+    console.log('[Ingredient Done] Selected ingredients:', Array.from(selectedIngredients));
+    
     if (!selectedIngredients.size) {
+      console.warn('[Ingredient Done] No ingredients selected');
       updateStatusText("mixNeedAtLeastTwo");
       return;
     }
+    
+    console.log('[Ingredient Done] Calling mixOneDrink...');
     // 直接调一杯酒
     await mixOneDrink();
+    
+    console.log('[Ingredient Done] mixOneDrink completed. mixedDrinkCards.length:', mixedDrinkCards.length);
+    
     if (mixedDrinkCards.length > 0) {
+      console.log('[Ingredient Done] Navigating to mix-result view');
       setAppView("mix-result");
       window.scrollTo(0, 0);
+    } else {
+      console.warn('[Ingredient Done] No drinks found, staying on current page');
     }
   });
 }
 
 if (ingredientsBackBtnEl) {
   ingredientsBackBtnEl.addEventListener("click", () => {
+    // Clear selected ingredients when going back
+    selectedIngredients.clear();
     // Reset filtered ingredients when going back to reselect base spirits
     filteredIngredientsForBaseSpirit = [];
     // 如果选择了non-alcoholic，返回到酒精偏好页面；否则返回到基酒页面
@@ -3222,6 +3350,10 @@ if (backButtonEl) {
 
 if (mixBackButtonEl) {
   mixBackButtonEl.addEventListener("click", () => {
+    // Clear selected ingredients when going back from results
+    selectedIngredients.clear();
+    filteredIngredientsForBaseSpirit = [];
+    
     if (mixSourceMode === "random") {
       setAppView("entry");
     } else {
@@ -3231,12 +3363,36 @@ if (mixBackButtonEl) {
   });
 }
 
+if (prevCocktailBtnEl) {
+  prevCocktailBtnEl.addEventListener("click", () => {
+    changeMixedDrinkCard(-1);
+  });
+}
+
+if (nextCocktailBtnEl) {
+  nextCocktailBtnEl.addEventListener("click", () => {
+    changeMixedDrinkCard(1);
+  });
+}
+
 if (tarotBackBtnEl) {
   tarotBackBtnEl.addEventListener("click", () => {
     // Reset quiz for replay
     answers.fill(null);
     currentQuestionIndex = 0;
     setAppView("entry");
+    window.scrollTo(0, 0);
+  });
+}
+
+if (tarotTryAgainBtnEl) {
+  tarotTryAgainBtnEl.addEventListener("click", () => {
+    // Reset quiz and restart
+    answers.fill(null);
+    currentQuestionIndex = 0;
+    renderCurrentQuestion();
+    updateProgress();
+    setAppView("quiz");
     window.scrollTo(0, 0);
   });
 }

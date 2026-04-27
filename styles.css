@@ -25,6 +25,7 @@ body {
   font-weight: 700;
   margin-bottom: 32px;
   color: #333;
+  font-family: 'Georgia', serif;
 }
 .alcoholic-choice-btns {
   display: flex;
@@ -45,6 +46,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-transform: uppercase;
+  font-family: 'Georgia', serif;
 }
 .alcoholic-choice-btn:hover {
   background: #8b7db8;
@@ -258,7 +261,7 @@ body {
   height: 60px;
   border-radius: 50%;
   background: #675e85;
-  margin: 0 auto 16px;
+  margin: 0 auto 8px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -399,11 +402,14 @@ body {
 .cocktail-name {
   margin: 0;
   padding: 14px 16px 16px;
+  background: #675e85;
   color: #f7f8fb;
   font-size: 28px;
   line-height: 1.2;
   font-weight: 800;
   text-align: center;
+  font-family: 'Georgia', serif;
+  text-transform: uppercase;
 }
 
 .cocktail-back {
@@ -454,6 +460,60 @@ body {
   text-align: center;
 }
 
+.cocktail-card-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.cocktail-nav-btn {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border: 2px solid rgba(103, 94, 133, 0.3);
+  border-radius: 50%;
+  background: rgba(247, 248, 251, 0.9);
+  backdrop-filter: blur(8px);
+  color: #675e85;
+  font-size: 32px;
+  line-height: 1;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  user-select: none;
+}
+
+.cocktail-nav-btn:hover {
+  background: rgba(103, 94, 133, 0.15);
+  border-color: rgba(103, 94, 133, 0.5);
+  transform: scale(1.05);
+}
+
+.cocktail-nav-btn:active {
+  transform: scale(0.95);
+}
+
+.cocktail-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.cocktail-nav-prev {
+  padding-right: 2px;
+}
+
+.cocktail-nav-next {
+  padding-left: 2px;
+}
+
 .search-panel {
   width: min(620px, 92vw);
   display: grid;
@@ -471,10 +531,12 @@ body {
   color: #ffffff;
   font-size: 14px;
   font-weight: 700;
+  font-family: 'Georgia', serif;
 }
 
 .base-spirit-search-input::placeholder {
   color: rgba(240, 244, 248, 0.78);
+  font-family: 'Georgia', serif;
 }
 
 .icon-back-btn {
@@ -519,6 +581,7 @@ body {
   color: #645442;
   font-size: clamp(26px, 4.6vw, 42px);
   font-weight: 800;
+  font-family: 'Georgia', serif;
 }
 
 .search-grid {
@@ -667,6 +730,7 @@ body {
   font-size: 15px;
   font-weight: 800;
   line-height: 1.2;
+  font-family: 'Georgia', serif;
 }
 
 .base-spirit-image {
@@ -705,9 +769,33 @@ body {
   cursor: pointer;
   box-shadow: 0 6px 14px rgba(103, 94, 133, 0.3);
   transition: all 0.2s ease;
+  font-family: 'Georgia', serif;
 }
 
 .mix-btn:hover {
+  background: #564d6f;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(103, 94, 133, 0.4);
+}
+
+.tarot-try-again-btn {
+  margin-top: 24px;
+  border: 0;
+  border-radius: 999px;
+  background: #675e85;
+  color: #ffffff;
+  font-size: clamp(16px, 3vw, 20px);
+  font-weight: 700;
+  padding: 14px 32px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(103, 94, 133, 0.3);
+  transition: all 0.2s ease;
+  font-family: 'Georgia', serif;
+  width: 100%;
+  max-width: 300px;
+}
+
+.tarot-try-again-btn:hover {
   background: #564d6f;
   transform: translateY(-2px);
   box-shadow: 0 8px 18px rgba(103, 94, 133, 0.4);
@@ -1268,6 +1356,7 @@ body {
   color: #2f3a46;
   font-size: 14px;
   font-weight: 600;
+  font-family: Georgia, "Times New Roman", serif;
   cursor: pointer;
 }
 
@@ -1487,7 +1576,7 @@ body {
   
   /* 移动端显示太阳和月亮装饰 */
   .sun-decoration {
-    display: block;
+    display: block !important;
     position: fixed;
     left: -40%;
     width: 350px;
@@ -1496,13 +1585,13 @@ body {
     flex-shrink: 0;
     top: 30%;
     transform: translateY(-50%);
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
     opacity: 0.5;
   }
   
   .moon-decoration {
-    display: block;
+    display: block !important;
     position: fixed;
     right: -30%;
     width: 330px;
@@ -1511,7 +1600,7 @@ body {
     flex-shrink: 0;
     top: 32%;
     transform: translateY(-50%);
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
     opacity: 0.5;
   }
@@ -1523,7 +1612,7 @@ body {
   }
   
   .action-card {
-    padding: 12px 40px 12px 16px;
+    padding: 16px 24px 16px 60px;
     min-height: 60px;
     width: 94%;
     max-width: 450px;
@@ -1532,11 +1621,11 @@ body {
     transition: all 0.3s ease;
     font-size: 14px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    gap: 8px;
+    text-align: left;
+    gap: 0;
     position: relative;
   }
   
@@ -1546,10 +1635,8 @@ body {
     border-radius: 50%;
     background: #675e85;
     margin-bottom: 0;
-    position: absolute;
-    left: 50px;
-    top: 50%;
-    transform: translateY(-50%);
+    margin-right: 12px;
+    position: relative;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -1558,7 +1645,8 @@ body {
   }
   
   .action-content {
-    text-align: center;
+    text-align: left;
+    flex: 1 1 auto;
   }
   
   .action-title {
@@ -1592,6 +1680,16 @@ body {
   .cocktail-flip {
     width: min(340px, 88vw);
     height: min(480px, 65vh);
+  }
+
+  .cocktail-card-container {
+    gap: 8px;
+  }
+
+  .cocktail-nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
   }
 }
 
@@ -1641,6 +1739,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: initial; /* 重置gap，避免覆盖手机端样式 */
   }
   
   .title-line {
@@ -2234,6 +2333,123 @@ body {
   .about-me-photo {
     width: 100px;
     height: 100px;
+  }
+}
+
+/* ── Project Documents Section ── */
+.project-documents-section {
+  margin-top: 60px;
+  padding: 40px 0;
+}
+
+.project-documents-title {
+  text-align: center;
+  font-size: clamp(28px, 5vw, 36px);
+  font-weight: 700;
+  color: #2d2d2d;
+  margin-bottom: 40px;
+  font-family: 'Georgia', serif;
+}
+
+.project-documents-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.project-doc-card {
+  background: #9b91b9;
+  border: 2px solid rgba(247, 248, 251, 0.2);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.project-doc-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.proposal-card {
+  border-color: rgba(247, 248, 251, 0.4);
+  border-width: 3px;
+}
+
+.project-doc-card-title {
+  font-size: clamp(20px, 3.5vw, 24px);
+  font-weight: 700;
+  color: #f7f8fb;
+  margin: 0 0 12px 0;
+  font-family: 'Georgia', serif;
+}
+
+.project-doc-card-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(247, 248, 251, 0.85);
+  margin: 0 0 20px 0;
+  flex-grow: 1;
+  font-family: 'Georgia', serif;
+}
+
+.project-doc-btn {
+  background: #725f82;
+  border: 2px solid rgba(247, 248, 251, 0.6);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f7f8fb;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Georgia', serif;
+  align-self: flex-start;
+}
+
+.project-doc-btn:hover {
+  background: rgba(247, 248, 251, 0.15);
+  border-color: #f7f8fb;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .project-documents-section {
+    margin-top: 40px;
+    padding: 20px 0;
+  }
+  
+  .project-documents-title {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+  
+  .project-documents-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 10px;
+  }
+  
+  .project-doc-card {
+    padding: 20px;
+  }
+  
+  .project-doc-card-title {
+    font-size: 18px;
+  }
+  
+  .project-doc-card-description {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  
+  .project-doc-btn {
+    padding: 8px 16px;
+    font-size: 13px;
   }
 }
 

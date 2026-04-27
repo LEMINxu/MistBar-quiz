@@ -148,19 +148,25 @@
         <button id="mixBackButton" class="icon-back-btn" type="button" aria-label="Back">←</button>
         <h2 id="mixResultTitle" class="search-title">Your Cocktail</h2>
 
-        <div id="cocktailFlipCard" class="cocktail-flip" role="button" tabindex="0" aria-label="Flip cocktail card">
-          <div class="cocktail-flip-inner">
-            <article class="cocktail-face cocktail-front">
-              <img id="cocktailImage" class="cocktail-image" alt="Cocktail" />
-              <h3 id="cocktailName" class="cocktail-name"></h3>
-            </article>
+        <div class="cocktail-card-container">
+          <button id="prevCocktailBtn" class="cocktail-nav-btn cocktail-nav-prev" type="button" aria-label="Previous cocktail">‹</button>
+          
+          <div id="cocktailFlipCard" class="cocktail-flip" role="button" tabindex="0" aria-label="Flip cocktail card">
+            <div class="cocktail-flip-inner">
+              <article class="cocktail-face cocktail-front">
+                <img id="cocktailImage" class="cocktail-image" alt="Cocktail" />
+                <h3 id="cocktailName" class="cocktail-name"></h3>
+              </article>
 
-            <article class="cocktail-face cocktail-back">
-              <h3 id="cocktailBackTitle" class="cocktail-back-title">Ingredients & Steps</h3>
-              <ul id="cocktailIngredients" class="cocktail-ingredients"></ul>
-              <p id="cocktailInstructions" class="cocktail-instructions"></p>
-            </article>
+              <article class="cocktail-face cocktail-back">
+                <h3 id="cocktailBackTitle" class="cocktail-back-title">Ingredients & Steps</h3>
+                <ul id="cocktailIngredients" class="cocktail-ingredients"></ul>
+                <p id="cocktailInstructions" class="cocktail-instructions"></p>
+              </article>
+            </div>
           </div>
+
+          <button id="nextCocktailBtn" class="cocktail-nav-btn cocktail-nav-next" type="button" aria-label="Next cocktail">›</button>
         </div>
 
         <p id="cocktailSwipeHint" class="swipe-hint"></p>
@@ -225,6 +231,7 @@
             </div>
           </div>
         </div>
+        <button id="tarotTryAgainBtn" class="tarot-try-again-btn" type="button">Try Again</button>
       </main>
     </section>
 
@@ -296,6 +303,67 @@
               <p id="aboutDesc7" class="about-paragraph">
                 致谢：项目前端页面二创自 <a href="https://github.com/YBWLawao/ARKTI" target="_blank" rel="noopener noreferrer" class="about-link"><strong>ACGTI</strong></a>，原作者 @天马行空，网站链接 acgti.tianxingleo.top。
               </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Documents Section -->
+        <div class="project-documents-section">
+          <h2 class="project-documents-title">Project Documents</h2>
+          
+          <div class="project-documents-grid">
+            <!-- Proposal Card -->
+            <div class="project-doc-card proposal-card">
+              <h3 class="project-doc-card-title">Proposal</h3>
+              <p class="project-doc-card-description">
+                Initial project proposal outlining the concept for the Chocolate Personality Quiz.
+              </p>
+              <button class="project-doc-btn">View Proposal</button>
+            </div>
+
+            <!-- Design Documentation Card -->
+            <div class="project-doc-card">
+              <h3 class="project-doc-card-title">Design Documentation</h3>
+              <p class="project-doc-card-description">
+                Comprehensive design documentation covering the visual design, user interface elements, and design decisions.
+              </p>
+              <button class="project-doc-btn">View Design Documentation</button>
+            </div>
+
+            <!-- Wireframes Card -->
+            <div class="project-doc-card">
+              <h3 class="project-doc-card-title">Wireframes</h3>
+              <p class="project-doc-card-description">
+                Visual blueprints showing the layout and flow of each page in the quiz experience.
+              </p>
+              <button class="project-doc-btn">View Wireframe</button>
+            </div>
+
+            <!-- User Report Card -->
+            <div class="project-doc-card">
+              <h3 class="project-doc-card-title">User Report</h3>
+              <p class="project-doc-card-description">
+                Testing results and insights from user feedback on the quiz experience.
+              </p>
+              <button class="project-doc-btn">View User Report</button>
+            </div>
+
+            <!-- Citations Card -->
+            <div class="project-doc-card">
+              <h3 class="project-doc-card-title">Citations</h3>
+              <p class="project-doc-card-description">
+                References and sources used for chocolate pairing information and facts throughout the quiz.
+              </p>
+              <button class="project-doc-btn">View Citations</button>
+            </div>
+
+            <!-- AI Use Card -->
+            <div class="project-doc-card">
+              <h3 class="project-doc-card-title">AI Use</h3>
+              <p class="project-doc-card-description">
+                Documentation of how artificial intelligence tools were used in the development of this project.
+              </p>
+              <button class="project-doc-btn">View AI Use</button>
             </div>
           </div>
         </div>
