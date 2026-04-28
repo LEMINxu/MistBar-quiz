@@ -1580,10 +1580,10 @@ body {
   /* 移动端显示太阳和月亮装饰 */
   .sun-decoration {
     display: block !important;
-    left: -40%;
+    left: -20%;
     width: 350px;
     height: 350px;
-    background: url('material/sun.png') center / contain no-repeat;
+    background: url('material/Sun.png') center / contain no-repeat;
     top: 30%;
     transform: translateY(-50%);
     opacity: 0.5;
@@ -1591,10 +1591,10 @@ body {
   
   .moon-decoration {
     display: block !important;
-    right: -30%;
+    right: -20%;
     width: 330px;
     height: 330px;
-    background: url('material/moon.png') center / contain no-repeat;
+    background: url('material/Moon.png') center / contain no-repeat;
     top: 32%;
     transform: translateY(-50%);
     opacity: 0.5;
@@ -2056,7 +2056,7 @@ body {
     left: -15%;
     width: 725px;
     height: 725px;
-    background: url('material/sun.png') center / contain no-repeat;
+    background: url('material/Sun.png') center / contain no-repeat;
     top: 50%;
     transform: translateY(-50%);
   }
@@ -2066,7 +2066,7 @@ body {
     right: -15%;
     width: 700px;
     height: 700px;
-    background: url('material/moon.png') center / contain no-repeat;
+    background: url('material/Moon.png') center / contain no-repeat;
     top: 50%;
     transform: translateY(-50%);
   }
@@ -2079,7 +2079,7 @@ body {
     left: -15%;
     width: 725px;
     height: 725px;
-    background: url('material/sun.png') center / contain no-repeat;
+    background: url('material/Sun.png') center / contain no-repeat;
     top: 50%;
     transform: translateY(-50%);
     z-index: 0;
@@ -2093,7 +2093,7 @@ body {
     right: -15%;
     width: 700px;
     height: 700px;
-    background: url('material/moon.png') center / contain no-repeat;
+    background: url('material/Moon.png') center / contain no-repeat;
     top: 50%;
     transform: translateY(-50%);
     z-index: 0;
