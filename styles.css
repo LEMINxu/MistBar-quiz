@@ -1580,7 +1580,7 @@ body {
   /* 移动端显示太阳和月亮装饰 */
   .sun-decoration {
     display: block !important;
-    left: -20%;
+    left: -25%;
     width: 350px;
     height: 350px;
     background: url('material/Sun.png') center / contain no-repeat;
@@ -1591,7 +1591,7 @@ body {
   
   .moon-decoration {
     display: block !important;
-    right: -20%;
+    right: -25%;
     width: 330px;
     height: 330px;
     background: url('material/Moon.png') center / contain no-repeat;
