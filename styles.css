@@ -2232,13 +2232,13 @@ body {
 }
 
 .about-btn-github {
-  background: linear-gradient(135deg, #2ea44f 0%, #238636 100%);
+  background: linear-gradient(135deg, #8b7db8 0%, #675e85 100%);
 }
 
 .about-btn-github:hover {
-  background: linear-gradient(135deg, #238636 0%, #1a6b28 100%);
+  background: linear-gradient(135deg, #675e85 0%, #564d6f 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(46, 164, 79, 0.4);
+  box-shadow: 0 6px 16px rgba(139, 125, 184, 0.4);
 }
 
 .about-btn-bilibili {
