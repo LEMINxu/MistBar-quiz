@@ -338,10 +338,36 @@ const TAROT_IMAGES = {
 };
 
 // Tarot card → cocktail search keyword
+// Map tarot cards to specific cocktail IDs for consistency
+const TAROT_COCKTAIL_IDS = {
+  "Fool":             "11000",  // Mojito
+  "Magician":         "17196",  // Cosmopolitan
+  "High Priestess":   "11003",  // Negroni (classic blue cocktail alternative)
+  "Empress":          "17208",  // Rose
+  "Emperor":          "11001",  // Old Fashioned
+  "Hierophant":       "12198",  // Sangria
+  "Lovers":           "13804",  // Sex on the Beach
+  "Chariot":          "13621",  // Tequila Sunrise
+  "Strength":         "11004",  // Whiskey Sour
+  "Hermit":           "17211",  // Dark and Stormy
+  "Wheel of Fortune": "11007",  // Margarita
+  "Justice":          "17255",  // Gimlet
+  "Hanged Man":       "11003",  // Negroni
+  "Death":            "11102",  // Black Russian
+  "Temperance":       "15941",  // Americano
+  "Devil":            "11320",  // Black Devil
+  "Tower":            "17131",  // Hurricane
+  "Star":             "11288",  // Stardust
+  "Moon":             "11058",  // Moonlight
+  "Sun":              "13621",  // Tequila Sunrise
+  "Judgement":        "11006",  // Daiquiri
+  "World":            "11888"   // Singapore Sling
+};
+
 const TAROT_COCKTAIL_KEYWORDS = {
   "Fool":             "mojito",
   "Magician":         "cosmopolitan",
-  "High Priestess":   "blue moon",
+  "High Priestess":   "negroni",
   "Empress":          "rose",
   "Emperor":          "old fashioned",
   "Hierophant":       "sangria",
@@ -357,7 +383,7 @@ const TAROT_COCKTAIL_KEYWORDS = {
   "Devil":            "devil",
   "Tower":            "hurricane",
   "Star":             "stardust",
-  "Moon":             "moonshine",
+  "Moon":             "moonlight",
   "Sun":              "tequila sunrise",
   "Judgement":        "daiquiri",
   "World":            "singapore sling"
@@ -1096,31 +1122,9 @@ async function showTarotResult(cardName) {
   tarotCocktailStepsEl.textContent = "";
   tarotCocktailImageEl.src = "";
 
-  // Fetch cocktail
+  // Fetch cocktail using consistent method
   try {
-    const keyword = TAROT_COCKTAIL_KEYWORDS[cardName] || "cocktail";
-    const searchUrl = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(keyword)}`;
-    const data = await fetch(searchUrl).then((r) => r.json());
-    
-    let drink = null;
-    if (data.drinks?.length) {
-      // Sort drinks by name to ensure consistent ordering
-      const sortedDrinks = data.drinks.sort((a, b) => 
-        a.strDrink.localeCompare(b.strDrink)
-      );
-      
-      // Try to find exact match first (case-insensitive)
-      const exactMatch = sortedDrinks.find(d => 
-        d.strDrink.toLowerCase() === keyword.toLowerCase()
-      );
-      
-      drink = exactMatch || sortedDrinks[0];
-    } else {
-      // Fallback to random
-      drink = await fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
-        .then((r) => r.json())
-        .then((d) => d.drinks[0]);
-    }
+    const drink = await fetchCocktailForTarotCard(cardName);
 
     if (drink) {
       tarotCocktailImageEl.src = drink.strDrinkThumb || "";
@@ -1175,6 +1179,21 @@ function setAppView(view) {
 }
 
 async function fetchCocktailForTarotCard(cardName) {
+  // First try to fetch by fixed ID for consistency
+  const cocktailId = TAROT_COCKTAIL_IDS[cardName];
+  if (cocktailId) {
+    try {
+      const idUrl = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktailId}`;
+      const idData = await fetch(idUrl).then((response) => response.json());
+      if (idData.drinks?.[0]) {
+        return idData.drinks[0];
+      }
+    } catch (error) {
+      console.warn(`Failed to fetch cocktail by ID ${cocktailId}, falling back to keyword search`, error);
+    }
+  }
+  
+  // Fallback to keyword search
   const keyword = TAROT_COCKTAIL_KEYWORDS[cardName] || "cocktail";
   const searchUrl = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(keyword)}`;
   const searchData = await fetch(searchUrl).then((response) => response.json());
@@ -1198,6 +1217,7 @@ async function fetchCocktailForTarotCard(cardName) {
     return sortedDrinks[0];
   }
 
+  // Last resort: random
   const randomData = await fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
     .then((response) => response.json());
   return randomData.drinks?.[0] || null;

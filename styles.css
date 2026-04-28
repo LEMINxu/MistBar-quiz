@@ -215,6 +215,9 @@ body {
 .sun-decoration,
 .moon-decoration {
   display: none;
+  position: fixed;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* Action Cards */
@@ -332,33 +335,6 @@ body {
   background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
   position: relative;
   overflow: hidden;
-}
-
-/* Sun and Moon decorations for mix-result-app */
-.mix-result-app .sun-decoration {
-  display: none;
-  position: fixed;
-  left: -15%;
-  width: 725px;
-  height: 725px;
-  background: url('material/sun.png') center / contain no-repeat;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 0;
-  pointer-events: none;
-}
-
-.mix-result-app .moon-decoration {
-  display: none;
-  position: fixed;
-  right: -15%;
-  width: 700px;
-  height: 700px;
-  background: url('material/moon.png') center / contain no-repeat;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 0;
-  pointer-events: none;
 }
 
 .mix-result-app::before {
@@ -1604,50 +1580,23 @@ body {
   /* 移动端显示太阳和月亮装饰 */
   .sun-decoration {
     display: block !important;
-    position: fixed;
     left: -40%;
     width: 350px;
     height: 350px;
     background: url('material/sun.png') center / contain no-repeat;
-    flex-shrink: 0;
     top: 30%;
     transform: translateY(-50%);
-    z-index: 1;
-    pointer-events: none;
     opacity: 0.5;
   }
   
   .moon-decoration {
     display: block !important;
-    position: fixed;
     right: -30%;
     width: 330px;
     height: 330px;
     background: url('material/moon.png') center / contain no-repeat;
-    flex-shrink: 0;
     top: 32%;
     transform: translateY(-50%);
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.5;
-  }
-  
-  /* Show sun and moon in mix-result-app on mobile */
-  .mix-result-app .sun-decoration {
-    display: block !important;
-    left: -40%;
-    width: 350px;
-    height: 350px;
-    top: 30%;
-    opacity: 0.5;
-  }
-  
-  .mix-result-app .moon-decoration {
-    display: block !important;
-    right: -30%;
-    width: 330px;
-    height: 330px;
-    top: 32%;
     opacity: 0.5;
   }
   
@@ -2104,30 +2053,22 @@ body {
   
   .sun-decoration {
     display: block;
-    position: fixed;
     left: -15%;
     width: 725px;
     height: 725px;
     background: url('material/sun.png') center / contain no-repeat;
-    flex-shrink: 0;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 0;
-    pointer-events: none;
   }
   
   .moon-decoration {
     display: block;
-    position: fixed;
     right: -15%;
     width: 700px;
     height: 700px;
     background: url('material/moon.png') center / contain no-repeat;
-    flex-shrink: 0;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 0;
-    pointer-events: none;
   }
   
   /* Quiz page sun and moon decorations */
@@ -2157,21 +2098,6 @@ body {
     transform: translateY(-50%);
     z-index: 0;
     pointer-events: none;
-  }
-  
-  /* Show sun and moon in mix-result-app on desktop */
-  .mix-result-app .sun-decoration {
-    display: block !important;
-    left: -15%;
-    width: 725px;
-    height: 725px;
-  }
-  
-  .mix-result-app .moon-decoration {
-    display: block !important;
-    right: -15%;
-    width: 700px;
-    height: 700px;
   }
   
   .collection-card-grid {
