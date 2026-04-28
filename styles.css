@@ -1851,7 +1851,7 @@ body {
 /* Flip Card */
 .tarot-flip {
   width: min(340px, 90vw);
-  height: min(560px, 75svh);
+  height: min(580px, 78svh);
   perspective: 1200px;
   cursor: pointer;
   margin-top: 8px;
