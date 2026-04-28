@@ -2052,7 +2052,7 @@ body {
   }
   
   .sun-decoration {
-    display: block;
+    display: block !important;
     left: -15%;
     width: 725px;
     height: 725px;
@@ -2062,7 +2062,7 @@ body {
   }
   
   .moon-decoration {
-    display: block;
+    display: block !important;
     right: -15%;
     width: 700px;
     height: 700px;
