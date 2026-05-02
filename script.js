@@ -57,7 +57,9 @@ const baseSpiritSearchInputEl = document.getElementById("baseSpiritSearchInput")
 const ingredientSearchInputEl = document.getElementById("ingredientSearchInput");
 const openIngredientsBtnEl = document.getElementById("openIngredientsBtn");
 const baseSpiritPageTitleEl = document.getElementById("baseSpiritPageTitle");
+const baseSpiritSubtitleEl = document.getElementById("baseSpiritSubtitle");
 const ingredientsPageTitleEl = document.getElementById("ingredientsPageTitle");
+const ingredientsSubtitleEl = document.getElementById("ingredientsSubtitle");
 const baseBackBtnEl = document.getElementById("baseBackBtn");
 const baseNextBtnEl = document.getElementById("baseNextBtn");
 const searchBackBtnEl = document.getElementById("searchBackBtn");
@@ -627,9 +629,11 @@ const i18n = {
     ingredientOpen: "Choose Ingredients",
     ingredientBack: "Back",
     ingredientDone: "Next Step",
-    baseSpiritPageTitle: "STEP1: Choose Base Spirit",
+    baseSpiritPageTitle: "Choose Your Base Spirit",
+    baseSpiritSubtitle: "Select the spirit that speaks to you.",
     baseSpiritSearchPlaceholder: "Search base spirit",
     ingredientsPageTitle: "Choose Other Ingredients",
+    ingredientsSubtitle: "Select additional ingredients you have.",
     ingredientsSearchPlaceholder: "Search ingredients",
     categoryLabel: "Categories",
     glassLabel: "Glasses",
@@ -733,9 +737,11 @@ const i18n = {
     ingredientOpen: "选择材料",
     ingredientBack: "返回",
     ingredientDone: "下一步",
-    baseSpiritPageTitle: "STEP1: 选择基酒",
+    baseSpiritPageTitle: "选择您的基酒",
+    baseSpiritSubtitle: "选择能与您对话的酒。",
     baseSpiritSearchPlaceholder: "搜索基酒",
     ingredientsPageTitle: "选择其他材料",
+    ingredientsSubtitle: "选择您手边有的其他材料。",
     ingredientsSearchPlaceholder: "搜索材料",
     categoryLabel: "类别",
     glassLabel: "杯型",
@@ -2447,6 +2453,22 @@ function updateSelectedCount() {
   }
   if (selectedCountEl) selectedCountEl.textContent = text;
   if (selectedCountPageEl) selectedCountPageEl.textContent = text;
+  if (baseNextBtnEl) {
+    baseNextBtnEl.disabled = getSelectedBaseSpiritCount() === 0;
+  }
+}
+
+function resetAllSelections() {
+  selectedIngredients.clear();
+  filteredIngredientsForBaseSpirit = [];
+  // Re-render both checklists to remove .active classes from cards
+  if (filterOptions.ingredient.length) {
+    renderBaseSpiritChecklist(filterOptions.ingredient);
+  }
+  if (ingredientChecklistEl) {
+    ingredientChecklistEl.innerHTML = "";
+  }
+  updateSelectedCount();
 }
 
 function pruneSelectedIngredients(availableIngredients) {
@@ -3053,6 +3075,7 @@ function applyLanguage(langCode) {
   if (mixButtonEl) mixButtonEl.textContent = getText("alcoholicNextStep");
   
   if (baseSpiritPageTitleEl) baseSpiritPageTitleEl.textContent = getText("baseSpiritPageTitle");
+  if (baseSpiritSubtitleEl) baseSpiritSubtitleEl.textContent = getText("baseSpiritSubtitle");
   if (baseSpiritSearchInputEl) {
     const placeholder = getText("baseSpiritSearchPlaceholder");
     baseSpiritSearchInputEl.placeholder = placeholder;
@@ -3064,6 +3087,7 @@ function applyLanguage(langCode) {
     ingredientSearchInputEl.setAttribute("aria-label", placeholder);
   }
   if (ingredientsPageTitleEl) ingredientsPageTitleEl.textContent = getText("ingredientsPageTitle");
+  if (ingredientsSubtitleEl) ingredientsSubtitleEl.textContent = getText("ingredientsSubtitle");
   if (ingredientLabelEl) ingredientLabelEl.textContent = getText("ingredientLabel");
   if (openIngredientsBtnEl) openIngredientsBtnEl.textContent = getText("ingredientOpen");
   if (baseBackBtnEl) baseBackBtnEl.setAttribute("aria-label", getText("ingredientBack"));
@@ -3251,30 +3275,20 @@ if (openIngredientsBtnEl) {
 
 if (baseNextBtnEl) {
   baseNextBtnEl.addEventListener("click", async () => {
-    if (!getSelectedBaseSpiritCount()) {
-      showNoticeModal(getText("mixNeedBaseSpirit"));
-      return;
-    }
-    
-    // Show loading state
+    if (!getSelectedBaseSpiritCount()) return;
+
     const selectedBaseSpirits = getSelectedBaseSpirits();
-    if (selectedBaseSpirits.length > 2) {
-      updateStatusText("statusLoading");
-      console.log('[Base Spirit] Loading ingredients for', selectedBaseSpirits.length, 'base spirits - this may take a moment...');
-    } else {
-      updateStatusText("statusLoading");
-    }
-    
-    // Get selected base spirits and fetch compatible ingredients
+
+    // Show preparing overlay while fetching
+    const prepOverlay = document.getElementById("ingredientsPrepOverlay");
+    if (prepOverlay) prepOverlay.hidden = false;
+
     const compatibleIngredients = await getIngredientsForBaseSpirits(selectedBaseSpirits);
-    
-    // Store filtered ingredients for search functionality
     filteredIngredientsForBaseSpirit = compatibleIngredients;
-    
-    // Render ingredient checklist with filtered ingredients
-    console.log('[Ingredient Filter] About to render checklist with', compatibleIngredients.length, 'ingredients');
     renderIngredientChecklist(compatibleIngredients);
-    
+
+    // Hide overlay then navigate
+    if (prepOverlay) prepOverlay.hidden = true;
     setAppView("ingredients");
     window.scrollTo(0, 0);
     updateStatusText("statusReady");
@@ -3305,10 +3319,7 @@ if (ingredientSearchInputEl) {
 
 if (baseBackBtnEl) {
   baseBackBtnEl.addEventListener("click", () => {
-    // Clear selected ingredients when going back from base spirit page
-    selectedIngredients.clear();
-    // Reset filtered ingredients when going back from base spirit page
-    filteredIngredientsForBaseSpirit = [];
+    resetAllSelections();
     setAppView("search");
     window.scrollTo(0, 0);
   });
@@ -3334,6 +3345,7 @@ if (ingredientsDoneBtnEl) {
     
     if (mixedDrinkCards.length > 0) {
       console.log('[Ingredient Done] Navigating to mix-result view');
+      resetAllSelections();
       setAppView("mix-result");
       window.scrollTo(0, 0);
     } else {
@@ -3344,8 +3356,12 @@ if (ingredientsDoneBtnEl) {
 
 if (ingredientsBackBtnEl) {
   ingredientsBackBtnEl.addEventListener("click", () => {
-    // Clear selected ingredients when going back
-    selectedIngredients.clear();
+    // Only clear non-base-spirit ingredients when going back; keep base spirit selections intact
+    Array.from(selectedIngredients).forEach((value) => {
+      if (!(isProvidedBaseSpirit(value) && !isLiqueurIngredient(value))) {
+        selectedIngredients.delete(value);
+      }
+    });
     // Reset filtered ingredients when going back to reselect base spirits
     filteredIngredientsForBaseSpirit = [];
     // 如果选择了non-alcoholic，返回到酒精偏好页面；否则返回到基酒页面
@@ -3354,6 +3370,7 @@ if (ingredientsBackBtnEl) {
     } else {
       setAppView("ingredients-base");
     }
+    updateSelectedCount();
     window.scrollTo(0, 0);
   });
 }
@@ -3370,15 +3387,8 @@ if (backButtonEl) {
 
 if (mixBackButtonEl) {
   mixBackButtonEl.addEventListener("click", () => {
-    // Clear selected ingredients when going back from results
-    selectedIngredients.clear();
-    filteredIngredientsForBaseSpirit = [];
-    
-    if (mixSourceMode === "random") {
-      setAppView("entry");
-    } else {
-      setAppView("search");
-    }
+    resetAllSelections();
+    setAppView("entry");
     window.scrollTo(0, 0);
   });
 }

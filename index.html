@@ -179,24 +179,35 @@
     <section id="ingredientsBaseApp" class="search-app" hidden>
       <main class="search-panel ingredients-panel">
         <button id="baseBackBtn" class="icon-back-btn" type="button" aria-label="Back">←</button>
-        <h2 id="baseSpiritPageTitle" class="search-title">STEP1: Choose Base Spirit</h2>
-        <input id="baseSpiritSearchInput" class="base-spirit-search-input" type="search" placeholder="Search base spirit" aria-label="Search base spirit" autocomplete="off" />
-        <div id="baseSpiritChecklist" class="ingredient-checklist" aria-label="base spirit checkbox list"></div>
-        <p id="baseSelectedCount" class="selected-count">已选 0 项</p>
+        <div class="base-spirit-header">
+          <div class="base-spirit-step-label">✧ STEP 1 ✧</div>
+          <h2 id="baseSpiritPageTitle" class="base-spirit-title">Choose Your Base Spirit</h2>
+        </div>
+        <div class="base-spirit-search-wrapper">
+          <input id="baseSpiritSearchInput" class="base-spirit-search-input" type="search" placeholder="Search base spirit" aria-label="Search base spirit" autocomplete="off" />
+        </div>
+        <div id="baseSpiritChecklist" class="ingredient-checklist base-spirit-grid" aria-label="base spirit checkbox list"></div>
+        <p id="baseSelectedCount" class="selected-count base-spirit-count">0 selected</p>
         <p id="baseIngredientsStatus" class="api-status" aria-live="polite"></p>
-        <button id="baseNextBtn" class="mix-btn" type="button">下一步</button>
+        <button id="baseNextBtn" class="mix-btn" type="button" disabled>Next Step</button>
       </main>
     </section>
 
     <section id="ingredientsApp" class="search-app" hidden>
       <main class="search-panel ingredients-panel">
         <button id="ingredientsBackBtn" class="icon-back-btn" type="button" aria-label="Back">←</button>
-        <h2 id="ingredientsPageTitle" class="search-title">选择其他材料</h2>
-        <input id="ingredientSearchInput" class="base-spirit-search-input" type="search" placeholder="Search ingredients" aria-label="Search ingredients" autocomplete="off" />
+        <div class="ing-header">
+          <div class="ing-step-label">✦ STEP 2 ✦</div>
+          <h2 id="ingredientsPageTitle" class="ing-title">Choose Other Ingredients</h2>
+          <p class="ing-subtitle" id="ingredientsSubtitle">Select additional ingredients you have.</p>
+        </div>
+        <div class="ing-search-wrapper">
+          <input id="ingredientSearchInput" class="ing-search-input" type="search" placeholder="Search ingredients" aria-label="Search ingredients" autocomplete="off" />
+        </div>
         <div id="ingredientChecklist" class="ingredient-checklist" aria-label="ingredients checkbox list"></div>
-        <p id="selectedCountPage" class="selected-count">已选 0 项</p>
+        <p id="selectedCountPage" class="ing-count">已选 0 项</p>
         <p id="ingredientsStatus" class="api-status" aria-live="polite"></p>
-        <button id="ingredientsDoneBtn" class="mix-btn" type="button">🍸 调一杯 ✨</button>
+        <button id="ingredientsDoneBtn" class="mix-btn" type="button">Next Step</button>
       </main>
     </section>
 
@@ -205,6 +216,26 @@
       <div class="tarot-loading-content">
         <div class="tarot-loading-spinner"></div>
         <p class="tarot-loading-text">Reading the cards…</p>
+      </div>
+    </div>
+
+    <!-- Preparing Ingredients Overlay -->
+    <div id="ingredientsPrepOverlay" class="tarot-loading-overlay" hidden>
+      <div class="tarot-loading-content">
+        <div class="ing-prep-moon">
+          <svg class="moon-svg" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <clipPath id="moonFillClip">
+                <rect id="moonFillRect" x="0" y="0" width="80" height="80" transform="translate(0,80)"/>
+              </clipPath>
+            </defs>
+            <!-- Moon outline -->
+            <path class="moon-outline" d="M55 14A28 28 0 1 0 55 66 20 20 0 0 1 55 14Z"/>
+            <!-- Moon filled -->
+            <path class="moon-filled" d="M55 14A28 28 0 1 0 55 66 20 20 0 0 1 55 14Z" clip-path="url(#moonFillClip)"/>
+          </svg>
+        </div>
+        <p class="tarot-loading-text" style="color:#675e85;">Preparing your ingredients…</p>
       </div>
     </div>
 

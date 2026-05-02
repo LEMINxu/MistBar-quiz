@@ -542,6 +542,241 @@ body {
   font-family: 'Georgia', serif;
 }
 
+/* ── Base Spirit Page — Redesign (all screen sizes) ── */
+
+#ingredientsBaseApp {
+  background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
+  height: calc(100vh - 64px);
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+#ingredientsBaseApp .search-panel {
+  width: 100%;
+  max-width: 860px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 24px 32px;
+  gap: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+/* Header */
+.base-spirit-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 28px;
+}
+
+.base-spirit-step-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: #c9a961;
+  text-transform: uppercase;
+}
+
+.base-spirit-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #675e85;
+  font-family: 'Georgia', serif;
+  text-align: center;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.base-spirit-subtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #9b9bb5;
+  font-family: 'Georgia', serif;
+  text-align: center;
+  margin: 0;
+}
+
+/* Search bar */
+.base-spirit-search-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+#ingredientsBaseApp .base-spirit-search-input {
+  width: 100%;
+  border: 1px solid rgba(139, 115, 135, 0.2);
+  border-radius: 999px;
+  padding: 12px 44px 12px 20px;
+  background: #ffffff;
+  color: #675e85;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'Georgia', serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  outline: none;
+}
+
+#ingredientsBaseApp .base-spirit-search-input::placeholder {
+  color: #b8b8c8;
+  font-family: 'Georgia', serif;
+  font-weight: 400;
+}
+
+.base-spirit-search-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Card grid container — scrolls inside the box */
+#ingredientsBaseApp .ingredient-checklist {
+  display: block;
+  background: transparent;
+  padding: 0;
+  max-height: none;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  gap: 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(103, 94, 133, 0.2) transparent;
+}
+
+#ingredientsBaseApp .ingredient-group {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+#ingredientsBaseApp .ingredient-group-title {
+  display: none;
+}
+
+#ingredientsBaseApp .ingredient-group-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Cards */
+#ingredientsBaseApp .ingredient-card-btn {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(139, 115, 135, 0.15);
+  border-radius: 16px;
+  padding: 24px 12px 20px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  color: #675e85;
+}
+
+#ingredientsBaseApp .ingredient-card-btn:hover {
+  box-shadow: 0 4px 16px rgba(103, 94, 133, 0.18);
+  transform: translateY(-2px);
+}
+
+#ingredientsBaseApp .ingredient-card-btn:active {
+  transform: scale(0.97);
+}
+
+/* Corner star decorations */
+#ingredientsBaseApp .ingredient-card-btn::before {
+  content: '✧';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 9px;
+  color: #d9cdb4;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+#ingredientsBaseApp .ingredient-card-btn:not(.active)::after {
+  content: '✧';
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 9px;
+  color: #d9cdb4;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Checkmark when selected */
+#ingredientsBaseApp .ingredient-card-btn.active {
+  border: 1.5px solid rgba(103, 94, 133, 0.3);
+}
+
+#ingredientsBaseApp .ingredient-card-btn.active::after {
+  content: '✓';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  bottom: auto;
+  width: 22px;
+  height: 22px;
+  background: #675e85;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+  opacity: 1;
+}
+
+#ingredientsBaseApp .ingredient-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #675e85;
+  font-family: 'Georgia', serif;
+}
+
+/* Selected count */
+.base-spirit-count {
+  flex-shrink: 0;
+  text-align: right;
+  color: #675e85;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 14px;
+}
+
+/* Hide original search-title (replaced by .base-spirit-header) */
+#ingredientsBaseApp .search-title {
+  display: none;
+}
+
+/* Prevent Next button from being squeezed out */
+#ingredientsBaseApp .mix-btn {
+  flex-shrink: 0;
+  margin-top: 20px;
+}
+
+#ingredientsBaseApp .mix-btn:disabled {
+  background: #a9a3bc;
+  box-shadow: none;
+  cursor: default;
+  pointer-events: none;
+}
+
 .icon-back-btn {
   position: sticky;
   top: 0;
@@ -648,6 +883,266 @@ body {
   font-size: clamp(20px, 3.8vw, 36px);
 }
 
+/* ══════════════════════════════════════
+   Ingredients Page — Full Redesign
+══════════════════════════════════════ */
+
+#ingredientsApp {
+  background: linear-gradient(135deg, #f8f6f3 0%, #f1ede7 100%);
+  height: calc(100vh - 64px);
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+  place-items: unset;
+}
+
+#ingredientsApp .search-panel {
+  width: 100%;
+  max-width: 860px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 24px;
+  gap: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+/* Header */
+.ing-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 18px;
+  flex-shrink: 0;
+}
+
+.ing-step-label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: #c9a961;
+  text-transform: uppercase;
+}
+
+.ing-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #675e85;
+  font-family: 'Georgia', serif;
+  text-align: center;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.ing-subtitle {
+  font-size: 0.9rem;
+  color: #9b9bb5;
+  font-family: 'Georgia', serif;
+  text-align: center;
+  margin: 0;
+}
+
+/* Search bar */
+.ing-search-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.ing-search-input {
+  width: 100%;
+  border: 1px solid rgba(139, 115, 135, 0.2);
+  border-radius: 999px;
+  padding: 11px 44px 11px 20px;
+  background: #ffffff;
+  color: #675e85;
+  font-size: 14px;
+  font-family: 'Georgia', serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  outline: none;
+}
+
+.ing-search-input::placeholder {
+  color: #b8b8c8;
+  font-family: 'Georgia', serif;
+}
+
+.ing-search-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+/* Scrollable checklist area */
+#ingredientsApp .ingredient-checklist {
+  display: block;
+  background: transparent;
+  padding: 0;
+  max-height: none;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(103, 94, 133, 0.2) transparent;
+}
+
+/* Group sections */
+#ingredientsApp .ingredient-group {
+  background: rgba(237, 232, 248, 0.55);
+  border: 1px solid rgba(139, 115, 135, 0.1);
+  border-radius: 16px;
+  padding: 0 12px 14px;
+  margin-bottom: 12px;
+}
+
+#ingredientsApp .ingredient-group-title {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background: rgba(237, 232, 248, 0.97);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #675e85;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Georgia', serif;
+  padding: 12px 4px 10px;
+  margin: 0 -12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 16px 16px 0 0;
+}
+
+#ingredientsApp .ingredient-group-title::after {
+  content: "▾";
+  color: #9b9bb5;
+  font-size: 14px;
+}
+
+#ingredientsApp .ingredient-group:not([open]) .ingredient-group-title::after {
+  content: "▸";
+}
+
+/* Card grid — 3 columns */
+#ingredientsApp .ingredient-group-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 0;
+}
+
+/* Cards */
+#ingredientsApp .ingredient-card-btn {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(139, 115, 135, 0.12);
+  border-radius: 16px;
+  padding: 24px 12px 20px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+  color: #675e85;
+  cursor: pointer;
+}
+
+#ingredientsApp .ingredient-card-btn:hover {
+  box-shadow: 0 4px 16px rgba(103, 94, 133, 0.18);
+  transform: translateY(-2px);
+}
+
+#ingredientsApp .ingredient-card-btn.active {
+  border: 1.5px solid rgba(103, 94, 133, 0.35);
+  background: #faf8ff;
+}
+
+/* Corner star decorations */
+#ingredientsApp .ingredient-card-btn::before {
+  content: '✧';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 9px;
+  color: #d9cdb4;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+#ingredientsApp .ingredient-card-btn:not(.active)::after {
+  content: '✧';
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 9px;
+  color: #d9cdb4;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Checkmark when selected */
+#ingredientsApp .ingredient-card-btn.active::after {
+  content: '✓';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  bottom: auto;
+  width: 22px;
+  height: 22px;
+  background: #675e85;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+}
+
+#ingredientsApp .ingredient-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #675e85;
+  font-family: 'Georgia', serif;
+  text-align: center;
+  line-height: 1.3;
+  flex-shrink: 0;
+}
+
+/* Count + button */
+.ing-count {
+  flex-shrink: 0;
+  text-align: right;
+  color: #675e85;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+#ingredientsApp .mix-btn {
+  flex-shrink: 0;
+  margin-top: 14px;
+  font-size: 16px;
+  padding: 14px 18px;
+}
+
+#ingredientsApp .search-title {
+  display: none;
+}
+
 .step-hint {
   margin: 0;
   font-size: 28px;
@@ -710,30 +1205,56 @@ body {
 }
 
 .ingredient-card-btn {
-  border: 1px solid rgba(200, 72, 255, 0.2);
-  border-radius: 12px;
-  background: rgba(54, 9, 89, 0.2);
-  color: #ffffff;
+  position: relative;
+  border: 1px solid rgba(139, 115, 135, 0.2);
+  border-radius: 16px;
+  background: #f6efe8;
+  color: #f3f4f6;
   min-height: 170px;
-  padding: 10px;
+  padding: 16px 10px 12px;
   display: grid;
   justify-items: center;
   align-content: center;
-  gap: 8px;
+  gap: 12px;
   text-align: center;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.ingredient-card-btn:hover {
+  box-shadow: 0 4px 12px rgba(103, 94, 133, 0.2);
+  transform: translateY(-2px);
 }
 
 .ingredient-card-btn.active {
-  border: 2px solid rgba(12, 3, 15, 0.2);
-  background: rgba(232, 202, 255, 0.3);
+  border: 1px solid rgba(139, 115, 135, 0.2);
+  background: #f6efe8;
+  box-shadow: 0 4px 16px rgba(103, 94, 133, 0.25);
+}
+
+.ingredient-card-btn.active::after {
+  content: '✓';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: #675e85;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
 }
 
 .ingredient-card-name {
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.2;
   font-family: 'Georgia', serif;
+  color: #675e85;
 }
 
 .base-spirit-image {
@@ -742,6 +1263,19 @@ body {
   object-fit: contain;
   border-radius: 8px;
   padding: 0;
+}
+
+/* Circular image container in ingredients page cards */
+#ingredientsApp .ingredient-card-btn .ingredient-image {
+  width: 100%;
+  max-width: 110px;
+  height: 140px;
+  object-fit: contain;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  flex: 1 1 0;
+  min-height: 0;
 }
 
 .ingredient-image {
@@ -1689,6 +2223,81 @@ body {
     height: 36px;
     font-size: 24px;
   }
+
+  /* ── Base Spirit Page — Mobile overrides ── */
+  #ingredientsBaseApp .search-panel {
+    padding: 16px 16px 20px;
+  }
+
+  .base-spirit-header {
+    margin: 8px 0 16px;
+    gap: 6px;
+  }
+
+  .base-spirit-search-wrapper {
+    margin-bottom: 14px;
+  }
+
+  #ingredientsBaseApp .ingredient-group-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  #ingredientsBaseApp .ingredient-card-btn {
+    min-height: 0;
+    height: calc((100vh - 64px - 140px - 72px - 40px - 60px) / 2 - 6px);
+    max-height: 160px;
+  }
+
+  /* ── Ingredients Page — Mobile overrides ── */
+  #ingredientsApp .search-panel {
+    padding: 14px 14px 20px;
+  }
+
+  .ing-header {
+    margin: 6px 0 14px;
+  }
+
+  .ing-title {
+    font-size: 1.5rem;
+  }
+
+  /* Smaller search bar */
+  .ing-search-input {
+    padding: 8px 36px 8px 16px;
+    font-size: 13px;
+  }
+
+  .ing-search-icon {
+    font-size: 13px;
+    right: 14px;
+  }
+
+  /* Smaller count label */
+  .ing-count {
+    font-size: 11px;
+    margin-top: 6px;
+  }
+
+  #ingredientsApp .ingredient-group-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  /* Same card size as base spirit on mobile */
+  #ingredientsApp .ingredient-card-btn {
+    min-height: 0;
+    height: calc((100vh - 64px - 160px - 60px - 36px - 56px) / 2 - 8px);
+    max-height: 160px;
+    padding: 16px 10px 14px;
+    gap: 10px;
+  }
+
+  #ingredientsApp .ingredient-card-btn .ingredient-image {
+    height: auto;
+    flex: 1 1 0;
+    min-height: 0;
+  }
 }
 
 @media (min-width: 860px) {
@@ -1803,6 +2412,44 @@ body {
 @keyframes tarotPulse {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
+}
+
+.ing-prep-moon {
+  position: relative;
+  z-index: 1;
+}
+
+.moon-svg {
+  width: 100px;
+  height: 100px;
+  overflow: visible;
+}
+
+.moon-outline {
+  fill: rgba(103, 94, 133, 0.15);
+  stroke: #675e85;
+  stroke-width: 2;
+}
+
+.moon-filled {
+  fill: #675e85;
+}
+
+#moonFillRect {
+  animation: moonRise 2.4s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+@keyframes moonRise {
+  0%   { transform: translateY(80px); }
+  60%  { transform: translateY(0px); }
+  80%  { transform: translateY(0px); }
+  100% { transform: translateY(80px); }
+}
+
+@keyframes ingPrepBounce {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-12px) rotate(8deg); }
 }
 
 /* ── Tarot Result App ── */
