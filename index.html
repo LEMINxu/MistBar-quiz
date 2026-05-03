@@ -177,38 +177,62 @@
     </section>
 
     <section id="ingredientsBaseApp" class="search-app" hidden>
-      <main class="search-panel ingredients-panel">
-        <button id="baseBackBtn" class="icon-back-btn" type="button" aria-label="Back">←</button>
-        <div class="base-spirit-header">
-          <div class="base-spirit-step-label">✧ STEP 1 ✧</div>
-          <h2 id="baseSpiritPageTitle" class="base-spirit-title">Choose Your Base Spirit</h2>
-        </div>
-        <div class="base-spirit-search-wrapper">
-          <input id="baseSpiritSearchInput" class="base-spirit-search-input" type="search" placeholder="Search base spirit" aria-label="Search base spirit" autocomplete="off" />
-        </div>
-        <div id="baseSpiritChecklist" class="ingredient-checklist base-spirit-grid" aria-label="base spirit checkbox list"></div>
-        <p id="baseSelectedCount" class="selected-count base-spirit-count">0 selected</p>
-        <p id="baseIngredientsStatus" class="api-status" aria-live="polite"></p>
-        <button id="baseNextBtn" class="mix-btn" type="button" disabled>Next Step</button>
-      </main>
+      <div class="bs-layout">
+        <!-- Left sidebar -->
+        <aside class="bs-sidebar">
+          <button id="baseBackBtn" class="icon-back-btn bs-back-btn" type="button" aria-label="Back">←</button>
+          <div class="bs-sidebar-body">
+            <div class="base-spirit-step-label">✧ STEP 1 ✧</div>
+            <h2 id="baseSpiritPageTitle" class="base-spirit-title">Choose Base Spirit</h2>
+            <p id="baseSpiritSubtitle" class="base-spirit-subtitle">Select the spirit that speaks to you.</p>
+            <div class="bs-deco">✦</div>
+          </div>
+          <div class="bs-illustration" aria-hidden="true"></div>
+        </aside>
+        <!-- Right main -->
+        <main class="bs-main">
+          <div class="base-spirit-search-wrapper">
+            <input id="baseSpiritSearchInput" class="base-spirit-search-input" type="search" placeholder="Search base spirit" aria-label="Search base spirit" autocomplete="off" />
+            <span class="base-spirit-search-icon">&#x1F50D;</span>
+          </div>
+          <div id="baseSpiritChecklist" class="ingredient-checklist base-spirit-grid" aria-label="base spirit checkbox list"></div>
+          <p id="baseIngredientsStatus" class="api-status" aria-live="polite"></p>
+          <div class="bs-footer">
+            <p id="baseSelectedCount" class="base-spirit-count">0 selected</p>
+            <button id="baseNextBtn" class="mix-btn bs-next-btn" type="button" disabled>Next Step &nbsp;→</button>
+          </div>
+        </main>
+      </div>
     </section>
 
     <section id="ingredientsApp" class="search-app" hidden>
-      <main class="search-panel ingredients-panel">
-        <button id="ingredientsBackBtn" class="icon-back-btn" type="button" aria-label="Back">←</button>
-        <div class="ing-header">
-          <div class="ing-step-label">✦ STEP 2 ✦</div>
-          <h2 id="ingredientsPageTitle" class="ing-title">Choose Other Ingredients</h2>
-          <p class="ing-subtitle" id="ingredientsSubtitle">Select additional ingredients you have.</p>
-        </div>
-        <div class="ing-search-wrapper">
-          <input id="ingredientSearchInput" class="ing-search-input" type="search" placeholder="Search ingredients" aria-label="Search ingredients" autocomplete="off" />
-        </div>
-        <div id="ingredientChecklist" class="ingredient-checklist" aria-label="ingredients checkbox list"></div>
-        <p id="selectedCountPage" class="ing-count">已选 0 项</p>
-        <p id="ingredientsStatus" class="api-status" aria-live="polite"></p>
-        <button id="ingredientsDoneBtn" class="mix-btn" type="button">Next Step</button>
-      </main>
+      <div class="bs-layout">
+        <!-- Left sidebar -->
+        <aside class="bs-sidebar">
+          <button id="ingredientsBackBtn" class="icon-back-btn bs-back-btn" type="button" aria-label="Back">←</button>
+          <div class="bs-sidebar-body">
+            <div class="ing-step-label">✧ STEP 2 ✧</div>
+            <h2 id="ingredientsPageTitle" class="ing-title">Choose Other Ingredients</h2>
+            <p class="ing-subtitle" id="ingredientsSubtitle">Select additional ingredients you have.</p>
+            <div class="bs-deco">✦</div>
+          </div>
+          <div class="ing-illustration" aria-hidden="true"></div>
+          <div class="ing-random-icon"></div>
+        </aside>
+        <!-- Right main -->
+        <main class="bs-main">
+          <div class="ing-search-wrapper">
+            <input id="ingredientSearchInput" class="ing-search-input" type="search" placeholder="Search ingredients" aria-label="Search ingredients" autocomplete="off" />
+            <span class="ing-search-icon">&#x1F50D;</span>
+          </div>
+          <div id="ingredientChecklist" class="ingredient-checklist" aria-label="ingredients checkbox list"></div>
+          <p id="ingredientsStatus" class="api-status" aria-live="polite"></p>
+          <div class="bs-footer">
+            <p id="selectedCountPage" class="ing-count">0 selected</p>
+            <button id="ingredientsDoneBtn" class="mix-btn bs-next-btn" type="button">Next Step &nbsp;→</button>
+          </div>
+        </main>
+      </div>
     </section>
 
     <!-- Tarot Loading Overlay -->

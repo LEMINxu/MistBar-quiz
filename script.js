@@ -428,6 +428,25 @@ let alcoholicFilterRequestId = 0;
 const selectedIngredients = new Set();
 const mixedDrinkDetailsCache = new Map();
 let mixedDrinkCards = [];
+
+// Debug helper - call debugIngredientState() in console to see current state
+window.debugIngredientState = function() {
+  console.log('=== INGREDIENT STATE DEBUG ===');
+  console.log('selectedIngredients Set size:', selectedIngredients.size);
+  console.log('selectedIngredients contents:', Array.from(selectedIngredients));
+  console.log('mixedDrinkCards length:', mixedDrinkCards.length);
+  console.log('currentMixedDrinkIndex:', currentMixedDrinkIndex);
+  if (mixedDrinkCards.length > 0) {
+    console.log('Current drink:', mixedDrinkCards[currentMixedDrinkIndex].strDrink);
+  }
+  console.log('selectedAlcoholic:', selectedAlcoholic);
+  console.log('Current view hidden states:');
+  console.log('  - entryPageEl:', entryPageEl.hidden);
+  console.log('  - ingredientsBaseAppEl:', ingredientsBaseAppEl?.hidden);
+  console.log('  - ingredientsAppEl:', ingredientsAppEl?.hidden);
+  console.log('  - mixResultAppEl:', mixResultAppEl?.hidden);
+  console.log('=============================');
+};
 let currentMixedDrinkIndex = 0;
 let mixRenderRequestId = 0;
 let mixSourceMode = "search"; // "search" or "random"
@@ -1368,6 +1387,16 @@ async function openSearchView() {
   window.scrollTo(0, 0);
   try {
     await loadIngredientOptions();
+    // Force re-render ingredient cards to reflect current selection state
+    // This ensures that if user returns after viewing results, cards show correct active state
+    if (ingredientsLoaded && filterOptions.ingredient.length) {
+      console.log('[openSearchView] Forcing re-render of ingredient cards');
+      renderBaseSpiritChecklist(filterOptions.ingredient);
+      const ingredientsToDisplay = filteredIngredientsForBaseSpirit.length > 0 
+        ? filteredIngredientsForBaseSpirit 
+        : filterOptions.ingredient;
+      renderIngredientChecklist(ingredientsToDisplay);
+    }
     loadSearchFilterOptions().catch(() => {
       updateStatusText("statusError");
     });
@@ -2434,12 +2463,17 @@ function createIngredientCard(value, imageClassName = "ingredient-image") {
   card.append(image, text);
 
   card.addEventListener("click", () => {
+    console.log(`[Card Click] Clicked on ingredient: "${value}"`);
     if (selectedIngredients.has(value)) {
+      console.log(`[Card Click] Removing "${value}" from Set`);
       selectedIngredients.delete(value);
     } else {
+      console.log(`[Card Click] Adding "${value}" to Set`);
       selectedIngredients.add(value);
     }
+    console.log(`[Card Click] After toggle - Set size: ${selectedIngredients.size}, Contents:`, Array.from(selectedIngredients));
     card.classList.toggle("active", selectedIngredients.has(value));
+    console.log(`[Card Click] Card active class:', card.classList.contains("active"))`);
     updateSelectedCount();
   });
 
@@ -2452,14 +2486,19 @@ function updateSelectedCount() {
     baseSelectedCountEl.textContent = getText("selectedCount")(getSelectedBaseSpiritCount());
   }
   if (selectedCountEl) selectedCountEl.textContent = text;
-  if (selectedCountPageEl) selectedCountPageEl.textContent = text;
+  if (selectedCountPageEl) {
+    const otherCount = getOtherIngredientValues(Array.from(selectedIngredients)).length;
+    selectedCountPageEl.textContent = getText("selectedCount")(otherCount);
+  }
   if (baseNextBtnEl) {
     baseNextBtnEl.disabled = getSelectedBaseSpiritCount() === 0;
   }
 }
 
 function resetAllSelections() {
+  console.log('[resetAllSelections] Before clear - Set size:', selectedIngredients.size);
   selectedIngredients.clear();
+  console.log('[resetAllSelections] After clear - Set size:', selectedIngredients.size);
   filteredIngredientsForBaseSpirit = [];
   // Re-render both checklists to remove .active classes from cards
   if (filterOptions.ingredient.length) {
@@ -2481,6 +2520,9 @@ function pruneSelectedIngredients(availableIngredients) {
 }
 
 function renderBaseSpiritChecklist(values) {
+  console.log('[renderBaseSpiritChecklist] Called with', values.length, 'values');
+  console.log('[renderBaseSpiritChecklist] Current Set size:', selectedIngredients.size, 'Contents:', Array.from(selectedIngredients));
+  
   if (!baseSpiritChecklistEl) return;
   baseSpiritChecklistEl.innerHTML = "";
 
@@ -2494,6 +2536,7 @@ function renderBaseSpiritChecklist(values) {
   list.className = "ingredient-group-list";
 
   filteredBaseSpirits.forEach((value) => {
+    console.log(`[renderBaseSpiritChecklist] Creating card for "${value}", is selected:`, selectedIngredients.has(value));
     const card = createIngredientCard(value, "base-spirit-image");
     list.append(card);
   });
@@ -2564,6 +2607,7 @@ function renderIngredientChecklist(values) {
     list.className = "ingredient-group-list";
 
     groups[key].forEach((value) => {
+      console.log(`[renderIngredientChecklist] Creating card for "${value}", is selected:`, selectedIngredients.has(value));
       const card = createIngredientCard(value);
       list.append(card);
     });
@@ -3362,12 +3406,22 @@ if (ingredientsBackBtnEl) {
         selectedIngredients.delete(value);
       }
     });
+    console.log('[ingredientsBackBtn] After clearing non-base ingredients - Set:', Array.from(selectedIngredients));
     // Reset filtered ingredients when going back to reselect base spirits
     filteredIngredientsForBaseSpirit = [];
     // 如果选择了non-alcoholic，返回到酒精偏好页面；否则返回到基酒页面
     if (selectedAlcoholic === "Non_Alcoholic") {
       setAppView("search");
+      // Re-render cards to reflect current Set state
+      if (ingredientChecklistEl) {
+        ingredientChecklistEl.innerHTML = "";
+      }
     } else {
+      // Re-render base spirit cards to show which ones are still selected
+      if (filterOptions.ingredient.length) {
+        console.log('[ingredientsBackBtn] Re-rendering base spirit cards');
+        renderBaseSpiritChecklist(filterOptions.ingredient);
+      }
       setAppView("ingredients-base");
     }
     updateSelectedCount();
