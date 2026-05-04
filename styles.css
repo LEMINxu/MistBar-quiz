@@ -27,6 +27,11 @@ body {
   color: #333;
   font-family: 'Georgia', serif;
 }
+@media (max-width: 768px) {
+  .alcoholic-choice-title {
+    text-align: center;
+  }
+}
 .alcoholic-choice-btns {
   display: flex;
   gap: 32px;
@@ -698,6 +703,7 @@ body {
   font-size: 16px;
   pointer-events: none;
   opacity: 0.4;
+  display: none;
 }
 
 /* Card grid container — scrolls inside the box */
@@ -2317,7 +2323,7 @@ body {
     background: url('material/Sun.png') center / contain no-repeat;
     top: 30%;
     transform: translateY(-50%);
-    opacity: 0.5;
+    opacity: 0.25;
   }
   
   .moon-decoration {
@@ -2328,7 +2334,7 @@ body {
     background: url('material/Moon.png') center / contain no-repeat;
     top: 32%;
     transform: translateY(-50%);
-    opacity: 0.5;
+    opacity: 0.25;
   }
   
   .entry-actions {

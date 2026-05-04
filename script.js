@@ -611,7 +611,6 @@ const i18n = {
     aboutIntro1: "This is a scenario-based personality test tool, inspired by Tarot divination and cocktail mixing, aiming to provide users with a relaxed and fun self-exploration experience.",
     aboutIntro2: "The current version is 0.1.0, still in the early stages. It may not be updated in the future, but if someone helps me write code, I will be very happy ~ง•‿•ว*.",
     aboutIntro3: "Online experience:",
-    aboutIntro4: "GitHub repository:",
     aboutBtnGithub: "Star on GitHub ⭐",
     aboutDesc1: "I don't really know what to write here. But leaving it blank doesn't seem good either.",
     aboutDesc2: "So I'm going to write something random, since no one will read it carefully anyway.",
@@ -719,7 +718,6 @@ const i18n = {
     aboutIntro1: "这是一个情景式人格测试工具，灵感来源于塔罗占卜和鸡尾酒调制，旨在为用户提供一种轻松有趣的自我探索体验。",
     aboutIntro2: "当前版本为0.1.0版本，仍处于早期阶段，之后也不一定会更新，但是如果有人帮我写代码我会很开心~ง•‿•ว*。",
     aboutIntro3: "在线体验：",
-    aboutIntro4: "GitHub 仓库地址：",
     aboutBtnGithub: "去 GitHub 点赞 Star",
     aboutDesc1: "这段要写什么东西啊，我其实不知道。但是空着好像也不太好。",
     aboutDesc2: "我随便写点什么，反正应该也没人会仔细看。",
@@ -3043,7 +3041,6 @@ function applyLanguage(langCode) {
   const aboutIntro1El = document.getElementById("aboutIntro1");
   const aboutIntro2El = document.getElementById("aboutIntro2");
   const aboutIntro3El = document.getElementById("aboutIntro3");
-  const aboutIntro4El = document.getElementById("aboutIntro4");
   const aboutBtnGithubEl = document.getElementById("aboutBtnGithub");
   const aboutDesc1El = document.getElementById("aboutDesc1");
   const aboutDesc2El = document.getElementById("aboutDesc2");
@@ -3063,11 +3060,6 @@ function applyLanguage(langCode) {
     const linkUrl = "https://leminxu.github.io/MistBar-quiz/";
     const linkLabel = getText("aboutIntro3");
     aboutIntro3El.innerHTML = linkLabel + `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="about-link">${linkUrl}</a>`;
-  }
-  if (aboutIntro4El) {
-    const linkUrl = "https://leminxu.github.io/MistBar-quiz/";
-    const linkLabel = getText("aboutIntro4");
-    aboutIntro4El.innerHTML = linkLabel + `<a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="about-link">${linkUrl}</a>`;
   }
   
   if (aboutBtnGithubEl) aboutBtnGithubEl.textContent = getText("aboutBtnGithub");
