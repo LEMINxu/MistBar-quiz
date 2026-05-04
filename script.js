@@ -3603,14 +3603,18 @@ if (aboutBackBtnEl) {
 }
 
 if (languageToggleEl && languageMenuEl) {
-  languageToggleEl.addEventListener("click", () => {
+  languageToggleEl.addEventListener("click", (event) => {
+    event.stopPropagation();
+    event.preventDefault();
     const isExpanded = languageToggleEl.getAttribute("aria-expanded") === "true";
     languageToggleEl.setAttribute("aria-expanded", String(!isExpanded));
     languageMenuEl.hidden = isExpanded;
   });
 
   languageOptions.forEach((option) => {
-    option.addEventListener("click", () => {
+    option.addEventListener("click", (event) => {
+      event.stopPropagation();
+      event.preventDefault();
       applyLanguage(option.dataset.code || "en");
       languageMenuEl.hidden = true;
       languageToggleEl.setAttribute("aria-expanded", "false");
